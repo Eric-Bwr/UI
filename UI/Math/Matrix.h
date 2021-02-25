@@ -30,7 +30,7 @@ public:
 	Mat4f &translate(const Vec3f &vector);
 	Mat4f &translate(float x, float y, float z);
 
-	std::string toString() const;
+	char *toString() const;
 };
 
 Mat4f identityMatrix();

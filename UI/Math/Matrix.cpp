@@ -101,9 +101,9 @@ Mat4f &Mat4f::translate(float x, float y, float z) {
 	return *this;
 }
 
-std::string Mat4f::toString() const {
+char *Mat4f::toString() const {
 	const char *fmt = "|%+6.2f %+6.2f %+6.2f %+6.2f|\n|%+6.2f %+6.2f %+6.2f %+6.2f|\n|%+6.2f %+6.2f %+6.2f %+6.2f|\n|%+6.2f %+6.2f %+6.2f %+6.2f|\n";
-	char s[128];
+	char *s = (char *) malloc(sizeof(char) * 128);
 	std::sprintf(s, fmt, m00, m10, m20, m30, m01, m11, m21, m31, m02, m12, m22, m32, m03, m13, m23, m33);
 	return s;
 }
