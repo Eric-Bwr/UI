@@ -1,9 +1,14 @@
+#include <iostream>
+
 #include "Math/Vector.h"
+#include "Math/Matrix.h"
 
 int main() {
-	
-	Vec2f v(2, 5);
-	Vec2f z(1, 3);
+
+	Mat4f mat = perspective(90, 1920, 1080, 0.1f, 100);
+	mat.scale(10);
+
+	std::cout << mat.toString();
 
 	return 0;
 }
