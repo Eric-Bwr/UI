@@ -7,7 +7,7 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
 set(CMAKE_CXX_STANDARD 20)
 
-file(GLOB_RECURSE SOURCE_FILES "UI/*.cpp" "UI/*.h")
+file(GLOB_RECURSE SOURCE_FILES "UI/*.cpp" "UI/*.h" "Sandbox/*.cpp" "Sandbox/*.h")
 
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
