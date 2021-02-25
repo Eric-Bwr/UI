@@ -101,11 +101,10 @@ Mat4f &Mat4f::translate(float x, float y, float z) {
 	return *this;
 }
 
-const std::string Mat4f::toString() {
+std::string Mat4f::toString() const {
 	const char *fmt = "|%+6.2f %+6.2f %+6.2f %+6.2f|\n|%+6.2f %+6.2f %+6.2f %+6.2f|\n|%+6.2f %+6.2f %+6.2f %+6.2f|\n|%+6.2f %+6.2f %+6.2f %+6.2f|\n";
 	char s[128];
 	std::sprintf(s, fmt, m00, m10, m20, m30, m01, m11, m21, m31, m02, m12, m22, m32, m03, m13, m23, m33);
-
 	return s;
 }
 
@@ -113,7 +112,7 @@ Mat4f identityMatrix() {
 	return Mat4f(1.0f);
 }
 
-Mat4f perspective(float fov, float width, float height, float near, float far) {
+Mat4f perspectiveMatrix(float fov, float width, float height, float near, float far) {
 	Mat4f mat = identityMatrix();
 	float aspectRatio = width / height;
 	float yScale = std::tan(fov / 2.0f * RADIANS);
@@ -126,7 +125,7 @@ Mat4f perspective(float fov, float width, float height, float near, float far) {
 	return mat;
 }
 
-Mat4f orthographic(float left, float right, float bottom, float top, float near, float far) {
+Mat4f orthographicMatrix(float left, float right, float bottom, float top, float near, float far) {
 	Mat4f mat = identityMatrix();
 
 	mat.m00 = 2.0f / (right - left);
@@ -140,7 +139,7 @@ Mat4f orthographic(float left, float right, float bottom, float top, float near,
 	return mat;
 }
 
-Mat4f lookAt(const Vec3f &eye, const Vec3f &center, const Vec3f &up) {
+Mat4f lookAtMatrix(const Vec3f &eye, const Vec3f &center, const Vec3f &up) {
 	Mat4f mat = identityMatrix();
 	Vec3f f = (center - eye).norm();
 	Vec3f s = (f.cross(up)).norm();

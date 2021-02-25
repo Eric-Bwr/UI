@@ -30,10 +30,10 @@ public:
 	Mat4f &translate(const Vec3f &vector);
 	Mat4f &translate(float x, float y, float z);
 
-	const std::string toString();
+	std::string toString() const;
 };
 
 Mat4f identityMatrix();
-Mat4f perspective(float fov, float width, float height, float near, float far);
-Mat4f orthographic(float left, float right, float bottom, float top, float near, float far);
-Mat4f lookAt(const Vec3f &eye, const Vec3f &center, const Vec3f &up);
+Mat4f perspectiveMatrix(float fov, float width, float height, float near, float far);
+Mat4f orthographicMatrix(float left, float right, float bottom, float top, float near, float far);
+Mat4f lookAtMatrix(const Vec3f &eye, const Vec3f &center, const Vec3f &up);
