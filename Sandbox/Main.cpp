@@ -5,6 +5,9 @@
 #include "Window/Window.h"
 #include "../UI/Text/Font.h"
 
+#include <Buffer.h>
+#include <OpenGL/include/Shader.h>
+
 int main(){
 	auto windowSettings = new WindowSettings;
 	windowSettings->setWidth(1600);
@@ -23,14 +26,31 @@ int main(){
 	UIManager *manager = new UIManager();
 	manager->add(component);
 
+	Texture texture("../Assets/Textures/waterDUDV");
+	texture.load(true);
+
+	Shader shader("../Assets/Shader/Test.glsl");
+    std::cout << shader.getErrorMessage();
+	VertexArrayObject vao;
+	VertexBufferObjectLayout layout;
+	layout.pushFloat(2);
+    float vertices[] = {-1, 1, -1, -1, 1, 1, 1, -1};
+	VertexBufferObject vbo(vertices, 8 * sizeof(float), GL_STATIC_DRAW);
+	vao.addBuffer(vbo, layout);
+
     printf("%s", font.getErrorMessage().c_str());
     while(window.windowIsAlive()){
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClearColor(1.0, 0.0, 1.0, 1.0);
 	    manager->render();
-
+        shader.bind();
+        font.texture->bind();
+        vao.bind();
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	    if(glfwGetKey(window.getWindow(), GLFW_KEY_ESCAPE))
-            window.destroyWindow();
+            window.setWindowIsAlive(false);
 
         window.updateWindow();
     }
+    window.destroyWindow();
 }

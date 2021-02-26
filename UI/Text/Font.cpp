@@ -18,7 +18,6 @@ Font::Font(const char *fontPath, float fontSize) : fontPath(fontPath), fontSize(
     if(!stbtt_InitFont(&fontInfo, fontBuffer, 0)) {
         fontError.failedToInitFont = true;
         free(fontBuffer);
-        free(&fontInfo);
     }
 	scale = stbtt_ScaleForPixelHeight(&fontInfo, fontSize);
     stbtt_GetFontVMetrics(&fontInfo, &ascent, &descent, &lineGap);
@@ -44,24 +43,25 @@ Font::Font(const char *fontPath, float fontSize) : fontPath(fontPath), fontSize(
         x += roundf(kern * scale);
     }
 
-/*
+
     texture = new Texture(GL_TEXTURE_2D);
+    texture->bind();
     texture->setWidth(FONT_SIZE * AMOUNT_CHARS);
     texture->setHeight(FONT_SIZE);
     texture->setData(bitmap);
     texture->setFormat(GL_ALPHA);
     texture->setInternalFormat(GL_ALPHA);
-    texture->load();
+    texture->load(true);
     texture->minLinear();
     texture->magLinear();
-    texture->generateMipMap();*/
+    texture->generateMipMap();
 
-	printf("Write file!\n");
-	stbi_write_png("jadsijadiwjdia.png", bw, FONT_SIZE, 1, bitmap, bw);
-	printf("Written file!\n");
+	//printf("Write file!\n");
+	//stbi_write_png("jadsijadiwjdia.png", bw, FONT_SIZE, 1, bitmap, bw);
+	//printf("Written file!\n");
 
-	free(fontBuffer);
-	free(bitmap);
+	//free(fontBuffer);
+	//free(bitmap);
 }
 
 /*
@@ -96,5 +96,4 @@ std::string Font::getErrorMessage() {
 
 Font::~Font() {
     delete texture;
-    free(&fontInfo);
 }

@@ -31,7 +31,7 @@ public:
     std::string getErrorMessage();
     inline FontError& getFontError() { return fontError; }
     ~Font();
-private:
+public:
     const char* fontPath;
     FontError fontError;
     float fontSize = 0, highestCharacter = 0, scale = 0;

@@ -18,6 +18,7 @@ public:
     ~Window();
     void updateWindow();
     void destroyWindow();
+    inline void setWindowIsAlive(bool windowShouldClose) { this->windowShouldClose = !windowShouldClose; }
     inline bool windowIsAlive() const { return !windowShouldClose; }
     inline GLFWwindow* getWindow(){ return window; }
     inline char* getGLVersion(){ return glVersion; }
