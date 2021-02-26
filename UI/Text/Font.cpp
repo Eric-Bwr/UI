@@ -1,5 +1,8 @@
 #include "Font.h"
 
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h" /* http://nothings.org/stb/stb_image_write.h */
+
 Font::Font(const char *fontPath, float fontSize) : fontPath(fontPath), fontSize(fontSize) {
     FILE *fontFile = fopen(fontPath, "rb");
     if (fontFile == nullptr)
@@ -17,12 +20,15 @@ Font::Font(const char *fontPath, float fontSize) : fontPath(fontPath), fontSize(
         free(fontBuffer);
         free(&fontInfo);
     }
-    scale = stbtt_ScaleForPixelHeight(&fontInfo, fontSize);
+	scale = stbtt_ScaleForPixelHeight(&fontInfo, fontSize);
     stbtt_GetFontVMetrics(&fontInfo, &ascent, &descent, &lineGap);
     ascent = roundf(ascent * scale);
     descent = roundf(descent * scale);
     baseline = (int)((float)ascent * scale);
-    auto* bitmap = (uint8_t*)calloc(FONT_SIZE * FONT_SIZE, sizeof(uint8_t));
+
+    int bw = FONT_SIZE * AMOUNT_CHARS;
+
+    auto* bitmap = (uint8_t*)calloc(bw * FONT_SIZE, sizeof(uint8_t));
     int x = 0;
     for (int i = FONT_CHAR_START; i < FONT_CHAR_END; i++){
         int aW;
@@ -31,17 +37,16 @@ Font::Font(const char *fontPath, float fontSize) : fontPath(fontPath), fontSize(
         int c_x1, c_y1, c_x2, c_y2;
         stbtt_GetCodepointBitmapBox(&fontInfo, i, scale, scale, &c_x1, &c_y1, &c_x2, &c_y2);
         int y = ascent + c_y1;
-        int byteOffset = x + roundf(lsb * scale) + (y * FONT_SIZE);
-        stbtt_MakeCodepointBitmap(&fontInfo, bitmap + byteOffset, c_x2 - c_x1, c_y2 - c_y1, FONT_SIZE, scale, scale, i);
+        int byteOffset = x + roundf(lsb * scale) + (y * bw);
+        stbtt_MakeCodepointBitmap(&fontInfo, bitmap + byteOffset, c_x2 - c_x1, c_y2 - c_y1, bw, scale, scale, i);
         x += roundf(aW * scale);
         int kern = stbtt_GetCodepointKernAdvance(&fontInfo, i, i + 1);
         x += roundf(kern * scale);
     }
 
-    free(fontBuffer);
-
+/*
     texture = new Texture(GL_TEXTURE_2D);
-    texture->setWidth(FONT_SIZE);
+    texture->setWidth(FONT_SIZE * AMOUNT_CHARS);
     texture->setHeight(FONT_SIZE);
     texture->setData(bitmap);
     texture->setFormat(GL_ALPHA);
@@ -49,8 +54,14 @@ Font::Font(const char *fontPath, float fontSize) : fontPath(fontPath), fontSize(
     texture->load();
     texture->minLinear();
     texture->magLinear();
-    texture->generateMipMap();
-    free(bitmap);
+    texture->generateMipMap();*/
+
+	printf("Write file!\n");
+	stbi_write_png("jadsijadiwjdia.png", bw, FONT_SIZE, 1, bitmap, bw);
+	printf("Written file!\n");
+
+	free(fontBuffer);
+	free(bitmap);
 }
 
 /*

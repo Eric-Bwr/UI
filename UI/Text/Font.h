@@ -9,8 +9,9 @@
 #define FONT_SIZE 32
 #define FONT_OVERSAMPLING_VERTICAL 2
 #define FONT_OVERSAMPLING_HORIZONTAL 2
-#define FONT_CHAR_START 32
-#define FONT_CHAR_END 96
+#define FONT_CHAR_START 65
+#define FONT_CHAR_END 72
+#define AMOUNT_CHARS (FONT_CHAR_END - FONT_CHAR_START)
 
 struct FontError{
     bool failedToInitFont = false;

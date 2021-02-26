@@ -30,6 +30,7 @@ int main(){
 
 	    if(glfwGetKey(window.getWindow(), GLFW_KEY_ESCAPE))
             window.destroyWindow();
+
         window.updateWindow();
     }
 }
