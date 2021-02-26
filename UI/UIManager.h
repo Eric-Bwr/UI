@@ -15,5 +15,5 @@ public:
 
 	void render();
 private:
-	std::map<int, std::vector<UIComponent *>> components;
+	std::map<int, std::vector<UIComponent *>*> components;
 };

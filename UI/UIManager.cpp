@@ -4,17 +4,19 @@ UIManager::UIManager() {
 
 }
 
-~UIManager::UIManager() {
-	for (auto compPair : components)
-		for (auto comp : compPair.second)
-			delete comp;
+UIManager::~UIManager() {
+	for (auto compPair : components) {
+        for (auto comp : *compPair.second)
+            delete comp;
+        delete compPair.second;
+    }
 }
 
 void UIManager::add(UIComponent *component, int order) {
-	std::vector<UIComponent *> componentBatch;
+	std::vector<UIComponent *>* componentBatch;
 	if (!components.count(order)) {
 		componentBatch = new std::vector<UIComponent *>;
-		components.insert(std::pair<int, std::vector<UIComponent *>>(order, componentBatch));
+		components.insert(std::pair<int, std::vector<UIComponent *>*>(order, componentBatch));
 	} else {
 		componentBatch = components.find(order)->second;
 	}
@@ -23,7 +25,7 @@ void UIManager::add(UIComponent *component, int order) {
 
 void UIManager::remove(UIComponent *component) {
 	for (auto compPair : components) {
-		vector<UIComponent *> compList = compPair.second;
+		std::vector<UIComponent *>* compList = compPair.second;
 		int i;
 
 		for(i = 0; i < compList->size(); ++i)
