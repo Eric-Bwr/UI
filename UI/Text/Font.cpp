@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Font.h"
 
 Font::Font(const char *fontPath, float fontSize) : fontPath(fontPath), fontSize(fontSize) {
@@ -18,44 +17,52 @@ Font::Font(const char *fontPath, float fontSize) : fontPath(fontPath), fontSize(
         free(fontBuffer);
         free(&fontInfo);
     }
-    /*
-    uint8_t* bitmap;
-    int textureSize = FONT_SIZE;
-    while(true){
-        bitmap = (uint8_t*)malloc(FONT_SIZE * FONT_SIZE);
-        stbtt_pack_context packContext;
-        stbtt_PackBegin(&packContext, bitmap, FONT_SIZE, FONT_SIZE, 0, 1, nullptr);
-        stbtt_PackSetOversampling(&packContext, FONT_OVERSAMPLING_HORIZONTAL, FONT_OVERSAMPLING_VERTICAL);
-        if(!stbtt_PackFontRange(&packContext, fontBuffer, 0, size, FONT_CHAR_START, FONT_CHAR_END, charData)){
-            free(bitmap);
-            stbtt_PackEnd(&packContext);
-            textureSize *= 2;
-        }else {
-            stbtt_PackEnd(&packContext);
-            break;
-        }
+    scale = stbtt_ScaleForPixelHeight(&fontInfo, fontSize);
+    stbtt_GetFontVMetrics(&fontInfo, &ascent, &descent, &lineGap);
+    ascent = roundf(ascent * scale);
+    descent = roundf(descent * scale);
+    baseline = (int)((float)ascent * scale);
+    auto* bitmap = (uint8_t*)calloc(FONT_SIZE * FONT_SIZE, sizeof(uint8_t));
+    int x = 0;
+    for (int i = FONT_CHAR_START; i < FONT_CHAR_END; i++){
+        int aW;
+        int lsb;
+        stbtt_GetCodepointHMetrics(&fontInfo, i, &aW, &lsb);
+        int c_x1, c_y1, c_x2, c_y2;
+        stbtt_GetCodepointBitmapBox(&fontInfo, i, scale, scale, &c_x1, &c_y1, &c_x2, &c_y2);
+        int y = ascent + c_y1;
+        int byteOffset = x + roundf(lsb * scale) + (y * FONT_SIZE);
+        stbtt_MakeCodepointBitmap(&fontInfo, bitmap + byteOffset, c_x2 - c_x1, c_y2 - c_y1, FONT_SIZE, scale, scale, i);
+        x += roundf(aW * scale);
+        int kern = stbtt_GetCodepointKernAdvance(&fontInfo, i, i + 1);
+        x += roundf(kern * scale);
     }
-    */
-/*
+
+    free(fontBuffer);
 
     texture = new Texture(GL_TEXTURE_2D);
-    texture->setWidth(FONT_WIDTH);
-    texture->setHeight(FONT_HEIGHT);
-    texture->setData(tmpBitmap);
+    texture->setWidth(FONT_SIZE);
+    texture->setHeight(FONT_SIZE);
+    texture->setData(bitmap);
     texture->setFormat(GL_ALPHA);
     texture->setInternalFormat(GL_ALPHA);
     texture->load();
     texture->minLinear();
     texture->magLinear();
     texture->generateMipMap();
-    highestCharacter = charData['H' - FONT_CHAR_START].y1 - charData['H' - FONT_CHAR_START].y0;
-    spaceWidth = charData[' ' - FONT_CHAR_START].xadvance;
-    for (int i = FONT_CHAR_START; i < FONT_CHAR_END; i++) {
-        stbtt_bakedchar characterData = charData[i - FONT_CHAR_START];
-        characters.insert(std::pair<char, Character *>(char(i), new Character(i, characterData.x0, characterData.y0, characterData.x1, characterData.y1, characterData.xoff, characterData.yoff, characterData.xadvance)));
-    }
-     */
+    free(bitmap);
 }
+
+/*
+    float width = 0;
+	for(int i = 0; text[i]; i++) {
+		if (text[i] >= 32 && text[i] < 128) {
+			stbtt_packedchar* info = &font->chars[text[i] - 32];
+			width += info->xadvance;
+		}
+	}
+	return width;
+ */
 
 bool Font::hasErrors() const {
     return fontError.failedToInitFont || fontError.fileHasErrors || fontError.fileDoesNotExit;

@@ -25,7 +25,7 @@ public:
     inline stbtt_packedchar* getCharData() { return charData; }
     inline float getFontSize() { return fontSize; }
     inline float getHighestCharacter() { return highestCharacter; }
-    inline float getSpaceWidth() { return spaceWidth; }
+    inline float getScale() { return scale; }
     bool hasErrors() const;
     std::string getErrorMessage();
     inline FontError& getFontError() { return fontError; }
@@ -33,7 +33,8 @@ public:
 private:
     const char* fontPath;
     FontError fontError;
-    float fontSize = 0, highestCharacter = 0, spaceWidth = 0;
+    float fontSize = 0, highestCharacter = 0, scale = 0;
+    int ascent, descent, lineGap, baseline;
     stbtt_fontinfo fontInfo;
     stbtt_packedchar charData[FONT_CHAR_END - FONT_CHAR_START];
     Texture* texture;
