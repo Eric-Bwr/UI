@@ -1,8 +1,5 @@
 #include "Font.h"
 
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "stb_image_write.h" /* http://nothings.org/stb/stb_image_write.h */
-
 Font::Font(const char *fontPath, float fontSize) : fontPath(fontPath), fontSize(fontSize) {
     FILE *fontFile = fopen(fontPath, "rb");
     if (fontFile == nullptr)
@@ -42,38 +39,19 @@ Font::Font(const char *fontPath, float fontSize) : fontPath(fontPath), fontSize(
         int kern = stbtt_GetCodepointKernAdvance(&fontInfo, i, i + 1);
         x += roundf(kern * scale);
     }
-
-
     texture = new Texture(GL_TEXTURE_2D);
-    texture->bind();
     texture->setWidth(FONT_SIZE * AMOUNT_CHARS);
     texture->setHeight(FONT_SIZE);
     texture->setData(bitmap);
     texture->setFormat(GL_ALPHA);
     texture->setInternalFormat(GL_ALPHA);
-    texture->load(true);
-    texture->minLinear();
-    texture->magLinear();
+    texture->load();
+    texture->minNear();
+    texture->magNear();
     texture->generateMipMap();
-
-	//printf("Write file!\n");
-	//stbi_write_png("jadsijadiwjdia.png", bw, FONT_SIZE, 1, bitmap, bw);
-	//printf("Written file!\n");
-
-	//free(fontBuffer);
-	//free(bitmap);
+	free(fontBuffer);
+	free(bitmap);
 }
-
-/*
-    float width = 0;
-	for(int i = 0; text[i]; i++) {
-		if (text[i] >= 32 && text[i] < 128) {
-			stbtt_packedchar* info = &font->chars[text[i] - 32];
-			width += info->xadvance;
-		}
-	}
-	return width;
- */
 
 bool Font::hasErrors() const {
     return fontError.failedToInitFont || fontError.fileHasErrors || fontError.fileDoesNotExit;

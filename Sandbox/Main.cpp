@@ -26,9 +26,6 @@ int main(){
 	UIManager *manager = new UIManager();
 	manager->add(component);
 
-	Texture texture("../Assets/Textures/waterDUDV");
-	texture.load(true);
-
 	Shader shader("../Assets/Shader/Test.glsl");
     std::cout << shader.getErrorMessage();
 	VertexArrayObject vao;
@@ -45,11 +42,17 @@ int main(){
 	    manager->render();
         shader.bind();
         font.texture->bind();
+        if(glfwGetKey(window.getWindow(), GLFW_KEY_P)){
+            font.texture->minNear();
+            font.texture->magNear();
+        }else{
+            font.texture->minLinear();
+            font.texture->magLinear();
+        }
         vao.bind();
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	    if(glfwGetKey(window.getWindow(), GLFW_KEY_ESCAPE))
             window.setWindowIsAlive(false);
-
         window.updateWindow();
     }
     window.destroyWindow();
