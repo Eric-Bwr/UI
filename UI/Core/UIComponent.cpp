@@ -1,6 +1,3 @@
-#include "../Math/Vector.h"
-#include "../Math/Matrix.h"
-
 #include "UIComponent.h"
 
 void UIComponent::setPosition(float x, float y) {

@@ -1,6 +1,6 @@
 #include <iostream>
-#include "../UI/Math/Vector.h"
-#include "../UI/Math/Matrix.h"
+#include <Math/Vector.h>
+#include <Math/Matrix.h>
 #include "../UI/UIManager.h"
 #include "Window/Window.h"
 #include "../UI/Text/Font.h"
