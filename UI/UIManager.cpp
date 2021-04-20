@@ -26,9 +26,7 @@ void UIManager::add(UIComponent *component, int order) {
 void UIManager::remove(UIComponent *component) {
 	for (auto compPair : components) {
 		std::vector<UIComponent *>* compList = compPair.second;
-		int i;
-
-		for(i = 0; i < compList->size(); ++i)
+		for(int i = 0; i < compList->size(); i++)
 			if(compList->at(i) == component)
 				compList->erase(compList->begin() + i);
 	}

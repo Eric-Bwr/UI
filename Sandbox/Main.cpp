@@ -2,9 +2,10 @@
 #include <Math/Vector.h>
 #include <Math/Matrix.h>
 #include "../UI/UIManager.h"
+#include <ft2build.h>
+#include FT_FREETYPE_H
+                                        //INCLUDE FUCKIN FREETYPE BEFORE GLFW THANKS
 #include "Window/Window.h"
-#include "../UI/Text/Font.h"
-
 #include <Buffer.h>
 #include <OpenGL/include/Shader.h>
 
@@ -16,7 +17,7 @@ int main(){
 	windowSettings->setTransparent(false);
 
 	Window window(windowSettings);
-	Font font("C:/Windows/Fonts/Arial.ttf", 20);
+//	Font font("C:/Windows/Fonts/Arial.ttf", 20);
 
 	UIComponent *component = new UIComponent();
 	component->type = UIBUTTON;
@@ -35,19 +36,19 @@ int main(){
 	VertexBufferObject vbo(vertices, 8 * sizeof(float), GL_STATIC_DRAW);
 	vao.addBuffer(vbo, layout);
 
-    printf("%s", font.getErrorMessage().c_str());
+   // printf("%s", font.getErrorMessage().c_str());
     while(window.windowIsAlive()){
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(1.0, 0.0, 1.0, 1.0);
 	    manager->render();
         shader.bind();
-        font.texture->bind();
+     //   font.texture->bind();
         if(glfwGetKey(window.getWindow(), GLFW_KEY_P)){
-            font.texture->minNear();
-            font.texture->magNear();
+       //     font.texture->minNear();
+       //     font.texture->magNear();
         }else{
-            font.texture->minLinear();
-            font.texture->magLinear();
+        //    font.texture->minLinear();
+        //    font.texture->magLinear();
         }
         vao.bind();
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
