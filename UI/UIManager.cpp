@@ -1,7 +1,8 @@
 #include "UIManager.h"
+#include "Text/TextManager.h"
 
 UIManager::UIManager() {
-
+    TextManager::init();
 }
 
 UIManager::~UIManager() {
