@@ -2,9 +2,6 @@
 #include <Math/Vector.h>
 #include <Math/Matrix.h>
 #include "../UI/UIManager.h"
-#include <ft2build.h>
-#include FT_FREETYPE_H
-                                        //INCLUDE FUCKIN FREETYPE BEFORE GLFW THANKS
 #include "Window/Window.h"
 #include <Buffer.h>
 #include <OpenGL/include/Shader.h>
