@@ -3,10 +3,13 @@
 
 layout (location = 0) in vec2 inPosition;
 
+uniform mat4 ortho;
+uniform mat4 model;
+
 out vec2 textureCoords;
 
 void main() {
-    gl_Position = vec4(inPosition, 0.0, 1.0);
+    gl_Position = ortho * model * vec4(inPosition, 0.0, 1.0);
     textureCoords = (inPosition + 1.0) / 2.0;
     textureCoords.y = 1 - textureCoords.y;
 }

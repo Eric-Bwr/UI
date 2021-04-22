@@ -1,7 +1,8 @@
 #include "Font.h"
 
-bool Font::init(const char* path, int faceIndex) {
-    return !FT_New_Face(TextManager::library, path, faceIndex, &face);
+Font::Font(const char* path, int faceIndex) {
+    errorCode = FT_New_Face(TextManager::library, path, faceIndex, &face);
+    slot = face->glyph;
 }
 
 Font::~Font() {

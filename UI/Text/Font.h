@@ -4,8 +4,9 @@
 
 class Font {
 public:
-    bool init(const char* path, int faceIndex = 0);
+    explicit Font(const char* path, int faceIndex = 0);
     ~Font();
-private:
+    FT_GlyphSlot slot;
+    int errorCode = 0;
     FT_Face face;
 };
