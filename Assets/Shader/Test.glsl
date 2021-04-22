@@ -9,7 +9,10 @@ uniform mat4 model;
 out vec2 textureCoords;
 
 void main() {
-    gl_Position = ortho * model * vec4(inPosition, 0.0, 1.0);
+   //ENTIRE SCREEN
+    gl_Position = vec4(inPosition, 0.0, 1.0);
+   //DEFINED BY MODEL MATRIX IN MAIN
+    //gl_Position = ortho * model * vec4(inPosition, 0.0, 1.0);
     textureCoords = (inPosition + 1.0) / 2.0;
 }
 

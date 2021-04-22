@@ -36,7 +36,7 @@ void TextManager::loadText(const char *text, Font *font, unsigned int fontSize, 
     for (int index = 0; index < strlen(text); index++) {
         unsigned int glyphIndex = FT_Get_Char_Index(font->face, text[index]);
         //HANDLE ERROR                          HANDLE \/
-        FT_Load_Glyph(font->face, glyphIndex, FT_LOAD_DEFAULT);
+        FT_Load_Glyph(font->face, glyphIndex, FT_LOAD_RENDER);
         //HANDLE ERROR                          HANDLE \/
         FT_Render_Glyph(font->face->glyph, FT_RENDER_MODE_NORMAL);
 
@@ -58,19 +58,20 @@ void TextManager::loadText(const char *text, Font *font, unsigned int fontSize, 
         penX += font->slot->advance.x >> 6;
         penY += font->slot->advance.y >> 6;
     }
-    std::cout << width << "\n";
-    std::cout << height << "\n";
+    std::cout << font->slot->bitmap.width << "\n";
+    std::cout << font->slot->bitmap.rows << "\n";
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
     uiText->texture.setData(font->slot->bitmap.buffer);
-    uiText->texture.repeat();
-    uiText->texture.setFormat(GL_R);
-    uiText->texture.setFormat(GL_R16);
-    uiText->texture.setWidth(width);
-    uiText->texture.setHeight(height);
+    uiText->texture.clampEdge();
+    uiText->texture.setFormat(GL_RED);
+    uiText->texture.setInternalFormat(GL_R8);
+    uiText->texture.setWidth(font->slot->bitmap.width);
+    uiText->texture.setHeight(font->slot->bitmap.rows);
     //MAY CHANGE (SAMPLING)
-    glTextureStorage2D(GL_TEXTURE_2D, 1, GL_R8, font->slot->bitmap.width, font->slot->bitmap.rows);
-    glTextureSubImage2D(GL_TEXTURE_2D, 0, 0, 0, font->slot->bitmap.width, font->slot->bitmap.rows, GL_RED, GL_UNSIGNED_BYTE, font->slot->bitmap.buffer);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    uiText->texture.load();
+    //glTextureStorage2D(GL_TEXTURE_2D, 1, GL_R8, font->slot->bitmap.width, font->slot->bitmap.rows);
+    //glTextureSubImage2D(GL_TEXTURE_2D, 0, 0, 0, font->slot->bitmap.width, font->slot->bitmap.rows, GL_RED, GL_UNSIGNED_BYTE, font->slot->bitmap.buffer);
 }
 
 TextManager::~TextManager() {
