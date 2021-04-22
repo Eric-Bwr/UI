@@ -14,4 +14,5 @@ public:
     static void loadText(const char* text, Font* font, unsigned int fontSize, UIText* uiText);
     static FT_Library library;
     static Font* defaultFont;
+    ~TextManager();
 };

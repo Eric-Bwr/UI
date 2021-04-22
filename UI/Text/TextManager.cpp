@@ -62,8 +62,17 @@ void TextManager::loadText(const char *text, Font *font, unsigned int fontSize, 
     std::cout << height << "\n";
 
     uiText->texture.setData(font->slot->bitmap.buffer);
+    uiText->texture.repeat();
+    uiText->texture.setFormat(GL_R);
+    uiText->texture.setFormat(GL_R16);
     uiText->texture.setWidth(width);
     uiText->texture.setHeight(height);
     //MAY CHANGE (SAMPLING)
-    uiText->texture.load(true);
+    glTextureStorage2D(GL_TEXTURE_2D, 1, GL_R8, font->slot->bitmap.width, font->slot->bitmap.rows);
+    glTextureSubImage2D(GL_TEXTURE_2D, 0, 0, 0, font->slot->bitmap.width, font->slot->bitmap.rows, GL_RED, GL_UNSIGNED_BYTE, font->slot->bitmap.buffer);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+}
+
+TextManager::~TextManager() {
+    FT_Done_FreeType(library);
 }

@@ -48,7 +48,7 @@ int main() {
     // printf("%s", font.getErrorMessage().c_str());
     while (window.windowIsAlive()) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(0.0, 0.0, 0.0, 1.0);
+        glClearColor(0.0, 0.0, 1.0, 1.0);
         manager->render();
         shader.bind();
         text.texture.bind();

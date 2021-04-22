@@ -11,7 +11,6 @@ out vec2 textureCoords;
 void main() {
     gl_Position = ortho * model * vec4(inPosition, 0.0, 1.0);
     textureCoords = (inPosition + 1.0) / 2.0;
-    textureCoords.y = 1 - textureCoords.y;
 }
 
     #fragment
@@ -25,8 +24,9 @@ uniform sampler2D image;
 out vec4 FragColor;
 
 void main() {
-    if (texture(image, textureCoords).a > 0.7)
-        FragColor = vec4(1.0, 0.0, 1.0, 1.0);
-    else
-        FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+    FragColor = vec4(1.0, 0.0, 1.0, 1.0) * texture(image, textureCoords).r;
+   //if (texture(image, textureCoords).a > 0.7)
+   //    FragColor = vec4(1.0, 0.0, 1.0, 1.0);
+   //else
+   //    FragColor = vec4(1.0, 1.0, 1.0, 1.0);
 }
