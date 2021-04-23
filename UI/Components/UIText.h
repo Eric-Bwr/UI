@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Texture.h"
+#include <Buffer.h>
+#include "../Text/Structure/TextMesh.h"
 
 class Font;
 
@@ -11,4 +12,5 @@ public:
     const char* text;
     int fontSize;
     Font* font;
+    TextMesh textMesh;
 };

@@ -10,10 +10,11 @@ out vec2 textureCoords;
 
 void main() {
    //ENTIRE SCREEN
-    gl_Position = vec4(inPosition, 0.0, 1.0);
+    //gl_Position = vec4(inPosition, 0.0, 1.0);
    //DEFINED BY MODEL MATRIX IN MAIN
-    //gl_Position = ortho * model * vec4(inPosition, 0.0, 1.0);
+    gl_Position = ortho * model * vec4(inPosition, 0.0, 1.0);
     textureCoords = (inPosition + 1.0) / 2.0;
+    textureCoords.y = 1 - textureCoords.y;
 }
 
     #fragment
@@ -23,11 +24,12 @@ void main() {
 in vec2 textureCoords;
 
 uniform sampler2DArray image;
+uniform int character = 95;
 
 out vec4 FragColor;
 
 void main() {
-    FragColor = vec4(1.0, 0.0, 1.0, 1.0) * texture(image, vec3(textureCoords, 70)).r;
+    FragColor = vec4(1.0, 0.0, 1.0, 1.0) * texture(image, vec3(textureCoords, character - 32)).r;
    //if (texture(image, textureCoords).a > 0.7)
    //    FragColor = vec4(1.0, 0.0, 1.0, 1.0);
    //else

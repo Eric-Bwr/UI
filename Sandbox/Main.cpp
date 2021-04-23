@@ -36,8 +36,8 @@ int main() {
     shader.setUniformMatrix4f("ortho", ortho.getBuffer());
     Mat4f model;
     model.identity();
-    model.translate(0, 0, 0);
-    model.scale(727, 50, 0);
+    model.translate(500, 500, 0);
+    model.scale(12, 15, 0);
     shader.setUniformMatrix4f("model", model.getBuffer());
     VertexArrayObject vao;
     VertexBufferObjectLayout layout;
