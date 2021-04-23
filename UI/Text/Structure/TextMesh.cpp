@@ -9,16 +9,49 @@ TextMesh::TextMesh() {
 }
 
 void TextMesh::loadText(UIText *uiText, FontType* fontType) {
+	texture = fontType->texture;
     vertices.clear();
-    //FORMAT:   X Y
-    //          LEVEL (ASCII CODE)
-    for(int i = 0; i < strlen(uiText->text); i++){
-        //PER VERTEX
-       // vertices.emplace_back(vertexX);
-       // vertices.emplace_back(vertexY);
-        vertices.emplace_back(fontType->characters.at(uiText->text[i]).ascii);
-    }
-    vertexCount = vertices.size() / 5;
+
+    int ascii = 65;
+    float half = 0.5;
+
+    vertices.push_back(-half);
+	vertices.push_back(half);
+	vertices.push_back(0);
+	vertices.push_back(0);
+	vertices.push_back(ascii);
+
+	vertices.push_back(-half);
+	vertices.push_back(-half);
+	vertices.push_back(0);
+	vertices.push_back(1);
+	vertices.push_back(ascii);
+
+	vertices.push_back(half);
+	vertices.push_back(-half);
+	vertices.push_back(1);
+	vertices.push_back(1);
+	vertices.push_back(ascii);
+
+	vertices.push_back(-half);
+	vertices.push_back(half);
+	vertices.push_back(0);
+	vertices.push_back(0);
+	vertices.push_back(ascii);
+
+	vertices.push_back(half);
+	vertices.push_back(-half);
+	vertices.push_back(1);
+	vertices.push_back(1);
+	vertices.push_back(ascii);
+
+	vertices.push_back(half);
+	vertices.push_back(half);
+	vertices.push_back(1);
+	vertices.push_back(0);
+	vertices.push_back(ascii);
+
+	vertexCount = vertices.size() / 5;
     vao->bind();
     vbo->subData(vertices.data(), vertexCount * TextManager::bufferObjectLayout.getStride(), 0, GL_DYNAMIC_DRAW);
 }
