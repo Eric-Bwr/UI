@@ -4,14 +4,14 @@
 #include <Texture.h>
 #include "../Font.h"
 
-#define FONT_CHAR_START 32
-#define FONT_CHAR_END 126
+const int FONT_CHAR_START = 32;
+const int FONT_CHAR_END = 126;
 
 struct Character {
     int ascii;
     int width, height;
-    int advanceX;
-    //ADD OTHER CHARACTER SPECIFIC DATA
+    int bearingX, bearingY;
+    int advance;
 };
 
 class FontType {
