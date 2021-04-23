@@ -4,6 +4,7 @@
 
 class UIText;
 class FontType;
+class Texture;
 
 class TextMesh {
 public:
@@ -16,4 +17,5 @@ private:
     unsigned int vertexCount;
     VertexArrayObject* vao;
     VertexBufferObject* vbo;
+    Texture* texture;
 };

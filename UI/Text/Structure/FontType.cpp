@@ -31,3 +31,7 @@ FontType::FontType(Font *font, int fontSize) : fontSize(fontSize){
         characters.insert(std::pair<int, Character>(ascii, ch));
     }
 }
+
+FontType::~FontType() {
+    delete texture;
+}

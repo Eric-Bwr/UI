@@ -18,6 +18,7 @@ class FontType {
 public:
     FontType(Font* font, int fontSize);
     Texture* texture;
+    ~FontType();
     std::map<int, Character> characters;
     int fontSize;
 };
