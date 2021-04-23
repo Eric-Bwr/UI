@@ -48,4 +48,10 @@ void TextManager::loadText(Font *font, UIText *uiText) {
 
 TextManager::~TextManager() {
     FT_Done_FreeType(library);
+    delete defaultFont;
+    for (auto elementPair : fonts) {
+        for (auto element : *elementPair.second)
+            delete element;
+        delete elementPair.second;
+    }
 }

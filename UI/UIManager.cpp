@@ -5,14 +5,6 @@ UIManager::UIManager() {
     TextManager::init();
 }
 
-UIManager::~UIManager() {
-	for (auto compPair : components) {
-        for (auto comp : *compPair.second)
-            delete comp;
-        delete compPair.second;
-    }
-}
-
 void UIManager::add(UIComponent *component, int order) {
 	std::vector<UIComponent *>* componentBatch;
 	if (!components.count(order)) {
@@ -35,4 +27,12 @@ void UIManager::remove(UIComponent *component) {
 
 void UIManager::render() {
 
+}
+
+UIManager::~UIManager() {
+    for (auto compPair : components) {
+        for (auto comp : *compPair.second)
+            delete comp;
+        delete compPair.second;
+    }
 }
