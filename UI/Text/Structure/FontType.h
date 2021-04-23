@@ -19,4 +19,5 @@ public:
     FontType(Font* font, int fontSize);
     Texture* texture;
     std::map<int, Character> characters;
+    int fontSize;
 };

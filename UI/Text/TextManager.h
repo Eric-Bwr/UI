@@ -1,6 +1,8 @@
 #pragma once
 
+#include <Buffer.h>
 #include <map>
+#include <vector>
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
@@ -13,8 +15,9 @@ class UIText;
 class TextManager {
 public:
     static int init();
-    static void loadText(const char* text, Font* font, int fontSize, UIText* uiText);
+    static void loadText(Font* font, UIText* uiText);
     static FT_Library library;
     static Font* defaultFont;
+    static VertexBufferObjectLayout bufferObjectLayout;
     ~TextManager();
 };

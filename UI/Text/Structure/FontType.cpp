@@ -1,8 +1,6 @@
-#include <iostream>
-
 #include "FontType.h"
 
-FontType::FontType(Font *font, int fontSize) {
+FontType::FontType(Font *font, int fontSize) : fontSize(fontSize){
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     texture = new Texture(GL_TEXTURE_2D_ARRAY);
     texture->bind();
@@ -22,8 +20,7 @@ FontType::FontType(Font *font, int fontSize) {
         FT_Load_Glyph(font->face, glyphIndex, FT_LOAD_RENDER);
         //HANDLE ERROR                          HANDLE \/
         FT_Render_Glyph(glyph, FT_RENDER_MODE_NORMAL);
-        glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, ascii - FONT_CHAR_START, glyph->bitmap.width,
-                        glyph->bitmap.rows, 1, GL_RED, GL_UNSIGNED_BYTE, font->slot->bitmap.buffer);
+        glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, ascii - FONT_CHAR_START, glyph->bitmap.width, glyph->bitmap.rows, 1, GL_RED, GL_UNSIGNED_BYTE, font->slot->bitmap.buffer);
         Character ch;
         ch.ascii = ascii;
         ch.width = glyph->bitmap.width;

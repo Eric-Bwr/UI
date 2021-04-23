@@ -46,24 +46,23 @@ int main() {
     VertexBufferObject vbo(vertices, 8 * sizeof(float), GL_STATIC_DRAW);
     vao.addBuffer(vbo, layout);
 
-    FontType fontType(&font, 20);
-
     // printf("%s", font.getErrorMessage().c_str());
     while (window.windowIsAlive()) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.0, 0.0, 1.0, 1.0);
         manager->render();
         shader.bind();
-        fontType.texture->bind();
-        if (glfwGetKey(window.getWindow(), GLFW_KEY_P)) {
-            fontType.texture->minNear();
-            fontType.texture->magNear();
-        } else {
-            fontType.texture->minLinear();
-            fontType.texture->magLinear();
-        }
-        vao.bind();
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        // fontType.texture->bind();
+        // if (glfwGetKey(window.getWindow(), GLFW_KEY_P)) {
+        //     fontType.texture->minNear();
+        //     fontType.texture->magNear();
+        // } else {
+        //     fontType.texture->minLinear();
+        //     fontType.texture->magLinear();
+        // }
+        //vao.bind();
+        // glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        text.textMesh.render();
         if (glfwGetKey(window.getWindow(), GLFW_KEY_ESCAPE))
             window.setWindowIsAlive(false);
         window.updateWindow();

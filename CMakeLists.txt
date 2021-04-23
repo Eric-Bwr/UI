@@ -25,7 +25,7 @@ include_directories(${PROJECT_NAME} "Dependencies/FreeType/include")
 
 include_directories(${PROJECT_NAME})
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES} UI/Text/Font.cpp UI/Text/Font.h UI/Text/TextManager.cpp UI/Text/TextManager.h UI/Components/UIText.cpp UI/Components/UIText.h UI/Text/Structure/FontType.cpp UI/Text/Structure/FontType.h UI/Text/Structure/TextMeshCreator.cpp UI/Text/Structure/TextMeshCreator.h UI/Text/Structure/TextMesh.cpp UI/Text/Structure/TextMesh.h)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 target_link_libraries(${PROJECT_NAME}
         ${CMAKE_CURRENT_LIST_DIR}/Dependencies/FreeType/freetype.lib
