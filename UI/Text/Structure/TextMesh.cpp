@@ -14,11 +14,11 @@ void TextMesh::loadText(UIText *uiText, FontType* fontType) {
     //          LEVEL (ASCII CODE)
     for(int i = 0; i < strlen(uiText->text); i++){
         //PER VERTEX
-        vertices.emplace_back(vertexX);
-        vertices.emplace_back(vertexY);
+       // vertices.emplace_back(vertexX);
+       // vertices.emplace_back(vertexY);
         vertices.emplace_back(fontType->characters.at(uiText->text[i]).ascii);
     }
-    vertexCount = vertices.size() / 3;
+    vertexCount = vertices.size() / 5;
     vao->bind();
     vbo->subData(vertices.data(), vertexCount * TextManager::bufferObjectLayout.getStride(), 0, GL_DYNAMIC_DRAW);
 }

@@ -16,6 +16,7 @@ int TextManager::init() {
         int errorCode = FT_Init_FreeType(&library);
         defaultFont = new Font(DEFAULT_FONT_PATH);
         bufferObjectLayout.pushFloat(2);
+        bufferObjectLayout.pushFloat(2);
         bufferObjectLayout.pushFloat(1);
         return errorCode;
     } else

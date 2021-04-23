@@ -2,7 +2,8 @@
 #version 330 core
 
 layout (location = 0) in vec2 inPosition;
-layout (location = 1) in int inLevel;
+layout (location = 1) in vec2 inTexture;
+layout (location = 2) in int inLevel;
 
 uniform mat4 ortho;
 uniform mat4 model;
@@ -15,8 +16,7 @@ void main() {
     gl_Position = vec4(inPosition, 0.0, 1.0);
    //DEFINED BY MODEL MATRIX IN MAIN
    // gl_Position = ortho * model * vec4(inPosition, 0.0, 1.0);
-    textureCoords = (inPosition + 1.0) / 2.0;
-    textureCoords.y = 1 - textureCoords.y;
+    textureCoords = inTexture;
     level = inLevel;
 }
 
@@ -25,7 +25,7 @@ void main() {
     #version 330 core
 
 in vec2 textureCoords;
-in flat int level;
+flat in int level;
 
 uniform sampler2DArray image;
 
