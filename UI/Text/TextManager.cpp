@@ -5,6 +5,7 @@
 
 FT_Library TextManager::library;
 Font *TextManager::defaultFont;
+VertexBufferObjectLayout TextManager::bufferObjectLayout;
 static std::map<const char*, std::vector<FontType*>*> fonts;
 
 static bool shouldInit = true;

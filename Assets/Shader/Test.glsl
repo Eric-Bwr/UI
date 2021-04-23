@@ -1,5 +1,5 @@
 #vertex
-#version 330
+#version 330 core
 
 layout (location = 0) in vec2 inPosition;
 layout (location = 1) in int inLevel;
@@ -22,10 +22,10 @@ void main() {
 
     #fragment
 
-    #version 330
+    #version 330 core
 
 in vec2 textureCoords;
-in int level;
+in flat int level;
 
 uniform sampler2DArray image;
 
