@@ -22,12 +22,12 @@ void main() {
 
 in vec2 textureCoords;
 
-uniform sampler2D image;
+uniform sampler2DArray image;
 
 out vec4 FragColor;
 
 void main() {
-    FragColor = vec4(1.0, 0.0, 1.0, 1.0) * texture(image, textureCoords).r;
+    FragColor = vec4(1.0, 0.0, 1.0, 1.0) * texture(image, vec3(textureCoords, 70)).r;
    //if (texture(image, textureCoords).a > 0.7)
    //    FragColor = vec4(1.0, 0.0, 1.0, 1.0);
    //else

@@ -7,6 +7,7 @@
 #include <OpenGL/include/Shader.h>
 #include "../UI/Components/UIText.h"
 #include "../UI/Text/Font.h"
+#include "../UI/Text/Structure/FontType.h"
 
 int main() {
     auto windowSettings = new WindowSettings;
@@ -45,19 +46,21 @@ int main() {
     VertexBufferObject vbo(vertices, 8 * sizeof(float), GL_STATIC_DRAW);
     vao.addBuffer(vbo, layout);
 
+    FontType fontType(&font, 20);
+
     // printf("%s", font.getErrorMessage().c_str());
     while (window.windowIsAlive()) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.0, 0.0, 1.0, 1.0);
         manager->render();
         shader.bind();
-        text.texture.bind();
+        fontType.texture->bind();
         if (glfwGetKey(window.getWindow(), GLFW_KEY_P)) {
-            text.texture.minNear();
-            text.texture.magNear();
+            fontType.texture->minNear();
+            fontType.texture->magNear();
         } else {
-            text.texture.minLinear();
-            text.texture.magLinear();
+            fontType.texture->minLinear();
+            fontType.texture->magLinear();
         }
         vao.bind();
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
