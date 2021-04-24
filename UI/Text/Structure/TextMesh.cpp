@@ -12,6 +12,9 @@ void TextMesh::loadText(UIText *uiText, FontType* fontType) {
 	texture = fontType->texture;
     vertices.clear();
 
+    TextManager::windowWidth;
+    TextManager::windowHeight;
+
     auto ascii = float('A');
     float half = 0.5;
 

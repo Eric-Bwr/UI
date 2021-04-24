@@ -15,8 +15,10 @@ class TextManager {
 public:
     static int init();
     static void loadText(UIText* uiText);
+    static void setSize(int width, int height);
     static FT_Library library;
     static Font* defaultFont;
     static VertexBufferObjectLayout bufferObjectLayout;
+    static int windowWidth, windowHeight;
     ~TextManager();
 };

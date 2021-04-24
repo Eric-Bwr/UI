@@ -22,7 +22,7 @@ int main() {
     component->setPosition(20, 20);
     component->setSize(120, 80);
 
-    UIManager *manager = new UIManager();
+    UIManager *manager = new UIManager(windowSettings->getWidth(), windowSettings->getHeight());
     manager->add(component);
 
     Shader shader("../Assets/Shader/Test.glsl");

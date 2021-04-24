@@ -1,8 +1,9 @@
 #include "UIManager.h"
 #include "Text/TextManager.h"
 
-UIManager::UIManager() {
+UIManager::UIManager(int width, int height) {
     TextManager::init();
+    TextManager::setSize(width, height);
 }
 
 void UIManager::add(UIComponent *component, int order) {
@@ -23,6 +24,10 @@ void UIManager::remove(UIComponent *component) {
 			if(compList->at(i) == component)
 				compList->erase(compList->begin() + i);
 	}
+}
+
+void UIManager::setSize(int width, int height) {
+    TextManager::setSize(width, height);
 }
 
 void UIManager::render() {
