@@ -12,9 +12,8 @@ out vec2 textureCoords;
 out float level;
 
 void main() {
-    gl_Position = vec4(inPosition, 0.0, 1.0);
+    gl_Position = ortho * vec4(inPosition, 0.0, 1.0);
     textureCoords = inTexture;
-    textureCoords.y = 1 - textureCoords.y;
     level = inLevel;
 }
 
@@ -31,4 +30,5 @@ out vec4 FragColor;
 
 void main() {
     FragColor = vec4(color, 1.0) * texture(image, vec3(textureCoords, level - 32)).r;
+    //FragColor = vec4(0.0, 1.0, 0.0, 1.0);
 }

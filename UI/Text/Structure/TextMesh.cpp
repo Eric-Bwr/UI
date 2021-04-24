@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "TextMesh.h"
 #include "FontType.h"
 #include "../../Components/UIText.h"
@@ -12,47 +14,62 @@ void TextMesh::loadText(UIText *uiText, FontType* fontType) {
 	texture = fontType->texture;
     vertices.clear();
 
-    TextManager::windowWidth;
-    TextManager::windowHeight;
+	auto characters = fontType->characters;
+    auto fontSize = (float) fontType->fontSize;
+	auto text = uiText->text;
+    auto wwidth = (float)TextManager::windowWidth;
+    auto wheight = (float)TextManager::windowHeight;
 
-    auto ascii = float('A');
-    float half = 0.5;
+    int xoff = 200; /* x, y start positions */
+    int yoff = 300;
+    for (int i = 0; i < strlen(text); ++i) {
+    	Character c = characters[text[i]];
 
-    vertices.push_back(-half);
-    vertices.push_back(-half);
-    vertices.push_back(0);
-    vertices.push_back(0);
-    vertices.push_back(ascii);
+    	auto ascii = (float)c.ascii;
+    	auto x = (float)(xoff + c.bearingX);
+    	auto y = yoff - c.bearingY;
+    	auto w = (float)c.width;
+    	auto h = (float)c.height;
 
-    vertices.push_back(half);
-    vertices.push_back(-half);
-    vertices.push_back(1);
-    vertices.push_back(0);
-    vertices.push_back(ascii);
+		vertices.push_back(x);
+		vertices.push_back(y + h);
+		vertices.push_back(0);
+		vertices.push_back(1);
+		vertices.push_back(ascii);
 
-    vertices.push_back(half);
-    vertices.push_back(half);
-    vertices.push_back(1);
-    vertices.push_back(1);
-    vertices.push_back(ascii);
+		vertices.push_back(x);
+		vertices.push_back(y);
+		vertices.push_back(0);
+		vertices.push_back(0);
+		vertices.push_back(ascii);
 
-    vertices.push_back(-half);
-    vertices.push_back(-half);
-    vertices.push_back(0);
-    vertices.push_back(0);
-    vertices.push_back(ascii);
+		vertices.push_back(x + w);
+		vertices.push_back(y);
+		vertices.push_back(1);
+		vertices.push_back(0);
+		vertices.push_back(ascii);
 
-    vertices.push_back(half);
-    vertices.push_back(half);
-    vertices.push_back(1);
-    vertices.push_back(1);
-    vertices.push_back(ascii);
+		vertices.push_back(x);
+		vertices.push_back(y + h);
+		vertices.push_back(0);
+		vertices.push_back(1);
+		vertices.push_back(ascii);
 
-    vertices.push_back(-half);
-    vertices.push_back(half);
-    vertices.push_back(0);
-    vertices.push_back(1);
-    vertices.push_back(ascii);
+		vertices.push_back(x + w);
+		vertices.push_back(y);
+		vertices.push_back(1);
+		vertices.push_back(0);
+		vertices.push_back(ascii);
+
+		vertices.push_back(x + w);
+		vertices.push_back(y + h);
+		vertices.push_back(1);
+		vertices.push_back(1);
+		vertices.push_back(ascii);
+
+		xoff += c.advance;
+	}
+
 
 	vertexCount = vertices.size() / 5;
     vao->bind();
