@@ -23,16 +23,16 @@ int TextManager::init() {
         return -1;
 }
 
-void TextManager::loadText(Font *font, UIText *uiText) {
+void TextManager::loadText(UIText *uiText) {
     std::vector<FontType *>* fontTypeBatch;
     FontType* fontType = nullptr;
-    if (!fonts.count(font->path)) {
+    if (!fonts.count(uiText->font->path)) {
         fontTypeBatch = new std::vector<FontType *>;
-        fonts.insert(std::pair<const char*, std::vector<FontType *>*>(font->path, fontTypeBatch));
-        fontType = new FontType(font, uiText->fontSize);
+        fonts.insert(std::pair<const char*, std::vector<FontType *>*>(uiText->font->path, fontTypeBatch));
+        fontType = new FontType(uiText->font, uiText->fontSize);
         fontTypeBatch->emplace_back(fontType);
     } else {
-        fontTypeBatch = fonts.find(font->path)->second;
+        fontTypeBatch = fonts.find(uiText->font->path)->second;
         for(auto type : *fontTypeBatch){
             if(type->fontSize == uiText->fontSize){
                 fontType = type;
@@ -40,7 +40,7 @@ void TextManager::loadText(Font *font, UIText *uiText) {
             }
         }
         if(fontType == nullptr) {
-            fontType = new FontType(font, uiText->fontSize);
+            fontType = new FontType(uiText->font, uiText->fontSize);
             fontTypeBatch->emplace_back(fontType);
         }
     }

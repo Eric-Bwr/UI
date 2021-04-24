@@ -9,13 +9,12 @@
 #define DEFAULT_FONT_PATH "C:/Windows/Fonts/Arial.ttf"
 
 class Font;
-class FontType;
 class UIText;
 
 class TextManager {
 public:
     static int init();
-    static void loadText(Font* font, UIText* uiText);
+    static void loadText(UIText* uiText);
     static FT_Library library;
     static Font* defaultFont;
     static VertexBufferObjectLayout bufferObjectLayout;

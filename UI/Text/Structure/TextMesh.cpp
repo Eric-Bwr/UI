@@ -12,44 +12,44 @@ void TextMesh::loadText(UIText *uiText, FontType* fontType) {
 	texture = fontType->texture;
     vertices.clear();
 
-    int ascii = 65;
+    auto ascii = float('A');
     float half = 0.5;
 
     vertices.push_back(-half);
-	vertices.push_back(-half);
-	vertices.push_back(0);
-	vertices.push_back(0);
-	vertices.push_back(ascii);
+    vertices.push_back(-half);
+    vertices.push_back(0);
+    vertices.push_back(0);
+    vertices.push_back(ascii);
 
-	vertices.push_back(half);
-	vertices.push_back(-half);
-	vertices.push_back(1);
-	vertices.push_back(0);
-	vertices.push_back(ascii);
+    vertices.push_back(half);
+    vertices.push_back(-half);
+    vertices.push_back(1);
+    vertices.push_back(0);
+    vertices.push_back(ascii);
 
-	vertices.push_back(half);
-	vertices.push_back(half);
-	vertices.push_back(1);
-	vertices.push_back(1);
-	vertices.push_back(ascii);
+    vertices.push_back(half);
+    vertices.push_back(half);
+    vertices.push_back(1);
+    vertices.push_back(1);
+    vertices.push_back(ascii);
 
-	vertices.push_back(-half);
-	vertices.push_back(-half);
-	vertices.push_back(0);
-	vertices.push_back(0);
-	vertices.push_back(ascii);
+    vertices.push_back(-half);
+    vertices.push_back(-half);
+    vertices.push_back(0);
+    vertices.push_back(0);
+    vertices.push_back(ascii);
 
-	vertices.push_back(half);
-	vertices.push_back(half);
-	vertices.push_back(1);
-	vertices.push_back(1);
-	vertices.push_back(ascii);
+    vertices.push_back(half);
+    vertices.push_back(half);
+    vertices.push_back(1);
+    vertices.push_back(1);
+    vertices.push_back(ascii);
 
-	vertices.push_back(-half);
-	vertices.push_back(half);
-	vertices.push_back(0);
-	vertices.push_back(1);
-	vertices.push_back(ascii);
+    vertices.push_back(-half);
+    vertices.push_back(half);
+    vertices.push_back(0);
+    vertices.push_back(1);
+    vertices.push_back(ascii);
 
 	vertexCount = vertices.size() / 5;
     vao->bind();
