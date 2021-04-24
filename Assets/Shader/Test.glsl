@@ -3,7 +3,7 @@
 
 layout (location = 0) in vec2 inPosition;
 layout (location = 1) in vec2 inTexture;
-layout (location = 2) in int inLevel;
+//layout (location = 2) in int inLevel;
 
 uniform mat4 ortho;
 uniform mat4 model;
@@ -17,7 +17,7 @@ void main() {
    //DEFINED BY MODEL MATRIX IN MAIN
    // gl_Position = ortho * model * vec4(inPosition, 0.0, 1.0);
     textureCoords = inTexture;
-    level = inLevel;
+    //level = inLevel;
 }
 
     #fragment
@@ -32,9 +32,9 @@ uniform sampler2DArray image;
 out vec4 FragColor;
 
 void main() {
-    FragColor = vec4(1.0, 0.0, 1.0, 1.0) * texture(image, vec3(textureCoords, level - 32)).r;
+    FragColor = vec4(1.0, 0.0, 1.0, 1.0) * texture(image, vec3(textureCoords, 65)).r;
    //if (texture(image, textureCoords).a > 0.7)
    //    FragColor = vec4(1.0, 0.0, 1.0, 1.0);
    //else
-       //FragColor = vec4(0.0, 1.0, 0.0, 1.0);
+       //FragColor = vec4(1.0, 0.0, 0.0, 1.0);
 }

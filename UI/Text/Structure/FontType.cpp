@@ -30,6 +30,7 @@ FontType::FontType(Font *font, int fontSize) : fontSize(fontSize){
         ch.bearingY = glyph->bitmap_top;
         characters.insert(std::pair<int, Character>(ascii, ch));
     }
+    texture->generateMipMap();
 }
 
 FontType::~FontType() {
