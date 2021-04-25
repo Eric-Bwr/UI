@@ -30,15 +30,16 @@ int main() {
 
     Font font("C:/Windows/Fonts/Arial.ttf");
     UIText text("Hellog", &font, 200, 0, 0);
-    FontType fontType(&font, 200);
 
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     while (window.windowIsAlive()) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.0, 0.0, 1.0, 1.0);
         manager->render();
         shader.bind();
 	    shader.setUniformMatrix4f("ortho", mat.getBuffer());
-        fontType.texture->bind();
+	    shader.setUniformBool("boxMode", glfwGetKey(window.getWindow(), GLFW_KEY_M));
         text.textMesh.render();
         if (glfwGetKey(window.getWindow(), GLFW_KEY_ESCAPE))
             window.setWindowIsAlive(false);

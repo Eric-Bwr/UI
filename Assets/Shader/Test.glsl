@@ -25,10 +25,12 @@ in float level;
 
 uniform sampler2DArray image;
 uniform vec3 color = vec3(1.0, 0.0, 1.0);
+uniform bool boxMode = false;
 
 out vec4 FragColor;
 
 void main() {
     FragColor = vec4(color, 1.0) * texture(image, vec3(textureCoords, level - 32)).r;
-    //FragColor = vec4(0.0, 1.0, 0.0, 1.0);
+    if(boxMode)
+        FragColor = vec4(color, 1.0);
 }
