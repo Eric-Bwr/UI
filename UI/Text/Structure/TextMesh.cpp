@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "TextMesh.h"
 #include "FontType.h"
 #include "../../Components/UIText.h"

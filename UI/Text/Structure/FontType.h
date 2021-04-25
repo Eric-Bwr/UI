@@ -9,7 +9,7 @@ const int FONT_CHAR_END = 126;
 
 struct Character {
     int ascii;
-    unsigned int width, height;
+    int width, height;
     int bearingX, bearingY;
     int advance;
 };
