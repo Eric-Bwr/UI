@@ -3,7 +3,6 @@
 void UIComponent::setPosition(float x, float y) {
 	this->x = x;
 	this->y = y;
-
 	updateModelMatrix();
 }
 
@@ -14,7 +13,6 @@ void UIComponent::setPosition(Vec2f vec) {
 void UIComponent::setSize(float width, float height) {
 	this->width = width;
 	this->height = height;
-
 	updateModelMatrix();
 }
 

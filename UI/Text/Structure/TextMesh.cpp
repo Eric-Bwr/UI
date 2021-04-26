@@ -12,62 +12,70 @@ void TextMesh::loadText(UIText *uiText, FontType* fontType) {
 	texture = fontType->texture;
     vertices.clear();
 
-	auto characters = fontType->characters;
-    auto fontSize = (float) fontType->fontSize;
-	auto text = uiText->text;
-    auto wwidth = (float)TextManager::windowWidth;
-    auto wheight = (float)TextManager::windowHeight;
+    float cursorX = uiText->positionX;
+    float cursorY = uiText->positionY;
+    auto length = strlen(uiText->text);
+    auto text = uiText->text;
+    int currentLine = 0;
+    for (int i = 0; i < length; ++i) {
+    	Character c = fontType->characters[text[i]];
 
-    int xoff = 200; /* x, y start positions */
-    int yoff = 300;
-    for (int i = 0; i < strlen(text); ++i) {
-    	Character c = characters[text[i]];
+        float nextSpaceLength = 0.0f;
+        for(int j = i; j < length; j++){
+            if(text[j] == ' '){
+                break;
+            }
+            nextSpaceLength += fontType->characters[text[j]].advance;
+        }
+        if(cursorX + c.advance + nextSpaceLength > uiText->width || text[i] == '\n'){
+            cursorX = uiText->positionX;
+            currentLine++;
+            if(cursorY + fontType->fontSize > uiText->height ||currentLine >= uiText->maxLines)
+                break;
+            cursorY += fontType->fontSize;
+        }
 
-    	auto ascii = (float)c.ascii;
-    	auto x = (float)(xoff + c.bearingX);
-    	auto y = yoff - c.bearingY;
-    	auto w = (float)c.width;
-    	auto h = (float)c.height;
+        auto x = cursorX + c.bearingX;
+        auto y = cursorY - c.bearingY;
 
-		vertices.push_back(x);
-		vertices.push_back(y + h);
-		vertices.push_back(0);
-		vertices.push_back(1);
-		vertices.push_back(ascii);
+		vertices.emplace_back(x);
+		vertices.emplace_back(y + c.height);
+		vertices.emplace_back(0);
+		vertices.emplace_back(c.textureY);
+		vertices.emplace_back(c.ascii);
 
-		vertices.push_back(x);
-		vertices.push_back(y);
-		vertices.push_back(0);
-		vertices.push_back(0);
-		vertices.push_back(ascii);
+		vertices.emplace_back(x);
+		vertices.emplace_back(y);
+		vertices.emplace_back(0);
+		vertices.emplace_back(0);
+		vertices.emplace_back(c.ascii);
 
-		vertices.push_back(x + w);
-		vertices.push_back(y);
-		vertices.push_back(1);
-		vertices.push_back(0);
-		vertices.push_back(ascii);
+		vertices.emplace_back(x + c.width);
+		vertices.emplace_back(y);
+		vertices.emplace_back(c.textureX);
+		vertices.emplace_back(0);
+		vertices.emplace_back(c.ascii);
 
-		vertices.push_back(x);
-		vertices.push_back(y + h);
-		vertices.push_back(0);
-		vertices.push_back(1);
-		vertices.push_back(ascii);
+		vertices.emplace_back(x);
+		vertices.emplace_back(y + c.height);
+		vertices.emplace_back(0);
+		vertices.emplace_back(c.textureY);
+		vertices.emplace_back(c.ascii);
 
-		vertices.push_back(x + w);
-		vertices.push_back(y);
-		vertices.push_back(1);
-		vertices.push_back(0);
-		vertices.push_back(ascii);
+		vertices.emplace_back(x + c.width);
+		vertices.emplace_back(y);
+		vertices.emplace_back(c.textureX);
+		vertices.emplace_back(0);
+		vertices.emplace_back(c.ascii);
 
-		vertices.push_back(x + w);
-		vertices.push_back(y + h);
-		vertices.push_back(1);
-		vertices.push_back(1);
-		vertices.push_back(ascii);
+		vertices.emplace_back(x + c.width);
+		vertices.emplace_back(y + c.height);
+		vertices.emplace_back(c.textureX);
+		vertices.emplace_back(c.textureY);
+		vertices.emplace_back(c.ascii);
 
-		xoff += c.advance;
+        cursorX += c.advance;
 	}
-
 
 	vertexCount = vertices.size() / 5;
     vao->bind();

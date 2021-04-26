@@ -1,4 +1,3 @@
-#include <iostream>
 #include <Math/Vector.h>
 #include <Math/Matrix.h>
 #include "../UI/UIManager.h"
@@ -25,21 +24,19 @@ int main() {
     UIManager *manager = new UIManager(windowSettings->getWidth(), windowSettings->getHeight());
     manager->add(component);
 
-    Shader shader("../Assets/Shader/Test.glsl");
     Mat4f mat = orthographicMatrix(0.0f, windowSettings->getWidth(), windowSettings->getHeight(), 0.0, -1.0, 1.0);
+    Shader shader("../Assets/Shader/Test.glsl");
+    shader.setUniformMatrix4f("ortho", mat.getBuffer());
 
     Font font("C:/Windows/Fonts/Arial.ttf");
-    UIText text("Hellog", &font, 200, 0, 0);
+    UIText text("The Quick black fox has been shot in the head by a 134 Minigun with a terrifying output of up to 100 Rounds per second when spooled up.\nThe 6 rotating barrels assist air cooling.", &font, 100, 50, 700, 1600, 700);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     while (window.windowIsAlive()) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(0.0, 0.0, 1.0, 1.0);
         manager->render();
         shader.bind();
-	    shader.setUniformMatrix4f("ortho", mat.getBuffer());
-	    shader.setUniformBool("boxMode", glfwGetKey(window.getWindow(), GLFW_KEY_M));
         text.textMesh.render();
         if (glfwGetKey(window.getWindow(), GLFW_KEY_ESCAPE))
             window.setWindowIsAlive(false);

@@ -8,9 +8,10 @@ const int FONT_CHAR_START = 32;
 const int FONT_CHAR_END = 126;
 
 struct Character {
-    int ascii;
+    float ascii;
     int width, height;
     int bearingX, bearingY;
+    float textureX, textureY;
     int advance;
 };
 
