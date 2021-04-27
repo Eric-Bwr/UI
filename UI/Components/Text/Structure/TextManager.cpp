@@ -1,7 +1,7 @@
 #include "TextManager.h"
-#include "Font.h"
-#include "Structure/FontType.h"
-#include "../Components/UIText.h"
+#include "Components/Text/Font.h"
+#include "Components/Text/Structure/FontType.h"
+#include "Components/Text/UIText.h"
 
 FT_Library TextManager::library;
 Font *TextManager::defaultFont;

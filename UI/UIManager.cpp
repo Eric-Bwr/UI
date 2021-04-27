@@ -1,9 +1,11 @@
 #include "UIManager.h"
-#include "Text/TextManager.h"
 
 UIManager::UIManager(int width, int height) {
     TextManager::init();
     TextManager::setSize(width, height);
+    ortho = orthographicMatrix(0.0f, width, height, 0.0, -1.0, 1.0);
+    textShader = new Shader("../Assets/Shader/TextShader.glsl");
+    textShader->setUniformMatrix4f("ortho", ortho.getBuffer());
 }
 
 void UIManager::add(UIComponent *component, int order) {
@@ -28,10 +30,19 @@ void UIManager::remove(UIComponent *component) {
 
 void UIManager::setSize(int width, int height) {
     TextManager::setSize(width, height);
+//CHECK THIS
+   // ortho.ortho(0.0f, width, height, 0.0, -1.0, 1.0);
 }
 
 void UIManager::render() {
-
+    for (auto const &componentList : components) {
+        for (auto component : *componentList.second) {
+            if(component->type == UIComponentType::UITEXT){
+                textShader->bind();
+                ((UIText*)component)->textMesh.render();
+            }
+        }
+    }
 }
 
 UIManager::~UIManager() {
