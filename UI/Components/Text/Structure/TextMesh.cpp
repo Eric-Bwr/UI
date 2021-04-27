@@ -41,7 +41,7 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
                 currentWord.startSpaceWidth = 0.0f;
                 currentWord.characters.clear();
             }
-        }else if(currentChar == '\n'){
+        } else if (currentChar == '\n') {
             currentWord.characters.emplace_back(currentChar);
             words.emplace_back(currentWord);
             currentWord.startSpaceWidth = 0.0f;
@@ -57,31 +57,29 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
     Line currentLine;
     std::vector<Line> lines;
     for (auto &word : words) {
-        if(word.characters.back() == '\n'){
+        if (word.characters.back() == '\n') {
             word.characters.pop_back();
             if (currentLine.lineWidth + word.spaceWidth + word.wordWidth + word.startSpaceWidth <= uiText->width) {
                 currentLine.words.emplace_back(word);
                 currentLine.lineWidth += word.wordWidth + word.spaceWidth + word.startSpaceWidth;
-            }else{
+            } else {
                 lines.emplace_back(currentLine);
                 currentLine.words.clear();
-                currentLine.lineWidth = 0.0f;
-                word.spaceWidth = 0.0f;
-                word.startSpaceWidth = 0.0f;
                 currentLine.words.emplace_back(word);
-                currentLine.lineWidth += word.wordWidth + word.startSpaceWidth;
+                currentLine.lineWidth = 0.0f;
+                currentLine.lineWidth += word.wordWidth + word.startSpaceWidth + word.spaceWidth;
             }
             lines.emplace_back(currentLine);
             currentLine.words.clear();
             currentLine.lineWidth = 0.0f;
-        }else if (currentLine.lineWidth + word.spaceWidth + word.wordWidth + word.startSpaceWidth <= uiText->width) {
+        } else if (currentLine.lineWidth + word.spaceWidth + word.wordWidth + word.startSpaceWidth <= uiText->width) {
             currentLine.words.emplace_back(word);
             currentLine.lineWidth += word.wordWidth + word.spaceWidth + word.startSpaceWidth;
         } else {
             lines.emplace_back(currentLine);
             currentLine.words.clear();
-            currentLine.lineWidth = 0.0f;
             currentLine.words.emplace_back(word);
+            currentLine.lineWidth = 0.0f;
             currentLine.lineWidth += word.wordWidth + word.spaceWidth + word.startSpaceWidth;
         }
     }
