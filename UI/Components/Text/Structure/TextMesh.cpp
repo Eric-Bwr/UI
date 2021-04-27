@@ -20,21 +20,18 @@ struct Line {
     float lineWidth = 0.0f;
 };
 
-#include "iostream"
-
 void TextMesh::loadText(UIText *uiText, FontType *fontType) {
     texture = fontType->texture;
     vertices.clear();
     auto length = strlen(uiText->text);
     auto text = uiText->text;
     auto spaceWidth = fontType->characters[' '].advance;
-    auto tabWidth = fontType->characters['\t'].advance;
     Word currentWord;
     std::vector<Word> words;
     for (int i = 0; i < length; i++) {
         char currentChar = text[i];
         if (currentChar == ' ') {
-            if(currentWord.characters.empty())
+            if (currentWord.characters.empty())
                 currentWord.startSpaceWidth += spaceWidth;
             else {
                 currentWord.spaceWidth += spaceWidth;
@@ -45,26 +42,17 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
                 currentWord.characters.clear();
             }
         }else if(currentChar == '\n'){
-            //currentWord.characters.emplace_back(currentChar);
-            //words.emplace_back(currentWord);
-            //currentWord.spaceWidth = 0.0f;
-            //currentWord.wordWidth = 0.0f;
-            //currentWord.characters.clear();
+            currentWord.characters.emplace_back(currentChar);
+            words.emplace_back(currentWord);
+            currentWord.startSpaceWidth = 0.0f;
+            currentWord.spaceWidth = 0.0f;
+            currentWord.wordWidth = 0.0f;
+            currentWord.characters.clear();
         } else {
             currentWord.wordWidth += fontType->characters[currentChar].advance;
             currentWord.characters.emplace_back(currentChar);
         }
     }
-    /*
-    for(auto r : words){
-        std::cout << r.startSpaceWidth;
-        for(auto f : r.characters){
-            std::cout << f;
-        }
-        std::cout << r.spaceWidth;
-        std::cout <<" ";
-    }
-*/
     words.emplace_back(currentWord);
     Line currentLine;
     std::vector<Line> lines;
@@ -93,22 +81,18 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
             lines.emplace_back(currentLine);
             currentLine.words.clear();
             currentLine.lineWidth = 0.0f;
-            word.spaceWidth = 0.0f;
-            word.startSpaceWidth = 0.0f;
             currentLine.words.emplace_back(word);
-            currentLine.lineWidth += word.wordWidth;
+            currentLine.lineWidth += word.wordWidth + word.spaceWidth + word.startSpaceWidth;
         }
     }
     lines.emplace_back(currentLine);
 
     float cursorX = uiText->positionX;
     float cursorY = uiText->positionY;
-
     for (const auto &line : lines) {
         for (const auto &word : line.words) {
             cursorX += word.startSpaceWidth;
             for (auto character : word.characters) {
-                std::cout << character;
                 Character c = fontType->characters[character];
                 auto x = cursorX + c.bearingX;
                 auto y = cursorY - c.bearingY;
@@ -151,9 +135,7 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
                 cursorX += c.advance;
             }
             cursorX += word.spaceWidth;
-            std::cout << " ";
         }
-        std::cout << "\n";
         cursorY += fontType->fontSize;
         cursorX = uiText->positionX;
     }
