@@ -19,13 +19,14 @@ struct Line {
     std::vector<Word> words;
     float lineWidth = 0.0f;
 };
-
+#include <iostream>
 void TextMesh::loadText(UIText *uiText, FontType *fontType) {
     texture = fontType->texture;
     vertices.clear();
     auto length = strlen(uiText->text);
     auto text = uiText->text;
     auto spaceWidth = fontType->characters[' '].advance;
+    auto yCutoff = fontType->characters['g'].height - fontType->characters['g'].bearingY;
     Word currentWord;
     std::vector<Word> words;
     for (int i = 0; i < length; i++) {
@@ -53,7 +54,9 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
             currentWord.characters.emplace_back(currentChar);
         }
     }
-    words.emplace_back(currentWord);
+    std::cout << words.size();
+    if(!currentWord.characters.empty())
+        words.emplace_back(currentWord);
     Line currentLine;
     std::vector<Line> lines;
     for (auto &word : words) {
@@ -85,9 +88,17 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
     }
     lines.emplace_back(currentLine);
 
-    float cursorX = uiText->positionX;
+    float cursorX;
     float cursorY = uiText->positionY;
     for (const auto &line : lines) {
+        if (uiText->mode == UITextMode::CENTERED)
+            cursorX = uiText->positionX + ((uiText->width / 2) - (line.lineWidth / 2)) + spaceWidth / 2;
+        else if (uiText->mode == UITextMode::RIGHT)
+            cursorX = uiText->positionX + uiText->width - line.lineWidth;
+        else
+            cursorX = uiText->positionX;
+        if (cursorY + yCutoff > uiText->height)
+            break;
         for (const auto &word : line.words) {
             cursorX += word.startSpaceWidth;
             for (auto character : word.characters) {
@@ -135,7 +146,6 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
             cursorX += word.spaceWidth;
         }
         cursorY += fontType->fontSize;
-        cursorX = uiText->positionX;
     }
 
     vertexCount = vertices.size() / 5;

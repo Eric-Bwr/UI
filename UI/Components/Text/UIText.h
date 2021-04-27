@@ -6,8 +6,7 @@
 class Font;
 
 enum UITextMode {
-    NORMAL = 0,
-    LEFT,
+    LEFT = 0,
     RIGHT,
     CENTERED,
 };

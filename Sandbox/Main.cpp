@@ -17,8 +17,8 @@ int main() {
     UIManager *manager = new UIManager(windowSettings->getWidth(), windowSettings->getHeight());
 
     Font font("C:/Windows/Fonts/Arial.ttf");
-    const char* string = "          The Quick black fox has been shot in the head by a 134 Minigun       with a terrifying output of up to 100 Rounds per second when spooled up. \n The 6 rotating barrels assist air cooling.";
-    UIText text(string, &font, 100, 0, 700, 1600, 700, UITextMode::NORMAL);
+    const char* string = "The Quick black fox has been shot in the head by a 134 Minigun with a terrifying output of up to 100 Rounds per second when spooled up.\n        The 6 rotating barrels assist air cooling. ";
+    UIText text(string, &font, 100, 0, 800, 1600, 800, UITextMode::RIGHT);
     manager->add(&text);
     int f = text.fontSize;
 
@@ -30,12 +30,12 @@ int main() {
         if(glfwGetKey(window.getWindow(), GLFW_KEY_UP) == GLFW_PRESS){
             f++;
             text.setFontSize(f);
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::this_thread::sleep_for(std::chrono::milliseconds(80));
         }
         if(glfwGetKey(window.getWindow(), GLFW_KEY_DOWN) == GLFW_PRESS){
             f--;
             text.setFontSize(f);
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::this_thread::sleep_for(std::chrono::milliseconds(80));
         }
         if (glfwGetKey(window.getWindow(), GLFW_KEY_ESCAPE))
             window.setWindowIsAlive(false);
