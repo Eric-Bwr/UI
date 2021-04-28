@@ -99,10 +99,10 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
             cursorX = uiText->positionX;
         if (cursorY + yCutoff > uiText->height)
             break;
-        if(cursorY - uiText->fontSize + yCutoff < 0)
-            continue;
         for (const auto &word : line.words) {
             cursorX += word.spaceWidth;
+            if(cursorY - uiText->fontSize + yCutoff < 0)
+                continue;
             for (auto character : word.characters) {
                 Character c = fontType->characters[character];
                 auto x = cursorX + c.bearingX;

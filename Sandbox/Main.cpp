@@ -18,7 +18,7 @@ int main() {
 
     Font font("C:/Windows/Fonts/Arial.ttf");
     const char* string = "The Quick black fox has been shot in the head by a 134 Minigun with a terrifying output of up to 100 Rounds per second when spooled up.\n        The 6 rotating barrels assist air cooling. ";
-    UIText text(string, &font, 100, 0, 800, 1600, 800, UITextMode::RIGHT);
+    UIText text(string, &font, 100, 0, 800, 1600, 800, UITextMode::CENTERED);
     manager->add(&text);
     int f = text.fontSize;
 
