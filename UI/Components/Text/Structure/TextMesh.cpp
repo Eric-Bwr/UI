@@ -10,16 +10,15 @@ TextMesh::TextMesh() {
 
 struct Word {
     std::vector<char> characters;
-    float wordWidth = 0.0f;
+    float width = 0.0f;
     float spaceWidth = 0.0f;
-    float startSpaceWidth = 0.0f;
 };
 
 struct Line {
     std::vector<Word> words;
     float lineWidth = 0.0f;
 };
-#include <iostream>
+
 void TextMesh::loadText(UIText *uiText, FontType *fontType) {
     texture = fontType->texture;
     vertices.clear();
@@ -32,62 +31,60 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
     for (int i = 0; i < length; i++) {
         char currentChar = text[i];
         if (currentChar == ' ') {
-            if (currentWord.characters.empty())
-                currentWord.startSpaceWidth += spaceWidth;
-            else {
-                currentWord.spaceWidth += spaceWidth;
+            if (!currentWord.characters.empty())
                 words.emplace_back(currentWord);
-                currentWord.spaceWidth = 0.0f;
-                currentWord.wordWidth = 0.0f;
-                currentWord.startSpaceWidth = 0.0f;
-                currentWord.characters.clear();
-            }
+            currentWord.characters.clear();
+            currentWord.width = 0.0f;
+            currentWord.spaceWidth = spaceWidth;
+            words.emplace_back(currentWord);
+            currentWord.width = 0.0f;
+            currentWord.spaceWidth = 0.0f;
         } else if (currentChar == '\n') {
             currentWord.characters.emplace_back(currentChar);
             words.emplace_back(currentWord);
-            currentWord.startSpaceWidth = 0.0f;
+            currentWord.width = 0.0f;
             currentWord.spaceWidth = 0.0f;
-            currentWord.wordWidth = 0.0f;
             currentWord.characters.clear();
         } else {
-            currentWord.wordWidth += fontType->characters[currentChar].advance;
+            currentWord.width += fontType->characters[currentChar].advance;
             currentWord.characters.emplace_back(currentChar);
         }
     }
-    std::cout << words.size();
-    if(!currentWord.characters.empty())
-        words.emplace_back(currentWord);
     Line currentLine;
     std::vector<Line> lines;
     for (auto &word : words) {
-        if (word.characters.back() == '\n') {
-            word.characters.pop_back();
-            if (currentLine.lineWidth + word.spaceWidth + word.wordWidth + word.startSpaceWidth <= uiText->width) {
+        if(word.characters.empty()){
+            currentLine.lineWidth += word.width + word.spaceWidth;
+            currentLine.words.emplace_back(word);
+        }else{
+            if (word.characters.back() == '\n') {
+                word.characters.pop_back();
+                if (currentLine.lineWidth + word.width + word.spaceWidth <= uiText->width) {
+                    currentLine.words.emplace_back(word);
+                    currentLine.lineWidth += word.width + word.spaceWidth;
+                } else {
+                    lines.emplace_back(currentLine);
+                    currentLine.words.clear();
+                    currentLine.words.emplace_back(word);
+                    currentLine.lineWidth = 0.0f;
+                    currentLine.lineWidth += word.width + word.spaceWidth;
+                }
+                lines.emplace_back(currentLine);
+                currentLine.words.clear();
+                currentLine.lineWidth = 0.0f;
+            } else if (currentLine.lineWidth + word.width + word.spaceWidth <= uiText->width) {
                 currentLine.words.emplace_back(word);
-                currentLine.lineWidth += word.wordWidth + word.spaceWidth + word.startSpaceWidth;
+                currentLine.lineWidth += word.width + word.spaceWidth;
             } else {
                 lines.emplace_back(currentLine);
                 currentLine.words.clear();
                 currentLine.words.emplace_back(word);
                 currentLine.lineWidth = 0.0f;
-                currentLine.lineWidth += word.wordWidth + word.startSpaceWidth + word.spaceWidth;
+                currentLine.lineWidth += word.width + word.spaceWidth;
             }
-            lines.emplace_back(currentLine);
-            currentLine.words.clear();
-            currentLine.lineWidth = 0.0f;
-        } else if (currentLine.lineWidth + word.spaceWidth + word.wordWidth + word.startSpaceWidth <= uiText->width) {
-            currentLine.words.emplace_back(word);
-            currentLine.lineWidth += word.wordWidth + word.spaceWidth + word.startSpaceWidth;
-        } else {
-            lines.emplace_back(currentLine);
-            currentLine.words.clear();
-            currentLine.words.emplace_back(word);
-            currentLine.lineWidth = 0.0f;
-            currentLine.lineWidth += word.wordWidth + word.spaceWidth + word.startSpaceWidth;
         }
     }
     lines.emplace_back(currentLine);
-
     float cursorX;
     float cursorY = uiText->positionY;
     for (const auto &line : lines) {
@@ -97,10 +94,10 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
             cursorX = uiText->positionX + uiText->width - line.lineWidth;
         else
             cursorX = uiText->positionX;
-        if (cursorY + yCutoff > uiText->height)
+        if (cursorY + yCutoff > uiText->height || cursorY - uiText->fontSize + yCutoff < 0)
             break;
         for (const auto &word : line.words) {
-            cursorX += word.startSpaceWidth;
+            cursorX += word.spaceWidth;
             for (auto character : word.characters) {
                 Character c = fontType->characters[character];
                 auto x = cursorX + c.bearingX;
@@ -143,7 +140,6 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
                 vertices.emplace_back(c.ascii);
                 cursorX += c.advance;
             }
-            cursorX += word.spaceWidth;
         }
         cursorY += fontType->fontSize;
     }
