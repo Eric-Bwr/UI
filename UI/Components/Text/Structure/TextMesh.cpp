@@ -53,10 +53,10 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
     Line currentLine;
     std::vector<Line> lines;
     for (auto &word : words) {
-        if(word.characters.empty()){
+        if (word.characters.empty()) {
             currentLine.lineWidth += word.width + word.spaceWidth;
             currentLine.words.emplace_back(word);
-        }else{
+        } else {
             if (word.characters.back() == '\n') {
                 word.characters.pop_back();
                 if (currentLine.lineWidth + word.width + word.spaceWidth <= uiText->width) {
@@ -91,11 +91,16 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
         if (uiText->mode == UITextMode::CENTERED)
             cursorX = uiText->positionX + ((uiText->width / 2) - (line.lineWidth / 2)) + spaceWidth / 2;
         else if (uiText->mode == UITextMode::RIGHT)
-            cursorX = uiText->positionX + uiText->width - line.lineWidth;
+            if(line.words.back().characters.empty())
+                cursorX = uiText->positionX + uiText->width - line.lineWidth + spaceWidth;
+            else
+                cursorX = uiText->positionX + uiText->width - line.lineWidth;
         else
             cursorX = uiText->positionX;
-        if (cursorY + yCutoff > uiText->height || cursorY - uiText->fontSize + yCutoff < 0)
+        if (cursorY + yCutoff > uiText->height)
             break;
+        if(cursorY - uiText->fontSize + yCutoff < 0)
+            continue;
         for (const auto &word : line.words) {
             cursorX += word.spaceWidth;
             for (auto character : word.characters) {
