@@ -10,7 +10,7 @@ int main() {
     windowSettings->setWidth(1600);
     windowSettings->setHeight(800);
     windowSettings->setCentered(true);
-    windowSettings->setTransparent(false);
+    windowSettings->setTransparent(true);
 
     Window window(windowSettings);
 
