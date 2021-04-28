@@ -48,6 +48,8 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
         } else {
             currentWord.width += fontType->characters[currentChar].advance;
             currentWord.characters.emplace_back(currentChar);
+            if(i == length - 1)
+                words.emplace_back(currentWord);
         }
     }
     Line currentLine;
@@ -86,22 +88,26 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
     }
     lines.emplace_back(currentLine);
     float cursorX;
-    float cursorY = uiText->positionY;
+    float cursorY;
+    if (uiText->mode == UITextMode::CENTERED_VERTICAL_RIGHT || uiText->mode == UITextMode::CENTERED_VERTICAL_LEFT || uiText->mode == UITextMode::CENTERED)
+        cursorY = uiText->positionY + ((uiText->height / 2) - (lines.size() * uiText->fontSize / 2)) - yCutoff / 2;
+    else
+        cursorY = uiText->positionY;
     for (const auto &line : lines) {
-        if (uiText->mode == UITextMode::CENTERED)
+        if (uiText->mode == UITextMode::CENTERED_HORIZONTAL || uiText->mode == UITextMode::CENTERED)
             cursorX = uiText->positionX + ((uiText->width / 2) - (line.lineWidth / 2)) + spaceWidth / 2;
-        else if (uiText->mode == UITextMode::RIGHT)
-            if(line.words.back().characters.empty())
+        else if (uiText->mode == UITextMode::RIGHT || uiText->mode == UITextMode::CENTERED_VERTICAL_RIGHT)
+            if (line.words.back().characters.empty())
                 cursorX = uiText->positionX + uiText->width - line.lineWidth + spaceWidth;
             else
                 cursorX = uiText->positionX + uiText->width - line.lineWidth;
-        else
+        else if (uiText->mode == UITextMode::LEFT || uiText->mode == UITextMode::CENTERED_VERTICAL_LEFT)
             cursorX = uiText->positionX;
         if (cursorY + yCutoff > uiText->height)
             break;
         for (const auto &word : line.words) {
             cursorX += word.spaceWidth;
-            if(cursorY - uiText->fontSize + yCutoff < 0)
+            if (cursorY - uiText->fontSize + yCutoff < 0)
                 continue;
             for (auto character : word.characters) {
                 Character c = fontType->characters[character];
@@ -148,7 +154,6 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
         }
         cursorY += fontType->fontSize;
     }
-
     vertexCount = vertices.size() / 5;
     vao->bind();
     vbo->subData(vertices.data(), vertexCount * TextManager::bufferObjectLayout.getStride(), 0, GL_DYNAMIC_DRAW);

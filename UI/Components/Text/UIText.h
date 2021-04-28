@@ -9,6 +9,9 @@ enum UITextMode {
     LEFT = 0,
     RIGHT,
     CENTERED,
+    CENTERED_HORIZONTAL,
+    CENTERED_VERTICAL_RIGHT,
+    CENTERED_VERTICAL_LEFT,
 };
 
 class UIText : public UIComponent {
