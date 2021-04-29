@@ -6,7 +6,7 @@
 FT_Library TextManager::library;
 Font *TextManager::defaultFont;
 VertexBufferObjectLayout TextManager::bufferObjectLayout;
-int TextManager::windowWidth, TextManager::windowHeight;
+int TextManager::windowHeight;
 static std::map<const char*, std::vector<FontType*>*> fonts;
 
 static bool shouldInit = true;
@@ -48,8 +48,7 @@ void TextManager::loadText(UIText *uiText) {
     uiText->textMesh.loadText(uiText, fontType);
 }
 
-void TextManager::setSize(int width, int height) {
-    windowWidth = width;
+void TextManager::setHeight(int height) {
     windowHeight = height;
 }
 

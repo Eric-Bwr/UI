@@ -11,8 +11,8 @@ UIText::UIText(const char *text, int fontSize, float positionX, float positionY,
     this->width = width;
     this->height = height;
     this->mode = mode;
-    this->maxLines = INT_MAX;
     TextManager::loadText(this);
+    setRGBA(1.0, 1.0, 1.0, 1.0, COLOR_NORMALIZED);
 }
 
 UIText::UIText(const char *text, Font* font, int fontSize, float positionX, float positionY, float width, float height, int mode) {
@@ -25,13 +25,8 @@ UIText::UIText(const char *text, Font* font, int fontSize, float positionX, floa
     this->width = width;
     this->height = height;
     this->mode = mode;
-    this->maxLines = INT_MAX;
     TextManager::loadText(this);
-}
-
-void UIText::setMaxLines(int maxLines) {
-    this->maxLines = maxLines;
-    TextManager::loadText(this);
+    setRGBA(1.0, 1.0, 1.0, 1.0, COLOR_NORMALIZED);
 }
 
 void UIText::setPosition(float positionX, float positionY) {

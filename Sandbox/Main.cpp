@@ -5,6 +5,14 @@
 #include <Shader.h>
 #include <thread>
 
+UIManager manager;
+
+static void frameBufferSize(GLFWwindow* window, int width, int height){
+    glViewport(0, 0, width, height);
+    TextManager::setHeight(height);
+    manager.setSize(width, height);
+}
+
 int main() {
     auto windowSettings = new WindowSettings;
     windowSettings->setWidth(1600);
@@ -13,23 +21,25 @@ int main() {
     windowSettings->setTransparent(true);
 
     Window window(windowSettings);
+    glfwSetFramebufferSizeCallback(window.getWindow(), frameBufferSize);
 
-    UIManager *manager = new UIManager(windowSettings->getWidth(), windowSettings->getHeight());
+    manager.init(windowSettings->getWidth(), windowSettings->getHeight());
 
     Font font("C:/Windows/Fonts/Arial.ttf");
-    const char* string = "  The Quick black fox has been shot in the head by a 134 Minigun with a terrifying output of up to 100 Rounds per second when spooled up.";
-    const char* second = "\n        The 6 rotating barrels assist air cooling. ";
-    std::string combine = string;
-    combine += second;
-    UIText text(combine.c_str(), &font, 100, 0, 800, 1600, 800, UITextMode::CENTERED);
-    manager->add(&text);
+    const char* string = "  The Quick black fox has been shot in the head by a 134 Minigun with a terrifying output of up to 100 Rounds per second when spooled up.\nThe 6 rotating barrels assist air cooling. ";
+    UIText text(string, &font, 100, 0, 800, 1600, 800, UITextMode::CENTERED);
+    manager.add(&text);
+    text.a = 0.5f;
     int f = text.fontSize;
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     while (window.windowIsAlive()) {
+        text.r = sin(glfwGetTime());
+        text.g = cos(glfwGetTime());
+        text.b = tan(glfwGetTime());
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        manager->render();
+        manager.render();
         if(glfwGetKey(window.getWindow(), GLFW_KEY_UP) == GLFW_PRESS){
             f++;
             text.setFontSize(f);

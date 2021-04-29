@@ -162,6 +162,7 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
 void TextMesh::render() {
     vao->bind();
     texture->bind();
+
     glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 }
 

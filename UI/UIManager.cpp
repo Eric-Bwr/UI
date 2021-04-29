@@ -1,8 +1,8 @@
 #include "UIManager.h"
 
-UIManager::UIManager(int width, int height) {
+void UIManager::init(int width, int height) {
     TextManager::init();
-    TextManager::setSize(width, height);
+    TextManager::setHeight(height);
     ortho = orthographicMatrix(0.0f, width, height, 0.0, -1.0, 1.0);
     textShader = new Shader("../Assets/Shader/TextShader.glsl");
     textShader->setUniformMatrix4f("ortho", ortho.getBuffer());
@@ -29,16 +29,17 @@ void UIManager::remove(UIComponent *component) {
 }
 
 void UIManager::setSize(int width, int height) {
-    TextManager::setSize(width, height);
-//CHECK THIS
-   // ortho.ortho(0.0f, width, height, 0.0, -1.0, 1.0);
+    TextManager::setHeight(height);
+    ortho.orthographic(0.0f, width, height, 0.0, -1.0, 1.0);
 }
 
 void UIManager::render() {
     for (auto const &componentList : components) {
         for (auto component : *componentList.second) {
             if(component->type == UIComponentType::UITEXT){
+                auto element = ((UIText*)component);
                 textShader->bind();
+                textShader->setUniform4f(SHADER_COLOR_NAME, element->r, element->g, element->b, element->a);
                 ((UIText*)component)->textMesh.render();
             }
         }

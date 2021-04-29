@@ -5,6 +5,7 @@
 class UIText;
 class FontType;
 class Texture;
+class UIColor;
 
 class TextMesh {
 public:

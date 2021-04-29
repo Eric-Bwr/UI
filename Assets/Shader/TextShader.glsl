@@ -23,10 +23,10 @@ in vec2 textureCoords;
 in float level;
 
 uniform sampler2DArray image;
-uniform vec3 color = vec3(1.0, 1.0, 1.0);
+uniform vec4 textColor;
 
 out vec4 FragColor;
 
 void main() {
-    FragColor = vec4(color, texture(image, vec3(textureCoords, level - 32)).r);
+    FragColor = vec4(textColor.rgb, texture(image, vec3(textureCoords, level - 32)).r * textColor.a);
 }
