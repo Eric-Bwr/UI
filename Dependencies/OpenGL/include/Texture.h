@@ -66,6 +66,7 @@ public:
     std::string getErrorMessage();
     inline Errors& getErrors(){ return errors; }
     ~Texture();
+private:
     const char* path;
     bool fixedSamples = true;
     float bias = -0.4f, factor;

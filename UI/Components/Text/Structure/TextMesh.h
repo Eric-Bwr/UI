@@ -16,7 +16,7 @@ public:
 private:
     std::vector<float> vertices;
     unsigned int vertexCount;
-    VertexArrayObject* vao;
-    VertexBufferObject* vbo;
+    VertexArrayObject vao;
+    VertexBufferObject vbo;
     Texture* texture;
 };

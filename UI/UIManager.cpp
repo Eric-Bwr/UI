@@ -1,11 +1,12 @@
 #include "UIManager.h"
 
 void UIManager::init(int width, int height) {
-    TextManager::init();
-    TextManager::setHeight(height);
+    DataManager::init();
     ortho = orthographicMatrix(0.0f, width, height, 0.0, -1.0, 1.0);
     textShader = new Shader("../Assets/Shader/TextShader.glsl");
     textShader->setUniformMatrix4f("ortho", ortho.getBuffer());
+    quadShader = new Shader("../Assets/Shader/QuadShader.glsl");
+    quadShader->setUniformMatrix4f("ortho", ortho.getBuffer());
 }
 
 void UIManager::add(UIComponent *component, int order) {
@@ -29,7 +30,6 @@ void UIManager::remove(UIComponent *component) {
 }
 
 void UIManager::setSize(int width, int height) {
-    TextManager::setHeight(height);
     ortho.orthographic(0.0f, width, height, 0.0, -1.0, 1.0);
 }
 
@@ -40,7 +40,14 @@ void UIManager::render() {
                 auto element = ((UIText*)component);
                 textShader->bind();
                 textShader->setUniform4f(SHADER_COLOR_NAME, element->r, element->g, element->b, element->a);
-                ((UIText*)component)->textMesh.render();
+                element->textMesh.render();
+                quadShader->bind();
+            }else if(component->type == UIComponentType::UIBUTTON){
+                auto element = ((UIButton*)component);
+                quadShader->setUniform4f(SHADER_COLOR_NAME, element->r, element->g, element->b, element->a);
+                if(element->texture != nullptr)
+                    element->texture->bind();
+                element->mesh.render();
             }
         }
     }
@@ -48,8 +55,6 @@ void UIManager::render() {
 
 UIManager::~UIManager() {
     for (auto compPair : components) {
-        for (auto comp : *compPair.second)
-            delete comp;
         delete compPair.second;
     }
 }

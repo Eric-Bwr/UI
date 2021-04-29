@@ -3,9 +3,8 @@
 #include "../UIText.h"
 
 TextMesh::TextMesh() {
-    vao = new VertexArrayObject();
-    vbo = new VertexBufferObject(nullptr, 0, GL_DYNAMIC_DRAW);
-    vao->addBuffer(*vbo, TextManager::bufferObjectLayout);
+    vbo.init(nullptr, 0, GL_DYNAMIC_DRAW);
+    vao.addBuffer(vbo, DataManager::textLayout);
 }
 
 struct Word {
@@ -155,19 +154,16 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
         cursorY += fontType->fontSize;
     }
     vertexCount = vertices.size() / 5;
-    vao->bind();
-    vbo->subData(vertices.data(), vertexCount * TextManager::bufferObjectLayout.getStride(), 0, GL_DYNAMIC_DRAW);
+    vao.bind();
+    vbo.subData(vertices.data(), vertexCount * DataManager::textLayout.getStride(), 0, GL_DYNAMIC_DRAW);
 }
 
 void TextMesh::render() {
-    vao->bind();
+    vao.bind();
     texture->bind();
-
     glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 }
 
 TextMesh::~TextMesh() {
     vertices.clear();
-    delete vao;
-    delete vbo;
 }

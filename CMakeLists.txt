@@ -25,7 +25,7 @@ include_directories(${PROJECT_NAME} "Dependencies/FreeType/include")
 
 include_directories(${PROJECT_NAME})
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+add_executable(${PROJECT_NAME} ${SOURCE_FILES} UI/Structure/DataManager.cpp UI/Structure/DataManager.h UI/Structure/QuadMesh.cpp UI/Structure/QuadMesh.h)
 
 target_link_libraries(${PROJECT_NAME}
         ${CMAKE_CURRENT_LIST_DIR}/Dependencies/FreeType/freetype.lib

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Components/Text/Structure/TextManager.h"
+#include "Structure/DataManager.h"
 
 class Font {
 public:

@@ -1,13 +1,12 @@
 #pragma once
 
-#include <map>
-#include <vector>
 #include <Shader.h>
 #include <Math/Matrix.h>
 
 #include "Components/UIComponent.h"
 #include "Components/Text/UIText.h"
 #include "Components/Text/Font.h"
+#include "Components/Button/UIButton.h"
 
 class UIManager {
 public:
@@ -20,5 +19,6 @@ public:
 private:
     Mat4f ortho;
     Shader* textShader;
+    Shader* quadShader;
 	std::map<int, std::vector<UIComponent *>*> components;
 };

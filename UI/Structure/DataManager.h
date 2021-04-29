@@ -4,22 +4,21 @@
 #include <map>
 #include <vector>
 #include <ft2build.h>
-#include FT_FREETYPE_H
+#include FT_FREETYPE_H"FreeType/include/freetype/freetype.h"
 
 #define DEFAULT_FONT_PATH "C:/Windows/Fonts/Arial.ttf"
-#define SHADER_COLOR_NAME "textColor"
+#define SHADER_COLOR_NAME "color"
 
 class Font;
 class UIText;
 
-class TextManager {
+class DataManager {
 public:
     static int init();
     static void loadText(UIText* uiText);
-    static void setHeight(int height);
     static FT_Library library;
     static Font* defaultFont;
-    static VertexBufferObjectLayout bufferObjectLayout;
-    static int windowHeight;
-    ~TextManager();
+    static VertexBufferObjectLayout textLayout;
+    static VertexBufferObjectLayout quadLayout;
+    ~DataManager();
 };

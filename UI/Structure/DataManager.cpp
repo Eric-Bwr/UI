@@ -1,30 +1,33 @@
-#include "TextManager.h"
+#include "DataManager.h"
 #include "Components/Text/Font.h"
 #include "Components/Text/Structure/FontType.h"
 #include "Components/Text/UIText.h"
 
-FT_Library TextManager::library;
-Font *TextManager::defaultFont;
-VertexBufferObjectLayout TextManager::bufferObjectLayout;
-int TextManager::windowHeight;
+FT_Library DataManager::library;
+Font *DataManager::defaultFont;
+VertexBufferObjectLayout DataManager::textLayout;
+VertexBufferObjectLayout DataManager::quadLayout;
 static std::map<const char*, std::vector<FontType*>*> fonts;
 
 static bool shouldInit = true;
 
-int TextManager::init() {
+int DataManager::init() {
     if (shouldInit) {
         shouldInit = false;
         int errorCode = FT_Init_FreeType(&library);
         defaultFont = new Font(DEFAULT_FONT_PATH);
-        bufferObjectLayout.pushFloat(2);
-        bufferObjectLayout.pushFloat(2);
-        bufferObjectLayout.pushFloat(1);
+        textLayout.pushFloat(2);
+        textLayout.pushFloat(2);
+        textLayout.pushFloat(1);
+        quadLayout.pushFloat(2);
+        quadLayout.pushFloat(2);
+        quadLayout.pushFloat(1);
         return errorCode;
     } else
         return -1;
 }
 
-void TextManager::loadText(UIText *uiText) {
+void DataManager::loadText(UIText *uiText) {
     std::vector<FontType *>* fontTypeBatch;
     FontType* fontType = nullptr;
     if (!fonts.count(uiText->font->path)) {
@@ -48,11 +51,7 @@ void TextManager::loadText(UIText *uiText) {
     uiText->textMesh.loadText(uiText, fontType);
 }
 
-void TextManager::setHeight(int height) {
-    windowHeight = height;
-}
-
-TextManager::~TextManager() {
+DataManager::~DataManager() {
     FT_Done_FreeType(library);
     delete defaultFont;
     for (auto elementPair : fonts) {
