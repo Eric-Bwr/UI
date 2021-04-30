@@ -11,7 +11,7 @@ static void frameBufferSize(GLFWwindow* window, int width, int height){
     glViewport(0, 0, width, height);
     manager.setSize(width, height);
 }
-
+#include "iostream"
 int main() {
     auto windowSettings = new WindowSettings;
     windowSettings->setWidth(1600);
@@ -41,9 +41,9 @@ int main() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     while (window.windowIsAlive()) {
-        button.r = text.r = sin(glfwGetTime());
-        button.g = text.g = cos(glfwGetTime());
-        button.b = text.b = tan(glfwGetTime());
+        button.r = text.r = (sin(glfwGetTime()) + 1.0) / 2.0;
+        button.g = text.g = (sin(glfwGetTime() + 90) + 1.0) / 2.0;
+        button.b = text.b = (sin(glfwGetTime() + 180) + 1.0) / 2.0;
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         manager.render();
         if(glfwGetKey(window.getWindow(), GLFW_KEY_UP) == GLFW_PRESS){
