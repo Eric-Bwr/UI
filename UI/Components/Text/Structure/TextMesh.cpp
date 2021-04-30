@@ -164,6 +164,10 @@ void TextMesh::render() {
     glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 }
 
+void TextMesh::reset() {
+	vertices.clear();
+}
+
 TextMesh::~TextMesh() {
     vertices.clear();
 }

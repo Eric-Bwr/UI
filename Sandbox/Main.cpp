@@ -4,6 +4,9 @@
 #include "Window/Window.h"
 #include <Shader.h>
 #include <thread>
+#include "Layout/FlowLayout.h"
+
+#include <iostream>
 
 UIManager manager;
 
@@ -17,7 +20,7 @@ int main() {
     windowSettings->setWidth(1600);
     windowSettings->setHeight(800);
     windowSettings->setCentered(true);
-    windowSettings->setTransparent(true);
+    windowSettings->setTransparent(false);
 
     Window window(windowSettings);
     glfwSetFramebufferSizeCallback(window.getWindow(), frameBufferSize);
@@ -26,24 +29,68 @@ int main() {
 
     Font font("C:/Windows/Fonts/Arial.ttf");
     const char* string = "  The Quick black fox has been shot in the head by a 134 Minigun with a terrifying output of up to 100 Rounds per second when spooled up.\nThe 6 rotating barrels assist air cooling. ";
-    UIText text(string, &font, 100, 0, 0, 1600, 800, UITextMode::CENTERED);
-    manager.add(&text);
+    UIText text(string, &font, 20, 0, 0, 200, 100, UITextMode::LEFT);
     text.a = 0.75f;
     int f = text.fontSize;
 
+    /*
     Texture tex("../Assets/Textures/stone");
     tex.clampEdge();
     tex.nearest();
-    tex.load(true);
-    UIButton button(1600-150, 800-150, 100, 100, &tex);
-    manager.add(&button);
+    tex.load(true); */
+
+
+    /* Layout Test */
+	/* manager.add(&text);
+	manager.add(&button); */
+
+	/* Test 1 */
+
+	UIButton button(0, 0, 180, 50);
+	UIButton button1(0, 0, 180, 50);
+	UIButton button2(0, 0, 180, 50);
+	UIButton button3(0, 0, 180, 50);
+	UIButton button4(0, 0, 180, 50);
+	UIButton button5(0, 0, 180, 50);
+	UIButton button6(0, 0, 180, 50);
+	UIButton button7(0, 0, 180, 50);
+	UIButton button8(0, 0, 180, 50);
+	UIButton button9(0, 0, 180, 50);
+	UIButton button10(0, 0, 180, 50);
+
+	/* Test 2 */
+	/*
+	UIButton button(0, 0, 260, 140);
+	UIButton button1(0, 0, 260, 180);
+	UIButton button2(0, 0, 160, 140);
+	UIButton button3(0, 0, 260, 240);
+	UIButton button4(0, 0, 160, 140);
+	UIButton button5(0, 0, 260, 140);
+	UIButton button6(0, 0, 160, 170);
+	UIButton button7(0, 0, 260, 140);
+	UIButton button8(0, 0, 260, 140);
+	UIButton button9(0, 0, 160, 170);
+	UIButton button10(0, 0, 260, 140); */
+
+	FlowLayout layout(1600, 800);
+
+	layout.add(&button);
+	layout.add(&button1);
+	layout.add(&button2);
+	layout.add(&button3);
+	layout.add(&button4);
+	layout.add(&button5);
+	layout.add(&button6);
+	layout.add(&button7);
+	layout.add(&button8);
+	layout.add(&button9);
+	layout.add(&button10);
+
+	manager.add(&layout);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     while (window.windowIsAlive()) {
-        button.r = text.r = sin(glfwGetTime());
-        button.g = text.g = cos(glfwGetTime());
-        button.b = text.b = tan(glfwGetTime());
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         manager.render();
         if(glfwGetKey(window.getWindow(), GLFW_KEY_UP) == GLFW_PRESS){

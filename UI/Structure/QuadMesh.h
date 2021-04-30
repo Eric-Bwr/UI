@@ -8,6 +8,7 @@ public:
     QuadMesh();
     void load(float positionX, float positionY, float width, float height, float info);
     void render();
+    void reset();
     ~QuadMesh();
 private:
     std::vector<float> vertices;

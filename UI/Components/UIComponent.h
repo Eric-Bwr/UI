@@ -7,6 +7,7 @@ enum UIComponentType {
 	UIBUTTON,
 	UISLIDER,
 	UITEXT,
+	UILAYOUT
 };
 
 class UIComponent {
@@ -20,6 +21,8 @@ public:
 
 	inline Vec2f getPosition() const { return Vec2f(positionX, positionY); }
 	inline Vec2f getSize() const { return Vec2f(width, height); }
+
+	virtual void setPosition(float, float) {}
 
 	float positionX, positionY;
 	float width, height;

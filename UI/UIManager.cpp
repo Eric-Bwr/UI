@@ -1,4 +1,5 @@
 #include "UIManager.h"
+#include "Layout/Layout.h"
 
 void UIManager::init(int width, int height) {
     DataManager::init();
@@ -34,23 +35,32 @@ void UIManager::setSize(int width, int height) {
 }
 
 void UIManager::render() {
-    for (auto const &componentList : components) {
-        for (auto component : *componentList.second) {
-            if(component->type == UIComponentType::UITEXT){
-                auto element = ((UIText*)component);
-                textShader->bind();
-                textShader->setUniform4f(SHADER_COLOR_NAME, element->r, element->g, element->b, element->a);
-                element->textMesh.render();
-                quadShader->bind();
-            }else if(component->type == UIComponentType::UIBUTTON){
-                auto element = ((UIButton*)component);
-                quadShader->setUniform4f(SHADER_COLOR_NAME, element->r, element->g, element->b, element->a);
-                if(element->texture != nullptr)
-                    element->texture->bind();
-                element->mesh.render();
-            }
-        }
-    }
+    for (auto const &componentList : components)
+        for (auto component : *componentList.second)
+            renderComponent(component);
+
+}
+
+
+void UIManager::renderComponent(UIComponent *component) {
+	if(component->type == UIComponentType::UITEXT){
+		auto element = ((UIText*)component);
+		textShader->bind();
+		textShader->setUniform4f(SHADER_COLOR_NAME, element->r, element->g, element->b, element->a);
+		element->textMesh.render();
+		quadShader->bind();
+	}else if(component->type == UIComponentType::UIBUTTON){
+		auto element = ((UIButton*)component);
+		UIColor bgc = element->bgColor;
+		quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+		if(element->texture != nullptr)
+			element->texture->bind();
+		element->mesh.render();
+	} else if (component->type == UIComponentType::UILAYOUT) {
+		auto layout = ((Layout *) component);
+		for (auto subcomp : layout->components)
+			renderComponent(subcomp);
+	}
 }
 
 UIManager::~UIManager() {

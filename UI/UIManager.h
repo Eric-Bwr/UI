@@ -21,4 +21,6 @@ private:
     Shader* textShader;
     Shader* quadShader;
 	std::map<int, std::vector<UIComponent *>*> components;
+
+	void renderComponent(UIComponent *);
 };

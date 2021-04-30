@@ -52,6 +52,10 @@ void QuadMesh::render(){
     glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 }
 
+void QuadMesh::reset() {
+	vertices.clear();
+}
+
 QuadMesh::~QuadMesh() {
     vertices.clear();
 }

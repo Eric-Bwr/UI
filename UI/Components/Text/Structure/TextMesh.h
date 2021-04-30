@@ -12,6 +12,7 @@ public:
     TextMesh();
     void loadText(UIText *uiText, FontType* fontType);
     void render();
+	void reset();
     ~TextMesh();
 private:
     std::vector<float> vertices;

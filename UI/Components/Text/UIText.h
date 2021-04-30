@@ -19,7 +19,7 @@ class UIText : public UIComponent, public UIColor {
 public:
     UIText(const char* text, int fontSize, float positionX, float positionY, float width, float height, int mode);
     UIText(const char* text, Font* font, int fontSize, float positionX, float positionY, float width, float height, int mode);
-    void setPosition(float positionX, float positionY);
+    void setPosition(float positionX, float positionY) override;
     void setSize(float width, float height);
     void setFontSize(int fontSize);
     void setMode(int mode);

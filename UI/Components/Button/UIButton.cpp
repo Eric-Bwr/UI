@@ -7,8 +7,9 @@ UIButton::UIButton(float positionX, float positionY, float width, float height) 
     this->positionY = positionY;
     this->width = width;
     this->height = height;
+    this->bgColor = COLOR_YELLOW;
+	this->fgColor = COLOR_BLACK;
     mesh.load(positionX, positionY, width, height, 0);
-    setRGBA(1.0, 1.0, 1.0, 1.0, COLOR_NORMALIZED);
 }
 
 UIButton::UIButton(float positionX, float positionY, float width, float height, Texture *texture) {
@@ -19,17 +20,20 @@ UIButton::UIButton(float positionX, float positionY, float width, float height, 
     this->width = width;
     this->height = height;
     mesh.load(positionX, positionY, width, height, 1);
-    setRGBA(1.0, 1.0, 1.0, 1.0, COLOR_NORMALIZED);
+	this->bgColor = COLOR_YELLOW;
+	this->fgColor = COLOR_BLACK;
 }
 
 void UIButton::setPosition(float positionX, float positionY) {
     this->positionX = positionX;
     this->positionY = positionY;
+    mesh.reset(); /* deletes old vertices so that button doesnt get rendered at old position as well */
     mesh.load(positionX, positionY, width, height, texture != nullptr);
 }
 
 void UIButton::setSize(float width, float height) {
     this->width = width;
     this->height = height;
-    mesh.load(positionX, positionY, width, height, texture != nullptr);
+	mesh.reset(); /* deletes old vertices so that button doesnt get rendered at old size as well */
+	mesh.load(positionX, positionY, width, height, texture != nullptr);
 }
