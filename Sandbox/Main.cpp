@@ -11,7 +11,7 @@ static void frameBufferSize(GLFWwindow* window, int width, int height){
     glViewport(0, 0, width, height);
     manager.setSize(width, height);
 }
-#include "iostream"
+
 int main() {
     auto windowSettings = new WindowSettings;
     windowSettings->setWidth(1600);
