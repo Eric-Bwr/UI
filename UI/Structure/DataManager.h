@@ -4,7 +4,7 @@
 #include <map>
 #include <vector>
 #include <ft2build.h>
-#include FT_FREETYPE_H"FreeType/include/freetype/freetype.h"
+#include FT_FREETYPE_H
 
 #define DEFAULT_FONT_PATH "C:/Windows/Fonts/Arial.ttf"
 #define SHADER_COLOR_NAME "color"

@@ -27,13 +27,11 @@ UIButton::UIButton(float positionX, float positionY, float width, float height, 
 void UIButton::setPosition(float positionX, float positionY) {
     this->positionX = positionX;
     this->positionY = positionY;
-    mesh.reset(); /* deletes old vertices so that button doesnt get rendered at old position as well */
     mesh.load(positionX, positionY, width, height, texture != nullptr);
 }
 
 void UIButton::setSize(float width, float height) {
     this->width = width;
     this->height = height;
-	mesh.reset(); /* deletes old vertices so that button doesnt get rendered at old size as well */
 	mesh.load(positionX, positionY, width, height, texture != nullptr);
 }

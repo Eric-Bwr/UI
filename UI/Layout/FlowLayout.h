@@ -1,5 +1,4 @@
-#ifndef UI_FLOWLAYOUT_H
-#define UI_FLOWLAYOUT_H
+#pragma once
 
 #include "Layout.h"
 
@@ -17,5 +16,3 @@ public:
 	float getMarginX() const;
 	float getMarginY() const;
 };
-
-#endif //UI_FLOWLAYOUT_H

@@ -1,5 +1,4 @@
 #include "UIManager.h"
-#include "Layout/Layout.h"
 
 void UIManager::init(int width, int height) {
     DataManager::init();
@@ -11,23 +10,23 @@ void UIManager::init(int width, int height) {
 }
 
 void UIManager::add(UIComponent *component, int order) {
-	std::vector<UIComponent *>* componentBatch;
-	if (!components.count(order)) {
-		componentBatch = new std::vector<UIComponent *>;
-		components.insert(std::pair<int, std::vector<UIComponent *>*>(order, componentBatch));
-	} else {
-		componentBatch = components.find(order)->second;
-	}
-	componentBatch->emplace_back(component);
+    std::vector<UIComponent *> *componentBatch;
+    if (!components.count(order)) {
+        componentBatch = new std::vector<UIComponent *>;
+        components.insert(std::pair<int, std::vector<UIComponent *> *>(order, componentBatch));
+    } else {
+        componentBatch = components.find(order)->second;
+    }
+    componentBatch->emplace_back(component);
 }
 
 void UIManager::remove(UIComponent *component) {
-	for (auto compPair : components) {
-		std::vector<UIComponent *>* compList = compPair.second;
-		for(int i = 0; i < compList->size(); i++)
-			if(compList->at(i) == component)
-				compList->erase(compList->begin() + i);
-	}
+    for (auto compPair : components) {
+        std::vector<UIComponent *> *compList = compPair.second;
+        for (int i = 0; i < compList->size(); i++)
+            if (compList->at(i) == component)
+                compList->erase(compList->begin() + i);
+    }
 }
 
 void UIManager::setSize(int width, int height) {
@@ -41,26 +40,25 @@ void UIManager::render() {
 
 }
 
-
 void UIManager::renderComponent(UIComponent *component) {
-	if(component->type == UIComponentType::UITEXT){
-		auto element = ((UIText*)component);
-		textShader->bind();
-		textShader->setUniform4f(SHADER_COLOR_NAME, element->r, element->g, element->b, element->a);
-		element->textMesh.render();
-		quadShader->bind();
-	}else if(component->type == UIComponentType::UIBUTTON){
-		auto element = ((UIButton*)component);
-		UIColor bgc = element->bgColor;
-		quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
-		if(element->texture != nullptr)
-			element->texture->bind();
-		element->mesh.render();
-	} else if (component->type == UIComponentType::UILAYOUT) {
-		auto layout = ((Layout *) component);
-		for (auto subcomp : layout->components)
-			renderComponent(subcomp);
-	}
+    if (component->type == UIComponentType::UITEXT) {
+        auto element = ((UIText *) component);
+        textShader->bind();
+        textShader->setUniform4f(SHADER_COLOR_NAME, element->r, element->g, element->b, element->a);
+        element->textMesh.render();
+        quadShader->bind();
+    } else if (component->type == UIComponentType::UIBUTTON) {
+        auto element = ((UIButton *) component);
+        UIColor bgc = element->bgColor;
+        quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+        if (element->texture != nullptr)
+            element->texture->bind();
+        element->mesh.render();
+    } else if (component->type == UIComponentType::UILAYOUT) {
+        auto layout = ((Layout *) component);
+        for (auto subComp : layout->components)
+            renderComponent(subComp);
+    }
 }
 
 UIManager::~UIManager() {

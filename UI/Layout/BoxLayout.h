@@ -1,5 +1,4 @@
-#ifndef UI_BOXLAYOUT_H
-#define UI_BOXLAYOUT_H
+#pragma once
 
 #include "Layout.h"
 
@@ -18,6 +17,3 @@ public:
 	void setDirection(LayoutDirection);
 	LayoutDirection getDirection() const;
 };
-
-
-#endif //UI_BOXLAYOUT_H

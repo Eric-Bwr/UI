@@ -6,6 +6,8 @@ QuadMesh::QuadMesh() {
 }
 
 void QuadMesh::load(float positionX, float positionY, float width, float height, float info){
+    vertices.clear();
+
     vertices.emplace_back(positionX);
     vertices.emplace_back(positionY + height);
     vertices.emplace_back(0);
@@ -50,10 +52,6 @@ void QuadMesh::load(float positionX, float positionY, float width, float height,
 void QuadMesh::render(){
     vao.bind();
     glDrawArrays(GL_TRIANGLES, 0, vertexCount);
-}
-
-void QuadMesh::reset() {
-	vertices.clear();
 }
 
 QuadMesh::~QuadMesh() {

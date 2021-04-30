@@ -1,5 +1,4 @@
-#ifndef UI_LAYOUT_H
-#define UI_LAYOUT_H
+#pragma once
 
 #include <vector>
 
@@ -19,5 +18,3 @@ public:
 
 	std::vector<UIComponent *> components;
 };
-
-#endif //UI_LAYOUT_H

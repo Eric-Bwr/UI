@@ -7,6 +7,7 @@
 #include "Components/Text/UIText.h"
 #include "Components/Text/Font.h"
 #include "Components/Button/UIButton.h"
+#include "Layout/Layout.h"
 
 class UIManager {
 public:
@@ -21,6 +22,5 @@ private:
     Shader* textShader;
     Shader* quadShader;
 	std::map<int, std::vector<UIComponent *>*> components;
-
 	void renderComponent(UIComponent *);
 };
