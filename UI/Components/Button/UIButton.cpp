@@ -73,6 +73,6 @@ void UIButton::mouseButtonInput(int button, int action) {
     if (button == MOUSE_BUTTON_PRESSED && action == INPUT_PRESSED) {
         if (hovered)
             pressed = true;
-    } else if (action == INPUT_RELEASED)
+    } else if (button == MOUSE_BUTTON_PRESSED && action == INPUT_RELEASED)
         pressed = false;
 }
