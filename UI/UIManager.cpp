@@ -89,6 +89,14 @@ void UIManager::renderComponent(UIComponent *component) {
         auto layout = ((Layout *) component);
         for (auto subComp : layout->components)
             renderComponent(subComp);
+    } else if (component->type == UIComponentType::UISLIDER) {
+    	auto slider = (UISlider *)(component);
+    	UIColor dc = slider->dragColor;
+    	UIColor bgc = slider->bgColor;
+    	quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+    	slider->bgMesh.render();
+	    quadShader->setUniform4f(SHADER_COLOR_NAME, dc.r, dc.g, dc.b, dc.a);
+	    slider->dragMesh.render();
     }
 }
 

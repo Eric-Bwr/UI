@@ -71,12 +71,7 @@ int main() {
 	UIButton button2(180, 50);
 	UIButton button3(180, 50);
 	UIButton button4(180, 50);
-	UIButton button5(180, 50);
-	UIButton button6(180, 50);
-	UIButton button7(180, 50);
-	UIButton button8(180, 50);
-	UIButton button9(180, 50);
-	UIButton button10(180, 50);
+	UISlider slider(220, 20);
 
 	/* Test 2 */
 	/*
@@ -92,19 +87,14 @@ int main() {
 	UIButton button9(0, 0, 160, 170);
 	UIButton button10(0, 0, 260, 140); */
 
-	FlowLayout layout(1600, 800);
+	BoxLayout layout(1600, 800);
 
 	layout.add(&button);
 	layout.add(&button1);
 	layout.add(&button2);
 	layout.add(&button3);
 	layout.add(&button4);
-	layout.add(&button5);
-	layout.add(&button6);
-	layout.add(&button7);
-	layout.add(&button8);
-	layout.add(&button9);
-	layout.add(&button10);
+	layout.add(&slider);
 
 	manager.add(&layout);
 

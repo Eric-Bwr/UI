@@ -8,8 +8,10 @@
 #include "Components/Text/Font.h"
 #include "Components/TextField/UITextField.h"
 #include "Components/Button/UIButton.h"
+#include "Components/Slider/UISlider.h"
 #include "Layout/Layout.h"
 #include "Layout/FlowLayout.h"
+#include "Layout/BoxLayout.h"
 
 class UIManager {
 public:
