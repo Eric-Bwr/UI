@@ -26,7 +26,7 @@ UITextField::UITextField(float positionX, float positionY, float width, float he
 
 void UITextField::setTexture(Texture* texture) {
     this->texture = texture;
-    mesh.load(positionX, positionY, width, height, 1);
+    mesh.load(positionX, positionY, width, height, texture != nullptr);
 }
 
 void UITextField::setPosition(float positionX, float positionY) {

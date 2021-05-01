@@ -102,7 +102,7 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
                 cursorX = uiText->positionX + uiText->width - line.lineWidth;
         else if (uiText->mode == UITextMode::LEFT || uiText->mode == UITextMode::CENTERED_VERTICAL_LEFT)
             cursorX = uiText->positionX;
-        if (cursorY + yCutoff > uiText->height)
+        if (cursorY - uiText->positionY + yCutoff > uiText->height)
             break;
         for (const auto &word : line.words) {
             cursorX += word.spaceWidth;

@@ -41,11 +41,18 @@ int main() {
 
     manager.init(windowSettings->getWidth(), windowSettings->getHeight());
 
-    Font font("C:/Windows/Fonts/Arial.ttf");
-    const char* string = "  The Quick black fox has been shot in the head by a 134 Minigun with a terrifying output of up to 100 Rounds per second when spooled up.\nThe 6 rotating barrels assist air cooling. ";
-    UIText text(string, &font, 20, 0, 0, 200, 100, UITextMode::LEFT);
-    text.a = 0.75f;
-    int f = text.fontSize;
+   Font font("C:/Windows/Fonts/Arial.ttf");
+
+   const char* string = "  The Quick black fox has been shot in the head by a 134 Minigun with a terrifying output of up to 100 Rounds per second when spooled up.\nThe 6 rotating barrels assist air cooling. ";
+   //UIText text(string, &font, 20, 0, 0, 200, 100, UITextMode::LEFT);
+   //text.a = 0.75f;
+   //int f = text.fontSize;
+
+    UIButton test(200, 200, 500, 300);
+    test.setText(string, &font, 50);
+    test.fgColor = COLOR_BLACK;
+    manager.add(&test);
+
     /*
     Texture tex("../Assets/Textures/stone");
     tex.clampEdge();
@@ -106,16 +113,6 @@ int main() {
     while (window.windowIsAlive()) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         manager.render();
-        if(glfwGetKey(window.getWindow(), GLFW_KEY_UP) == GLFW_PRESS){
-            f++;
-            text.setFontSize(f);
-            std::this_thread::sleep_for(std::chrono::milliseconds(80));
-        }
-        if(glfwGetKey(window.getWindow(), GLFW_KEY_DOWN) == GLFW_PRESS){
-            f--;
-            text.setFontSize(f);
-            std::this_thread::sleep_for(std::chrono::milliseconds(80));
-        }
         if (glfwGetKey(window.getWindow(), GLFW_KEY_ESCAPE))
             window.setWindowIsAlive(false);
         window.updateWindow();

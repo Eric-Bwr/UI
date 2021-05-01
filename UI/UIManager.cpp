@@ -81,6 +81,10 @@ void UIManager::renderComponent(UIComponent *component) {
         if (btn->texture != nullptr)
 	        btn->texture->bind();
 	    btn->mesh.render();
+        textShader->bind();
+        textShader->setUniform4f(SHADER_COLOR_NAME, btn->fgColor.r, btn->fgColor.g, btn->fgColor.b, btn->fgColor.a);
+        btn->text.textMesh.render();
+        quadShader->bind();
     } else if (component->type == UIComponentType::UILAYOUT) {
         auto layout = ((Layout *) component);
         for (auto subComp : layout->components)

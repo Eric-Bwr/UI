@@ -69,6 +69,16 @@ void UIText::setSize(float width, float height) {
     DataManager::loadText(this);
 }
 
+void UIText::setText(const char *text) {
+    this->text = text;
+    DataManager::loadText(this);
+}
+
+void UIText::setFont(Font* font) {
+    this->font = font;
+    DataManager::loadText(this);
+}
+
 void UIText::setFontSize(int fontSize) {
     this->fontSize = fontSize;
     DataManager::loadText(this);

@@ -3,7 +3,7 @@
 #include <Texture.h>
 #include "../UIComponent.h"
 #include "../../Structure/QuadMesh.h"
-#include "../../UIColor.h"
+#include "../Text/UIText.h"
 
 class UIButton : public UIComponent {
 public:
@@ -12,13 +12,18 @@ public:
     void setTexture(Texture* texture);
     void setPosition(float positionX, float positionY) override;
     void setSize(float width, float height);
+    void setText(const char *string, Font* font, int fontSize);
+    void setText(const char* text);
+    void setFont(Font* font);
+    void setFontSize(int fontSize);
     void mousePositionInput(double x, double y) override;
     void mouseButtonInput(int button, int action) override;
     bool hovered = false, pressed = false;
     QuadMesh mesh;
     Texture* texture;
     UIColor bgColor;
-	UIColor fgColor;
+    UIColor fgColor;
 	UIColor hoveredColor;
 	UIColor pressedColor;
+	UIText text;
 };
