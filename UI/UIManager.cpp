@@ -33,11 +33,34 @@ void UIManager::setSize(int width, int height) {
     ortho.orthographic(0.0f, width, height, 0.0, -1.0, 1.0);
 }
 
+void UIManager::keyInput(int key, int action, int mods) {
+    for (auto const &componentList : components)
+        for (auto component : *componentList.second)
+            component->keyInput(key, action, mods);
+}
+
+void UIManager::charInput(unsigned int key) {
+    for (auto const &componentList : components)
+        for (auto component : *componentList.second)
+            component->charInput(key);
+}
+
+void UIManager::mousePositionInput(double x, double y) {
+    for (auto const &componentList : components)
+        for (auto component : *componentList.second)
+            component->mousePositionInput(x, y);
+}
+
+void UIManager::mouseButtonInput(int button, int action) {
+    for (auto const &componentList : components)
+        for (auto component : *componentList.second)
+            component->mousePositionInput(button, action);
+}
+
 void UIManager::render() {
     for (auto const &componentList : components)
         for (auto component : *componentList.second)
             renderComponent(component);
-
 }
 
 void UIManager::renderComponent(UIComponent *component) {

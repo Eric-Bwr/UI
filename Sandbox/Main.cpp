@@ -1,18 +1,28 @@
-#include <Math/Vector.h>
-#include <Math/Matrix.h>
 #include "../UI/UIManager.h"
 #include "Window/Window.h"
-#include <Shader.h>
 #include <thread>
-#include "Layout/FlowLayout.h"
-
-#include <iostream>
 
 UIManager manager;
 
 static void frameBufferSize(GLFWwindow* window, int width, int height){
     glViewport(0, 0, width, height);
     manager.setSize(width, height);
+}
+
+static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods){
+    manager.keyInput(key, action, mods);
+}
+
+static void charCallback(GLFWwindow* window, unsigned int key){
+    manager.charInput(key);
+}
+
+static void mousePositionCallback(GLFWwindow* window, double x, double y){
+    manager.mousePositionInput(x, y);
+}
+
+static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods){
+    manager.mouseButtonInput(button, action);
 }
 
 int main() {
@@ -24,6 +34,10 @@ int main() {
 
     Window window(windowSettings);
     glfwSetFramebufferSizeCallback(window.getWindow(), frameBufferSize);
+    glfwSetKeyCallback(window.getWindow(), keyCallback);
+    glfwSetCharCallback(window.getWindow(), charCallback);
+    glfwSetCursorPosCallback(window.getWindow(), mousePositionCallback);
+    glfwSetMouseButtonCallback(window.getWindow(), mouseButtonCallback);
 
     manager.init(windowSettings->getWidth(), windowSettings->getHeight());
 
@@ -32,7 +46,6 @@ int main() {
     UIText text(string, &font, 20, 0, 0, 200, 100, UITextMode::LEFT);
     text.a = 0.75f;
     int f = text.fontSize;
-
     /*
     Texture tex("../Assets/Textures/stone");
     tex.clampEdge();

@@ -35,3 +35,11 @@ void UIButton::setSize(float width, float height) {
     this->height = height;
 	mesh.load(positionX, positionY, width, height, texture != nullptr);
 }
+
+void UIButton::mousePositionInput(double x, double y) {
+
+}
+
+void UIButton::mouseButtonInput(int button, int action) {
+
+}

@@ -7,6 +7,7 @@ enum UIComponentType {
 	UIBUTTON,
 	UISLIDER,
 	UITEXT,
+    UITEXTFIELD,
 	UILAYOUT
 };
 
@@ -24,6 +25,12 @@ public:
 
 	virtual void setPosition(float, float) {}
 
+    virtual void keyInput(int key, int action, int mods) {}
+    virtual void charInput(unsigned int key) {}
+    virtual void mousePositionInput(double x, double y) {}
+    virtual void mouseButtonInput(int button, int action) {}
+
 	float positionX, positionY;
 	float width, height;
 };
+

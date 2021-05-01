@@ -2,7 +2,7 @@
 
 #include "Layout.h"
 
-class FlowLayout: public Layout {
+class FlowLayout : public Layout {
 public:
 	float marginX;
 	float marginY;
