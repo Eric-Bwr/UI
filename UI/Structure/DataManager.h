@@ -10,6 +10,8 @@
 #define SHADER_COLOR_NAME "color"
 #define DEFAULT_WIDTH 140
 #define DEFAULT_HEIGHT 30
+#define INPUT_PRESSED 1
+#define INPUT_RELEASED 0
 
 class Font;
 class UIText;

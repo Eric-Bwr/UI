@@ -75,6 +75,8 @@ void UIManager::renderComponent(UIComponent *component) {
         UIColor bgc = btn->bgColor;
         if (btn->hovered)
         	bgc = btn->hoveredColor;
+	    if (btn->pressed)
+		    bgc = btn->pressedColor;
         quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
         if (btn->texture != nullptr)
 	        btn->texture->bind();
