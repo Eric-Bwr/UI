@@ -71,12 +71,14 @@ void UIManager::renderComponent(UIComponent *component) {
         element->textMesh.render();
         quadShader->bind();
     } else if (component->type == UIComponentType::UIBUTTON) {
-        auto element = ((UIButton *) component);
-        UIColor bgc = element->bgColor;
+        auto btn = ((UIButton *) component);
+        UIColor bgc = btn->bgColor;
+        if (btn->hovered)
+        	bgc = btn->hoveredColor;
         quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
-        if (element->texture != nullptr)
-            element->texture->bind();
-        element->mesh.render();
+        if (btn->texture != nullptr)
+	        btn->texture->bind();
+	    btn->mesh.render();
     } else if (component->type == UIComponentType::UILAYOUT) {
         auto layout = ((Layout *) component);
         for (auto subComp : layout->components)

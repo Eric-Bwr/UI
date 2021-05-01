@@ -7,8 +7,11 @@ UIButton::UIButton(float positionX, float positionY, float width, float height) 
     this->positionY = positionY;
     this->width = width;
     this->height = height;
-    this->bgColor = COLOR_YELLOW;
-	this->fgColor = COLOR_BLACK;
+    bgColor = COLOR_YELLOW;
+	fgColor = COLOR_BLACK;
+	hoveredColor = bgColor.darker();
+	pressedColor = bgColor.darker().darker();
+
     mesh.load(positionX, positionY, width, height, 0);
 }
 
@@ -19,9 +22,12 @@ UIButton::UIButton(float positionX, float positionY, float width, float height, 
     this->positionY = positionY;
     this->width = width;
     this->height = height;
-    mesh.load(positionX, positionY, width, height, 1);
-	this->bgColor = COLOR_YELLOW;
-	this->fgColor = COLOR_BLACK;
+	bgColor = COLOR_YELLOW;
+	fgColor = COLOR_BLACK;
+	hoveredColor = bgColor.darker();
+	pressedColor = bgColor.darker().darker();
+
+	mesh.load(positionX, positionY, width, height, 1);
 }
 
 void UIButton::setPosition(float positionX, float positionY) {
@@ -36,8 +42,8 @@ void UIButton::setSize(float width, float height) {
 	mesh.load(positionX, positionY, width, height, texture != nullptr);
 }
 
-void UIButton::mousePositionInput(double x, double y) {
-
+void UIButton::mousePositionInput(double mx, double my) {
+	hovered = COMPONENT_HOVERED(mx, my);
 }
 
 void UIButton::mouseButtonInput(int button, int action) {

@@ -18,4 +18,6 @@ public:
     Texture* texture;
     UIColor bgColor;
 	UIColor fgColor;
+	UIColor hoveredColor;
+	UIColor pressedColor;
 };

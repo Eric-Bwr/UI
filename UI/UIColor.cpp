@@ -2,6 +2,11 @@
 
 #include <sstream>
 
+#define CLAMP1(a) (a <= 1 ? a : 1)
+
+const float DARKNESS_FACTOR = 0.7;
+const float BRIGHTNESS_FACTOR = 1.3;
+
 UIColor::UIColor() = default;
 
 UIColor::UIColor(float red, float green, float blue, float alpha, int colorMode) {
@@ -108,6 +113,20 @@ void UIColor::setAlpha(float alpha, int colorMode) {
     }else if(colorMode == COLOR_DECIMAL){
         this->a = (alpha / 255);
     }
+}
+
+UIColor UIColor::darker() const {
+	float rr = r * DARKNESS_FACTOR;
+	float gg = g * DARKNESS_FACTOR;
+	float bb = b * DARKNESS_FACTOR;
+	return UIColor(rr, gg, bb, a, COLOR_NORMALIZED);
+}
+
+UIColor UIColor::brighter() const {
+	float rr = CLAMP1(r * BRIGHTNESS_FACTOR);
+	float gg = CLAMP1(g * BRIGHTNESS_FACTOR);
+	float bb = CLAMP1(b * BRIGHTNESS_FACTOR);
+	return UIColor(rr, gg, bb, a, COLOR_NORMALIZED);
 }
 
 UIColor::~UIColor() = default;

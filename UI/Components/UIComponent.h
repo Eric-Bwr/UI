@@ -2,6 +2,10 @@
 
 #include <Math/Vector.h>
 
+#define COMPONENT_HOVERED(mx, my) (mx >= positionX && my >= positionY && \
+                                   mx <= positionX + width && \
+                                   my <= positionY + height)
+
 enum UIComponentType {
 	UIIMAGE = 0,
 	UIBUTTON,
