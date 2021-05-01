@@ -81,6 +81,8 @@ void UISlider::drag(float rx) {
 
 
 float UISlider::getInc(float val, float inc) {
+	if (floating)
+		return val;
 	float one = 1.0f / inc;
 	return std::round(val * one) / one;
 }
@@ -106,6 +108,10 @@ float UISlider::getIncrement() const {
 	return increment;
 }
 
+bool UISlider::isFloating() const {
+	return floating;
+}
+
 void UISlider::setMin(float m) {
 	min = m;
 	update();
@@ -123,4 +129,8 @@ void UISlider::setValue(float v) {
 
 void UISlider::setIncrement(float inc) {
 	increment = inc;
+}
+
+void UISlider::setFloating(bool f) {
+	floating = f;
 }

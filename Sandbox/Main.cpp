@@ -71,7 +71,8 @@ int main() {
 	UIButton button2(180, 50);
 	UIButton button3(180, 50);
 	UIButton button4(180, 50);
-	UISlider slider(220, 20);
+	UISlider slider(220, 7);
+	slider.setFloating(true);
 
 	/* Test 2 */
 	/*

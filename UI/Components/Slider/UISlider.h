@@ -18,11 +18,13 @@ public:
 	float getMax() const;
 	float getValue() const;
 	float getIncrement() const;
+	bool isFloating() const;
 
 	void setMin(float);
 	void setMax(float);
 	void setValue(float);
 	void setIncrement(float);
+	void setFloating(bool);
 
 	bool hovered = false, dragging = false;
 
@@ -44,4 +46,5 @@ private:
 	float max = 10;
 	float value = 5;
 	float increment = 1;
+	bool floating = false;
 };
