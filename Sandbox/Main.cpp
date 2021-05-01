@@ -59,17 +59,17 @@ int main() {
 
 	/* Test 1 */
 
-	UIButton button(0, 0, 180, 50);
-	UIButton button1(0, 0, 180, 50);
-	UIButton button2(0, 0, 180, 50);
-	UIButton button3(0, 0, 180, 50);
-	UIButton button4(0, 0, 180, 50);
-	UIButton button5(0, 0, 180, 50);
-	UIButton button6(0, 0, 180, 50);
-	UIButton button7(0, 0, 180, 50);
-	UIButton button8(0, 0, 180, 50);
-	UIButton button9(0, 0, 180, 50);
-	UIButton button10(0, 0, 180, 50);
+	UIButton button(180, 50);
+	UIButton button1(180, 50);
+	UIButton button2(180, 50);
+	UIButton button3(180, 50);
+	UIButton button4(180, 50);
+	UIButton button5(180, 50);
+	UIButton button6(180, 50);
+	UIButton button7(180, 50);
+	UIButton button8(180, 50);
+	UIButton button9(180, 50);
+	UIButton button10(180, 50);
 
 	/* Test 2 */
 	/*

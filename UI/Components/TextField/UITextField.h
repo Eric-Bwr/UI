@@ -7,8 +7,9 @@
 
 class UITextField : public UIComponent {
 public:
-    UITextField(float positionX, float positionY, float width, float height);
-    UITextField(float positionX, float positionY, float width, float height, Texture* texture);
+    explicit UITextField(float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT);
+    UITextField(float positionX, float positionY, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT);
+    void setTexture(Texture* texture);
     void setPosition(float positionX, float positionY) override;
     void setSize(float width, float height);
     void mousePositionInput(double x, double y) override;

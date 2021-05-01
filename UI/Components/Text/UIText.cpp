@@ -1,6 +1,34 @@
 #include "UIText.h"
 #include "Font.h"
 
+UIText::UIText(const char *text, int fontSize, int mode) {
+    this->type = UIComponentType::UITEXT;
+    this->text = text;
+    this->font = DataManager::defaultFont;
+    this->fontSize = fontSize;
+    this->positionX = 0;
+    this->positionY = fontSize;
+    this->width = DEFAULT_WIDTH;
+    this->height = DEFAULT_HEIGHT;
+    this->mode = mode;
+    DataManager::loadText(this);
+    setRGBA(1.0, 1.0, 1.0, 1.0, COLOR_NORMALIZED);
+}
+
+UIText::UIText(const char *text, int fontSize, float width, float height, int mode) {
+    this->type = UIComponentType::UITEXT;
+    this->text = text;
+    this->font = DataManager::defaultFont;
+    this->fontSize = fontSize;
+    this->positionX = 0;
+    this->positionY = fontSize;
+    this->width = width;
+    this->height = height;
+    this->mode = mode;
+    DataManager::loadText(this);
+    setRGBA(1.0, 1.0, 1.0, 1.0, COLOR_NORMALIZED);
+}
+
 UIText::UIText(const char *text, int fontSize, float positionX, float positionY, float width, float height, int mode) {
     this->type = UIComponentType::UITEXT;
     this->text = text;

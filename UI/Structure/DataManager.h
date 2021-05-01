@@ -8,6 +8,8 @@
 
 #define DEFAULT_FONT_PATH "C:/Windows/Fonts/Arial.ttf"
 #define SHADER_COLOR_NAME "color"
+#define DEFAULT_WIDTH 140
+#define DEFAULT_HEIGHT 30
 
 class Font;
 class UIText;
