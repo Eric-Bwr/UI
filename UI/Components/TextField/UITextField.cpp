@@ -41,6 +41,14 @@ void UITextField::setSize(float width, float height) {
     mesh.load(positionX, positionY, width, height, texture != nullptr);
 }
 
+void UITextField::setBounds(float x, float y, float w, float h) {
+	this->positionX = x;
+	this->positionY = y;
+	this->width = w;
+	this->height = h;
+	mesh.load(positionX, positionY, width, height, texture != nullptr);
+}
+
 void UITextField::mousePositionInput(double x, double y) {
 
 }

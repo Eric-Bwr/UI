@@ -2,32 +2,31 @@
 
 BoxLayout::BoxLayout(float _width, float _height, LayoutDirection dir) : Layout(_width, _height) {
 	direction = dir;
-	margin = 10;
+	gap = 10;
 }
 
 void BoxLayout::adjust() {
-	float off = margin;
 	if (direction == LayoutDirection::ROW) {
+		float off = insets.top;
 		for (auto comp : components) {
 			comp->setPosition(width / 2 - comp->width / 2, off);
-			off += comp->height + margin;
+			off += comp->height + gap;
 		}
 	} else if (direction == LayoutDirection::COLUMN) {
+		float off = insets.left;
 		for (auto comp : components) {
 			comp->setPosition(off, height / 2 - comp->height / 2);
-			off += comp->width + margin;
+			off += comp->width + gap;
 		}
-	} else {
-		/* Illegal Layout Direction */
 	}
 }
 
-void BoxLayout::setMargin(float m) {
-	margin = m;
+void BoxLayout::setGap(float m) {
+	gap = m;
 }
 
-float BoxLayout::getMargin() const {
-	return margin;
+float BoxLayout::getGap() const {
+	return gap;
 }
 
 void BoxLayout::setDirection(LayoutDirection ld) {

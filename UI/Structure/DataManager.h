@@ -11,8 +11,14 @@
 #define DEFAULT_WIDTH 140
 #define DEFAULT_HEIGHT 30
 #define MOUSE_BUTTON_PRESSED 0
+
+#ifndef INPUT_PRESSED
 #define INPUT_PRESSED 1
+#endif
+
+#ifndef INPUT_RELEASED
 #define INPUT_RELEASED 0
+#endif
 
 class Font;
 class UIText;

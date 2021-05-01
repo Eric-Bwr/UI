@@ -12,6 +12,7 @@ public:
     void setTexture(Texture* texture);
     void setPosition(float positionX, float positionY) override;
     void setSize(float width, float height);
+	void setBounds(float, float, float, float) override;
     void mousePositionInput(double x, double y) override;
     void mouseButtonInput(int button, int action) override;
     QuadMesh mesh;

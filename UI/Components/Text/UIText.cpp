@@ -69,6 +69,14 @@ void UIText::setSize(float width, float height) {
     DataManager::loadText(this);
 }
 
+void UIText::setBounds(float x, float y, float w, float h) {
+	this->positionX = x;
+	this->positionY = y;
+	this->width = w;
+	this->height = h;
+	DataManager::loadText(this);
+}
+
 void UIText::setText(const char *text) {
     this->text = text;
     DataManager::loadText(this);

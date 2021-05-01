@@ -23,6 +23,7 @@ public:
     UIText(const char* text, Font* font, int fontSize, float positionX, float positionY, float width, float height, int mode);
     void setPosition(float positionX, float positionY) override;
     void setSize(float width, float height);
+	void setBounds(float, float, float, float) override;
     void setText(const char* text);
     void setFont(Font* font);
     void setFontSize(int fontSize);

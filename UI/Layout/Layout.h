@@ -9,6 +9,18 @@ enum class LayoutDirection {
 	COLUMN
 };
 
+class Insets {
+public:
+	float left;
+	float right;
+	float top;
+	float bottom;
+
+	Insets();
+	explicit Insets(float);
+	Insets(float, float, float, float);
+};
+
 class Layout : public UIComponent {
 public:
 	Layout(float, float);
@@ -22,4 +34,10 @@ public:
     void mouseButtonInput(int button, int action) override;
 
 	std::vector<UIComponent *> components;
+
+	Insets getInsets();
+	void setInsets(Insets);
+
+protected:
+	Insets insets;
 };

@@ -48,11 +48,6 @@ int main() {
    //text.a = 0.75f;
    //int f = text.fontSize;
 
-    UIButton test(200, 200, 500, 300);
-    test.setText(string, &font, 50);
-    test.fgColor = COLOR_BLACK;
-    manager.add(&test);
-
     /*
     Texture tex("../Assets/Textures/stone");
     tex.clampEdge();
@@ -88,7 +83,7 @@ int main() {
 	UIButton button9(0, 0, 160, 170);
 	UIButton button10(0, 0, 260, 140); */
 
-	BoxLayout layout(1600, 800);
+	GridLayout layout(0, 3, 1600, 800);
 
 	layout.add(&button);
 	layout.add(&button1);

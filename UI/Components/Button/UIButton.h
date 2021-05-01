@@ -11,6 +11,7 @@ public:
     explicit UIButton(float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT);
     void setTexture(Texture* texture);
     void setPosition(float positionX, float positionY) override;
+	void setBounds(float, float, float, float) override;
     void setSize(float width, float height);
     void setText(const char *string, Font* font, int fontSize);
     void setText(const char* text);

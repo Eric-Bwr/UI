@@ -45,6 +45,17 @@ void UISlider::setSize(float width, float height) {
 	dragMesh.load(positionX, positionY, renderX, height, 0);
 }
 
+void UISlider::setBounds(float x, float y, float w, float h) {
+	this->positionX = x;
+	this->positionY = y;
+	this->width = w;
+	this->height = h;
+
+	bgMesh.load(positionX, positionY, width, height, 0);
+	dragMesh.load(positionX, positionY, renderX, height, 0);
+}
+
+
 void UISlider::mousePositionInput(double x, double y) {
 	hovered = COMPONENT_HOVERED(x, y);
 	if (dragging) {

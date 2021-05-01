@@ -28,6 +28,7 @@ public:
 	inline Vec2f getSize() const { return Vec2f(width, height); }
 
 	virtual void setPosition(float, float) {}
+	virtual void setBounds(float, float, float, float) {}
 
     virtual void keyInput(int key, int action, int mods) {}
     virtual void charInput(unsigned int key) {}

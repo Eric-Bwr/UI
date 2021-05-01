@@ -47,6 +47,15 @@ void UIButton::setSize(float width, float height) {
     mesh.load(positionX, positionY, width, height, texture != nullptr);
 }
 
+void UIButton::setBounds(float x, float y, float w, float h) {
+	this->positionX = x;
+	this->positionY = y;
+	this->width = w;
+	this->height = h;
+	text.setBounds(x, y, w, h);
+	mesh.load(positionX, positionY, width, height, texture != nullptr);
+}
+
 void UIButton::setText(const char *string, Font *font, int fontSize) {
     text.text = string;
     text.font = font;

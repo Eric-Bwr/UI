@@ -3,38 +3,38 @@
 #define MAX(a, b) (a > b ? a : b)
 
 FlowLayout::FlowLayout(float _width, float _height) : Layout(_width, _height) {
-	marginX = 10;
-	marginY = 10;
+	gapX = 10;
+	gapY = 10;
 }
 
 void FlowLayout::adjust() {
-	float xoff = marginX;
-	float yoff = marginY;
+	float xoff = insets.left;
+	float yoff = insets.top;
 	float largestY;
 
 	for (auto comp : components) {
 		largestY = MAX(largestY, comp->height);
-		if (xoff + comp->width >= width - marginX) {
-			xoff = marginX;
-			yoff += largestY + marginY;
+		if (xoff + comp->width >= width - gapX) {
+			xoff = gapX;
+			yoff += largestY + gapY;
 		}
 		comp->setPosition(xoff, yoff);
-		xoff += comp->width + marginX;
+		xoff += comp->width + gapX;
 	}
 }
 
-void FlowLayout::setMarginX(float m) {
-	marginX = m;
+void FlowLayout::setGapX(float m) {
+	gapX = m;
 }
 
-void FlowLayout::setMarginY(float m) {
-	marginY = m;
+void FlowLayout::setGapY(float m) {
+	gapY = m;
 }
 
-float FlowLayout::getMarginX() const {
-	return marginX;
+float FlowLayout::getGapX() const {
+	return gapX;
 }
 
-float FlowLayout::getMarginY() const {
-	return marginY;
+float FlowLayout::getGapY() const {
+	return gapY;
 }
