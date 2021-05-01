@@ -50,10 +50,10 @@ void UIButton::mousePositionInput(double x, double y) {
 }
 
 void UIButton::mouseButtonInput(int button, int action) {
+    if (action == INPUT_RELEASED)
+        pressed = false;
 	if (!hovered)
 		return;
 	if (action == INPUT_PRESSED)
 		pressed = true;
-	if (action == INPUT_RELEASED)
-		pressed = false;
 }

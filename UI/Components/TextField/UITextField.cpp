@@ -40,9 +40,9 @@ void UITextField::setSize(float width, float height) {
     this->height = height;
     mesh.load(positionX, positionY, width, height, texture != nullptr);
 }
-#include "iostream"
+
 void UITextField::mousePositionInput(double x, double y) {
-    std::cout << x << " TEXTFIELD " << y << "\n";
+
 }
 
 void UITextField::mouseButtonInput(int button, int action) {

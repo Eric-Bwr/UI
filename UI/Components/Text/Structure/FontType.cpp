@@ -39,3 +39,11 @@ FontType::FontType(Font *font, int fontSize) : fontSize(fontSize){
 FontType::~FontType() {
     delete texture;
 }
+
+float FontType::getTextWidth(const char* text) {
+    float result = 0.0f;
+    for(int i = 0; i < strlen(text); i++){
+        result += characters.at(text[i]).advance;
+    }
+    return result;
+}

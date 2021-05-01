@@ -15,10 +15,12 @@
 
 class Font;
 class UIText;
+class FontType;
 
 class DataManager {
 public:
     static int init();
+    static FontType* getFontType(UIText *uiText);
     static void loadText(UIText* uiText);
     static FT_Library library;
     static Font* defaultFont;

@@ -19,6 +19,7 @@ class FontType {
 public:
     FontType(Font* font, int fontSize);
     Texture* texture;
+    float getTextWidth(const char* text);
     ~FontType();
     std::map<int, Character> characters;
     int fontSize;

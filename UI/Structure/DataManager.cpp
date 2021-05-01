@@ -27,7 +27,7 @@ int DataManager::init() {
         return -1;
 }
 
-void DataManager::loadText(UIText *uiText) {
+FontType* DataManager::getFontType(UIText *uiText) {
     std::vector<FontType *>* fontTypeBatch;
     FontType* fontType = nullptr;
     if (!fonts.count(uiText->font->path)) {
@@ -48,7 +48,11 @@ void DataManager::loadText(UIText *uiText) {
             fontTypeBatch->emplace_back(fontType);
         }
     }
-    uiText->textMesh.loadText(uiText, fontType);
+    return fontType;
+}
+
+void DataManager::loadText(UIText *uiText) {
+    uiText->textMesh.loadText(uiText, getFontType(uiText));
 }
 
 DataManager::~DataManager() {

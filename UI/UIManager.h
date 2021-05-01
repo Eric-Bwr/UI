@@ -1,6 +1,5 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
 #include <Shader.h>
 #include <Math/Matrix.h>
 
@@ -11,8 +10,6 @@
 #include "Components/Button/UIButton.h"
 #include "Layout/Layout.h"
 #include "Layout/FlowLayout.h"
-
-
 
 class UIManager {
 public:

@@ -14,7 +14,7 @@ public:
     void setSize(float width, float height);
     void mousePositionInput(double x, double y) override;
     void mouseButtonInput(int button, int action) override;
-    bool hovered, pressed;
+    bool hovered = false, pressed = false;
     QuadMesh mesh;
     Texture* texture;
     UIColor bgColor;
