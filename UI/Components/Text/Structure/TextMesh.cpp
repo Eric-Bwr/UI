@@ -22,13 +22,13 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
     texture = fontType->texture;
     vertices.clear();
     auto length = strlen(uiText->text);
-    auto text = uiText->text;
     auto spaceWidth = fontType->characters[' '].advance;
-    auto yCutoff = fontType->characters['g'].height - fontType->characters['g'].bearingY;
+    auto bearing = fontType->characters['|'].bearingY + 2;
+    auto cutoff = fontType->characters['|'].height - fontType->characters['|'].bearingY;
     Word currentWord;
     std::vector<Word> words;
     for (int i = 0; i < length; i++) {
-        char currentChar = text[i];
+        char currentChar = uiText->text[i];
         if (currentChar == ' ') {
             if (!currentWord.characters.empty())
                 words.emplace_back(currentWord);
@@ -47,7 +47,7 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
         } else {
             currentWord.width += fontType->characters[currentChar].advance;
             currentWord.characters.emplace_back(currentChar);
-            if(i == length - 1)
+            if (i == length - 1)
                 words.emplace_back(currentWord);
         }
     }
@@ -89,25 +89,28 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
     float cursorX;
     float cursorY;
     if (uiText->mode == UITextMode::CENTERED_VERTICAL_RIGHT || uiText->mode == UITextMode::CENTERED_VERTICAL_LEFT || uiText->mode == UITextMode::CENTERED)
-        cursorY = uiText->positionY + ((uiText->height / 2) - (lines.size() * uiText->fontSize / 2)) - yCutoff / 2;
+        if (lines.size() * uiText->fontSize + bearing >= uiText->height)
+            cursorY = uiText->positionY + bearing;
+        else
+            cursorY = uiText->positionY + ((uiText->height / 2) - ((lines.size() * uiText->fontSize) / 2) + uiText->fontSize - cutoff);
     else
-        cursorY = uiText->positionY;
+        cursorY = uiText->positionY + bearing;
     for (const auto &line : lines) {
+        if (!line.words.empty() && line.words.at(0).width > uiText->width)
+            break;
         if (uiText->mode == UITextMode::CENTERED_HORIZONTAL || uiText->mode == UITextMode::CENTERED)
             cursorX = uiText->positionX + ((uiText->width / 2) - (line.lineWidth / 2)) + spaceWidth / 2;
         else if (uiText->mode == UITextMode::RIGHT || uiText->mode == UITextMode::CENTERED_VERTICAL_RIGHT)
-            if (line.words.back().characters.empty())
+            if (line.words.empty() || line.words.back().characters.empty())
                 cursorX = uiText->positionX + uiText->width - line.lineWidth + spaceWidth;
             else
                 cursorX = uiText->positionX + uiText->width - line.lineWidth;
-        else if (uiText->mode == UITextMode::LEFT || uiText->mode == UITextMode::CENTERED_VERTICAL_LEFT)
+        else
             cursorX = uiText->positionX;
-        if (cursorY - uiText->positionY + yCutoff > uiText->height)
+        if (cursorY - uiText->positionY + cutoff > uiText->height)
             break;
         for (const auto &word : line.words) {
             cursorX += word.spaceWidth;
-            if (cursorY - uiText->fontSize + yCutoff < 0)
-                continue;
             for (auto character : word.characters) {
                 Character c = fontType->characters[character];
                 auto x = cursorX + c.bearingX;

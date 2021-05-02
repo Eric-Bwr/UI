@@ -1,7 +1,5 @@
 #include "Layout.h"
 
-/* TODO: BorderLayout, GridLayout, UIColor, Button */
-
 Layout::Layout(float _width, float _height) : UIComponent() {
 	type = UIComponentType::UILAYOUT;
 	insets = Insets();

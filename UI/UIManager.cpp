@@ -65,10 +65,10 @@ void UIManager::render() {
 
 void UIManager::renderComponent(UIComponent *component) {
     if (component->type == UIComponentType::UITEXT) {
-        auto element = ((UIText *) component);
+        auto text = ((UIText *) component);
         textShader->bind();
-        textShader->setUniform4f(SHADER_COLOR_NAME, element->r, element->g, element->b, element->a);
-        element->textMesh.render();
+        textShader->setUniform4f(SHADER_COLOR_NAME, text->r, text->g, text->b, text->a);
+        text->textMesh.render();
         quadShader->bind();
     } else if (component->type == UIComponentType::UIBUTTON) {
         auto btn = ((UIButton *) component);

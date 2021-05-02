@@ -64,12 +64,11 @@ void UISlider::mousePositionInput(double x, double y) {
 }
 
 void UISlider::mouseButtonInput(int button, int action) {
-	if (action == INPUT_RELEASED)
-		dragging = false;
-	if (!hovered)
-		return;
-	if (action == INPUT_PRESSED)
-		dragging = true;
+    if (button == MOUSE_BUTTON_PRESSED && action == INPUT_PRESSED) {
+        if (hovered)
+            dragging = true;
+    } else if (button == MOUSE_BUTTON_PRESSED && action == INPUT_RELEASED)
+        dragging = false;
 }
 
 void UISlider::drag(float rx) {

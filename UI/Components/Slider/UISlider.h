@@ -36,7 +36,6 @@ public:
 
 	UIColor bgColor;
 	UIColor dragColor;
-
 private:
 	void drag(float);
 	void update();

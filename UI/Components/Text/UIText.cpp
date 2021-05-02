@@ -35,7 +35,7 @@ UIText::UIText(const char *text, int fontSize, float positionX, float positionY,
     this->font = DataManager::defaultFont;
     this->fontSize = fontSize;
     this->positionX = positionX;
-    this->positionY = positionY + fontSize;
+    this->positionY = positionY;
     this->width = width;
     this->height = height;
     this->mode = mode;
@@ -49,7 +49,7 @@ UIText::UIText(const char *text, Font* font, int fontSize, float positionX, floa
     this->font = font;
     this->fontSize = fontSize;
     this->positionX = positionX;
-    this->positionY = positionY + fontSize;
+    this->positionY = positionY;
     this->width = width;
     this->height = height;
     this->mode = mode;

@@ -23,4 +23,8 @@ public:
     ~FontType();
     std::map<int, Character> characters;
     int fontSize;
+private:
+    float pixelMapped;
+    void loadGlyph(int glyph);
+    Font* font;
 };
