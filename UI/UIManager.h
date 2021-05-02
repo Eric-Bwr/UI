@@ -13,6 +13,7 @@
 #include "Layout/FlowLayout.h"
 #include "Layout/BoxLayout.h"
 #include "Layout/GridLayout.h"
+#include "Layout/BorderLayout.h"
 
 class UIManager {
 public:

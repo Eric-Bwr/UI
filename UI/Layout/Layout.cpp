@@ -9,7 +9,14 @@ Layout::Layout(float _width, float _height) : UIComponent() {
 	height = _height;
 }
 
+/* optimize, not adjusting all components */
 void Layout::add(UIComponent *c) {
+	components.emplace_back(c);
+	adjust();
+}
+
+
+void Layout::add(UIComponent *c, LayoutPosition pos) {
 	components.emplace_back(c);
 	adjust();
 }
@@ -40,6 +47,7 @@ Insets Layout::getInsets() {
 
 void Layout::setInsets(Insets i) {
 	insets = i;
+	adjust();
 }
 
 Insets::Insets() {

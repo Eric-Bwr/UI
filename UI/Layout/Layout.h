@@ -9,6 +9,14 @@ enum class LayoutDirection {
 	COLUMN
 };
 
+enum class LayoutPosition {
+	NORTH = 0,
+	SOUTH = 1,
+	EAST = 2,
+	WEST = 3,
+	CENTER = 4
+};
+
 class Insets {
 public:
 	float left;
@@ -26,14 +34,15 @@ public:
 	Layout(float, float);
 
 	virtual void adjust() {}
-	void add(UIComponent *);
+	virtual void add(UIComponent *);
+	virtual void add(UIComponent *, LayoutPosition);
 
     void keyInput(int key, int action, int mods) override;
     void charInput(unsigned int key) override;
     void mousePositionInput(double x, double y) override;
     void mouseButtonInput(int button, int action) override;
 
-	std::vector<UIComponent *> components;
+	std::vector<UIComponent *> components = {};
 
 	Insets getInsets();
 	void setInsets(Insets);

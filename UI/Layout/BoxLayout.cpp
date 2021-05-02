@@ -23,6 +23,7 @@ void BoxLayout::adjust() {
 
 void BoxLayout::setGap(float m) {
 	gap = m;
+	adjust();
 }
 
 float BoxLayout::getGap() const {
@@ -31,6 +32,7 @@ float BoxLayout::getGap() const {
 
 void BoxLayout::setDirection(LayoutDirection ld) {
 	direction = ld;
+	adjust();
 }
 
 LayoutDirection BoxLayout::getDirection() const {

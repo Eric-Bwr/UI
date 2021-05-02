@@ -25,10 +25,12 @@ void FlowLayout::adjust() {
 
 void FlowLayout::setGapX(float m) {
 	gapX = m;
+	adjust();
 }
 
 void FlowLayout::setGapY(float m) {
 	gapY = m;
+	adjust();
 }
 
 float FlowLayout::getGapX() const {

@@ -60,10 +60,12 @@ void GridLayout::adjust() {
 
 void GridLayout::setGapX(float m) {
 	gapX = m;
+	adjust();
 }
 
 void GridLayout::setGapY(float m) {
 	gapY = m;
+	adjust();
 }
 
 float GridLayout::getGapX() const {
@@ -76,10 +78,12 @@ float GridLayout::getGapY() const {
 
 void GridLayout::setRows(int r) {
 	rows = r;
+	adjust();
 }
 
 void GridLayout::setColumns(int c) {
 	cols = c;
+	adjust();
 }
 
 int GridLayout::getRows() {
