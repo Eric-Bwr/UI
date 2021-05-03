@@ -19,9 +19,9 @@ public:
     void mousePositionInput(double x, double y) override;
     void mouseButtonInput(int button, int action) override;
     bool hovered = false, pressed = false;
-    float cursorX, cursorWidth = DEFAULT_CURSOR_WIDTH;
+    float cursorWidth = DEFAULT_CURSOR_WIDTH;
     const char* defaultText;
-    std::string content;
+    std::string content, cursorContent;
     QuadMesh mesh;
     QuadMesh cursorMesh;
     Texture* texture;
@@ -32,4 +32,6 @@ public:
     UIColor pressedColor;
     UIText text;
     FontType* fontType;
+private:
+    void updateCursor();
 };

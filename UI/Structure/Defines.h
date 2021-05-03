@@ -24,6 +24,9 @@
 #ifndef INPUT_PRESSED
 #define INPUT_PRESSED 1
 #endif
+#ifndef INPUT_REPEATED
+#define INPUT_REPEATED 2
+#endif
 #ifndef INPUT_RELEASED
 #define INPUT_RELEASED 0
 #endif
@@ -38,4 +41,7 @@
 #endif
 #ifndef KEY_LEFT
 #define KEY_LEFT 263
+#endif
+#ifndef KEY_MOD_CONTROL
+#define KEY_MOD_CONTROL 0x0002
 #endif

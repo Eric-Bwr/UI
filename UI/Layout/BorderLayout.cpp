@@ -58,7 +58,7 @@ void BorderLayout::add(UIComponent *c, LayoutPosition pos) {
 		west = c;
 		break;
 	}
-	components[pos] = c;
+	components[(int)pos] = c;
 	adjust();
 }
 
