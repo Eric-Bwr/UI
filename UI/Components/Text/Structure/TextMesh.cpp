@@ -24,7 +24,8 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
     auto length = strlen(uiText->text);
     auto spaceWidth = fontType->characters[' '].advance;
     auto bearing = fontType->characters['|'].bearingY + 2;
-    auto cutoff = fontType->characters['|'].height - fontType->characters['|'].bearingY;
+    auto height = fontType->characters['|'].height;
+    auto cutoff = height - (bearing - 2);
     Word currentWord;
     std::vector<Word> words;
     for (int i = 0; i < length; i++) {
@@ -89,17 +90,20 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
     float cursorX;
     float cursorY;
     if (uiText->mode == UITextMode::CENTERED_VERTICAL_RIGHT || uiText->mode == UITextMode::CENTERED_VERTICAL_LEFT || uiText->mode == UITextMode::CENTERED)
-        if (lines.size() * uiText->fontSize + bearing >= uiText->height)
+        if (lines.size() * uiText->fontSize >= uiText->height)
             cursorY = uiText->positionY + bearing;
         else
-            cursorY = uiText->positionY + ((uiText->height / 2) - ((lines.size() * uiText->fontSize) / 2) + uiText->fontSize - cutoff);
+            cursorY = uiText->positionY + ((uiText->height / 2) - ((lines.size() * uiText->fontSize) / 2) + height - cutoff / 2);
     else
         cursorY = uiText->positionY + bearing;
     for (const auto &line : lines) {
         if (!line.words.empty() && line.words.at(0).width > uiText->width)
             break;
         if (uiText->mode == UITextMode::CENTERED_HORIZONTAL || uiText->mode == UITextMode::CENTERED)
-            cursorX = uiText->positionX + ((uiText->width / 2) - (line.lineWidth / 2)) + spaceWidth / 2;
+            if (line.words.empty() || line.words.back().characters.empty())
+                cursorX = uiText->positionX + ((uiText->width / 2) - (line.lineWidth / 2)) + spaceWidth;
+            else
+                cursorX = uiText->positionX + ((uiText->width / 2) - (line.lineWidth / 2));
         else if (uiText->mode == UITextMode::RIGHT || uiText->mode == UITextMode::CENTERED_VERTICAL_RIGHT)
             if (line.words.empty() || line.words.back().characters.empty())
                 cursorX = uiText->positionX + uiText->width - line.lineWidth + spaceWidth;

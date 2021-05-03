@@ -70,6 +70,25 @@ void UIManager::renderComponent(UIComponent *component) {
         textShader->setUniform4f(SHADER_COLOR_NAME, text->r, text->g, text->b, text->a);
         text->textMesh.render();
         quadShader->bind();
+    }else if (component->type == UIComponentType::UITEXTFIELD) {
+        auto textField = ((UITextField *) component);
+        UIColor bgc = textField->bgColor;
+        if (textField->hovered)
+            bgc = textField->hoveredColor;
+        if (textField->pressed)
+            bgc = textField->pressedColor;
+        quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+        if (textField->texture != nullptr)
+            textField->texture->bind();
+        textField->mesh.render();
+        textShader->bind();
+        textShader->setUniform4f(SHADER_COLOR_NAME, textField->fgColor.r, textField->fgColor.g, textField->fgColor.b, textField->fgColor.a);
+        textField->text.textMesh.render();
+        quadShader->bind();
+        if(textField->pressed) {
+            quadShader->setUniform4f(SHADER_COLOR_NAME, textField->cursorColor.r, textField->cursorColor.g, textField->cursorColor.b, textField->cursorColor.a);
+            textField->cursorMesh.render();
+        }
     } else if (component->type == UIComponentType::UIBUTTON) {
         auto btn = ((UIButton *) component);
         UIColor bgc = btn->bgColor;

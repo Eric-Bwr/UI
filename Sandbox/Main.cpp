@@ -60,11 +60,15 @@ int main() {
     manager.add(&button); */
 
     /* Test 1 */
-
     UIButton test(200, 200, 700, 400);
-    test.setText(string, &font, 50);
+    test.setText("Test\nButton", &font, 80);
     test.fgColor = COLOR_RED;
     manager.add(&test, 5);
+
+    UITextField textField("Default", 500, 500, 700, 200);
+    //textField.setText("Test\nButton", &font, 80);
+    //textField.fgColor = COLOR_RED;
+    manager.add(&textField, 5);
 
     UIButton button(180, 50);
     UIButton button1(180, 50);
@@ -107,11 +111,13 @@ int main() {
         if (glfwGetKey(window.getWindow(), GLFW_KEY_UP) == GLFW_PRESS) {
             text.setFontSize(text.fontSize + 1);
             test.setFontSize(test.text.fontSize + 1);
+            textField.text.setFontSize(textField.text.fontSize + 1);
             std::this_thread::sleep_for(std::chrono::milliseconds(80));
         }
         if (glfwGetKey(window.getWindow(), GLFW_KEY_DOWN) == GLFW_PRESS) {
             text.setFontSize(text.fontSize - 1);
             test.setFontSize(test.text.fontSize - 1);
+            textField.text.setFontSize(textField.text.fontSize - 1);
             std::this_thread::sleep_for(std::chrono::milliseconds(80));
         }
         if (glfwGetKey(window.getWindow(), GLFW_KEY_ESCAPE))

@@ -1,7 +1,7 @@
 #include "UIButton.h"
 
 UIButton::UIButton(float positionX, float positionY, float width, float height)
-        : text("", 0, positionX, positionY, width, height, UITextMode::CENTERED_VERTICAL_LEFT) {
+        : text("", 0, positionX, positionY, width, height, UITextMode::CENTERED) {
     type = UIComponentType::UIBUTTON;
     texture = nullptr;
     this->positionX = positionX;
@@ -15,7 +15,7 @@ UIButton::UIButton(float positionX, float positionY, float width, float height)
 }
 
 UIButton::UIButton(float width, float height)
-        : text("", 0, 0, 0, width, height, UITextMode::CENTERED_VERTICAL_LEFT) {
+        : text("", 0, 0, 0, width, height, UITextMode::CENTERED) {
     type = UIComponentType::UIBUTTON;
     texture = nullptr;
     this->positionX = 0;
@@ -43,7 +43,7 @@ void UIButton::setPosition(float positionX, float positionY) {
 void UIButton::setSize(float width, float height) {
     this->width = width;
     this->height = height;
-    text.setPosition(width, height);
+    text.setSize(width, height);
     mesh.load(positionX, positionY, width, height, texture != nullptr);
 }
 

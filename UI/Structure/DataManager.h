@@ -5,14 +5,7 @@
 #include <vector>
 #include <ft2build.h>
 #include FT_FREETYPE_H
-
-#define DEFAULT_FONT_PATH "C:/Windows/Fonts/Arial.ttf"
-#define SHADER_COLOR_NAME "color"
-#define DEFAULT_WIDTH 140
-#define DEFAULT_HEIGHT 30
-#define MOUSE_BUTTON_PRESSED 0
-#define INPUT_PRESSED 1
-#define INPUT_RELEASED 0
+#include "Defines.h"
 
 class Font;
 class UIText;
