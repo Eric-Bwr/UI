@@ -30,7 +30,7 @@ int main() {
     windowSettings->setWidth(1600);
     windowSettings->setHeight(800);
     windowSettings->setCentered(true);
-    windowSettings->setTransparent(true);
+    windowSettings->setTransparent(false);
 
     Window window(windowSettings);
     glfwSetFramebufferSizeCallback(window.getWindow(), frameBufferSize);
@@ -45,9 +45,7 @@ int main() {
 
     const char *string = "Crocs, Inc. is an American company based in Niwot, Colorado that manufactures and markets the Crocs brand of foam clogs.\nThe company has since established a considerable following with American middle school and high school students, with many opting for Crocs to use as school shoes for the school day.";
     UIText text(string, &font, 50, 0, 0, 1600, 800, UITextMode::CENTERED_HORIZONTAL);
-    //text.a = 0.75f;
-    //int f = text.fontSize;
-    manager.add(&text);
+    manager.add(&text, 4);
 
     Texture tex("../Assets/Textures/Button");
     tex.clampEdge();
@@ -75,10 +73,14 @@ int main() {
     manager.add(&textField, 5);
 
     UISlider slider(1000, 300, 500, 50);
-    slider.bgColor = COLOR_BLACK;
+    slider.bgColor.setRGBA(80, 80, 80, 255, COLOR_DECIMAL);
     slider.dragColor.setRGBA(198, 198, 198, 255, COLOR_DECIMAL);
     slider.setFloating(false);
     manager.add(&slider);
+
+    UIText sliderText("Slider Value: ", 50, 1000, 400, 1000, 100, UITextMode::LEFT);
+    manager.add(&sliderText, 6);
+    std::string sliderString("Slider Value: ");
 
     UIButton button(180, 50);
     UIButton button1(180, 50);
@@ -118,6 +120,7 @@ int main() {
     while (window.windowIsAlive()) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         manager.render();
+        sliderText.setText((sliderString + std::to_string(slider.getValue())).c_str());
         if (glfwGetKey(window.getWindow(), GLFW_KEY_UP) == GLFW_PRESS) {
             text.setFontSize(text.fontSize + 1);
             test.setFontSize(test.text.fontSize + 1);

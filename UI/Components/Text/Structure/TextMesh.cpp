@@ -101,7 +101,7 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
             break;
         if (uiText->mode == UITextMode::CENTERED_HORIZONTAL || uiText->mode == UITextMode::CENTERED)
             if (line.words.empty() || line.words.back().characters.empty())
-                cursorX = uiText->positionX + ((uiText->width / 2) - (line.lineWidth / 2)) + spaceWidth;
+                cursorX = uiText->positionX + ((uiText->width / 2) - (line.lineWidth / 2)) + spaceWidth / 2;
             else
                 cursorX = uiText->positionX + ((uiText->width / 2) - (line.lineWidth / 2));
         else if (uiText->mode == UITextMode::RIGHT || uiText->mode == UITextMode::CENTERED_VERTICAL_RIGHT)
