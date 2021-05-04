@@ -99,7 +99,12 @@ void UIManager::renderComponent(UIComponent *component) {
         quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
         if (btn->texture != nullptr)
 	        btn->texture->bind();
-	    btn->mesh.render();
+        if (btn->pressed)
+            btn->pressedMesh.render();
+        else if (btn->hovered)
+            btn->hoverMesh.render();
+        else
+            btn->mesh.render();
         textShader->bind();
         textShader->setUniform4f(SHADER_COLOR_NAME, btn->fgColor.r, btn->fgColor.g, btn->fgColor.b, btn->fgColor.a);
         btn->text.textMesh.render();

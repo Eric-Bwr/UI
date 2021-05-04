@@ -19,7 +19,7 @@ public:
     void mousePositionInput(double x, double y) override;
     void mouseButtonInput(int button, int action) override;
     bool hovered = false, pressed = false;
-    float cursorWidth = DEFAULT_CURSOR_WIDTH;
+    float cursorWidth = DEFAULT_CURSOR_WIDTH, cursorPadding = DEFAULT_CURSOR_PADDING;
     const char* defaultText;
     std::string content, cursorContent;
     QuadMesh mesh;

@@ -43,16 +43,16 @@ int main() {
 
     Font font("C:/Windows/Fonts/Arial.ttf");
 
-    const char *string = "The |Quick black fox has been shot in the head by a 134 Minigun with a terrifying output of up to 100 Rounds per second when spooled up. \nThe 6 rotating barrels assist air cooling. ";
-    UIText text(string, &font, 50, 0, 0, 1600, 800, UITextMode::LEFT);
+    const char *string = "Crocs, Inc. is an American company based in Niwot, Colorado that manufactures and markets the Crocs brand of foam clogs.\nThe company has since established a considerable following with American middle school and high school students, with many opting for Crocs to use as school shoes for the school day.";
+    UIText text(string, &font, 50, 0, 0, 1600, 800, UITextMode::CENTERED_HORIZONTAL);
     //text.a = 0.75f;
     //int f = text.fontSize;
     manager.add(&text);
-    /*
-    Texture tex("../Assets/Textures/stone");
+
+    Texture tex("../Assets/Textures/Button");
     tex.clampEdge();
     tex.nearest();
-    tex.load(true); */
+    tex.load(true);
 
 
     /* Layout Test */
@@ -60,23 +60,33 @@ int main() {
     manager.add(&button); */
 
     /* Test 1 */
-    UIButton test(200, 200, 700, 400);
-    test.setText("Test\nButton", &font, 80);
-    test.fgColor = COLOR_RED;
+    UIButton test(200, 300, 198 * 4, 18 * 4);
+    test.setTexture(&tex, 0, 18 * 2, 198, 18, 0, 18, 198, 18, 0, 0, 198, 18);
+    test.setText("Test Button", &font, 50);
+    test.fgColor = COLOR_WHITE;
     manager.add(&test, 5);
 
-    UITextField textField("Default", 500, 500, 700, 200);
-    //textField.setText("Test\nButton", &font, 80);
-    //textField.fgColor = COLOR_RED;
+    UITextField textField("Default", 700, 500, 198 * 4, 18 * 4);
+    textField.fgColor = COLOR_WHITE;
+    textField.cursorColor = COLOR_WHITE;
+    Texture fieldTex("../Assets/Textures/TextField");
+    fieldTex.load(true);
+    textField.setTexture(&fieldTex);
     manager.add(&textField, 5);
+
+    UISlider slider(1000, 300, 500, 50);
+    slider.bgColor = COLOR_BLACK;
+    slider.dragColor.setRGBA(198, 198, 198, 255, COLOR_DECIMAL);
+    slider.setFloating(false);
+    manager.add(&slider);
 
     UIButton button(180, 50);
     UIButton button1(180, 50);
     UIButton button2(180, 50);
     UIButton button3(180, 50);
     UIButton button4(180, 50);
-    UISlider slider(220, 7);
-    slider.setFloating(false);
+    //UISlider slider(220, 7);
+    //slider.setFloating(false);
 
     /* Test 2 */
     /*
@@ -92,14 +102,14 @@ int main() {
     UIButton button9(0, 0, 160, 170);
     UIButton button10(0, 0, 260, 140); */
 
-    GridLayout layout(0, 3, 1600, 800);
-
-    layout.add(&button);
-    layout.add(&button1);
-    layout.add(&button2);
-    layout.add(&button3);
-    layout.add(&button4);
-    layout.add(&slider);
+    //GridLayout layout(0, 3, 1600, 800);
+//
+    //layout.add(&button);
+    //layout.add(&button1);
+    //layout.add(&button2);
+    //layout.add(&button3);
+    //layout.add(&button4);
+    //layout.add(&slider);
 
     //manager.add(&layout);
 

@@ -10,6 +10,7 @@ public:
     UIButton(float positionX, float positionY, float width, float height);
     explicit UIButton(float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT);
     void setTexture(Texture* texture);
+    void setTexture(Texture* texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight);
     void setPosition(float positionX, float positionY) override;
 	void setBounds(float, float, float, float) override;
     void setSize(float width, float height);
@@ -21,6 +22,8 @@ public:
     void mouseButtonInput(int button, int action) override;
     bool hovered = false, pressed = false;
     QuadMesh mesh;
+    QuadMesh hoverMesh;
+    QuadMesh pressedMesh;
     Texture* texture;
     UIColor bgColor;
     UIColor fgColor;

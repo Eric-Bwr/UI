@@ -2,7 +2,7 @@
 #include "../Text/Structure/FontType.h"
 
 UITextField::UITextField(const char *defaultText, float width, float height)
-        : text(defaultText, height, positionX, positionY, width, height, UITextMode::CENTERED_VERTICAL_LEFT) {
+        : text(defaultText, height - 10, positionX, positionY, width, height, UITextMode::CENTERED_VERTICAL_LEFT) {
     type = UIComponentType::UITEXTFIELD;
     texture = nullptr;
     this->defaultText = defaultText;
@@ -22,7 +22,7 @@ UITextField::UITextField(const char *defaultText, float width, float height)
 }
 
 UITextField::UITextField(const char *defaultText, float positionX, float positionY, float width, float height)
-        : text(defaultText, 110, positionX, positionY, width, height, UITextMode::CENTERED_VERTICAL_LEFT) {
+        : text(defaultText, height - 10, positionX, positionY, width, height, UITextMode::CENTERED_VERTICAL_LEFT) {
     type = UIComponentType::UITEXTFIELD;
     texture = nullptr;
     this->defaultText = defaultText;
@@ -71,7 +71,7 @@ void UITextField::setBounds(float x, float y, float w, float h) {
     mesh.load(positionX, positionY, width, height, texture != nullptr);
     updateCursor();
 }
-
+//- 10 font size in constructor
 /*
 void UITextField::setText(const char *string, Font *font, int fontSize) {
     text.text = string;
@@ -182,5 +182,5 @@ void UITextField::mouseButtonInput(int button, int action) {
 }
 
 void UITextField::updateCursor() {
-    cursorMesh.load(positionX + fontType->getTextWidth(cursorContent.c_str()), positionY, cursorWidth, height, 0);
+    cursorMesh.load(positionX + fontType->getTextWidth(cursorContent.c_str()), positionY + cursorPadding, cursorWidth, height - cursorPadding * 2, 0);
 }
