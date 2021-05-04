@@ -87,8 +87,7 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
         }
     }
     lines.emplace_back(currentLine);
-    float cursorX;
-    float cursorY;
+    float cursorX, cursorY;
     if (uiText->mode == UITextMode::CENTERED_VERTICAL_RIGHT || uiText->mode == UITextMode::CENTERED_VERTICAL_LEFT || uiText->mode == UITextMode::CENTERED)
         if (lines.size() * uiText->fontSize >= uiText->height)
             cursorY = uiText->positionY + bearing;

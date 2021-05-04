@@ -124,13 +124,13 @@ int main() {
         if (glfwGetKey(window.getWindow(), GLFW_KEY_UP) == GLFW_PRESS) {
             text.setFontSize(text.fontSize + 1);
             test.setFontSize(test.text.fontSize + 1);
-            textField.text.setFontSize(textField.text.fontSize + 1);
+            textField.setFontSize(textField.text.fontSize + 1);
             std::this_thread::sleep_for(std::chrono::milliseconds(80));
         }
         if (glfwGetKey(window.getWindow(), GLFW_KEY_DOWN) == GLFW_PRESS) {
             text.setFontSize(text.fontSize - 1);
             test.setFontSize(test.text.fontSize - 1);
-            textField.text.setFontSize(textField.text.fontSize - 1);
+            textField.setFontSize(textField.text.fontSize - 1);
             std::this_thread::sleep_for(std::chrono::milliseconds(80));
         }
         if (glfwGetKey(window.getWindow(), GLFW_KEY_ESCAPE))

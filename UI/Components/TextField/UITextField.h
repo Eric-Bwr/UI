@@ -14,6 +14,7 @@ public:
     void setPosition(float positionX, float positionY) override;
     void setSize(float width, float height);
 	void setBounds(float, float, float, float) override;
+	void setFontSize(int fontSize);
     void keyInput(int key, int action, int mods) override;
     void charInput(unsigned int key) override;
     void mousePositionInput(double x, double y) override;

@@ -88,11 +88,11 @@ void UITextField::setText(const char *string) {
 void UITextField::setFont(Font *font) {
     text.setFont(font);
 }
-
+*/
 void UITextField::setFontSize(int fontSize) {
     text.setFontSize(fontSize);
+    fontType = DataManager::getFontType(&text);
 }
-*/
 
 void UITextField::keyInput(int key, int action, int mods) {
     if (pressed) {
