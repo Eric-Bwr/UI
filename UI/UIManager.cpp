@@ -65,7 +65,7 @@ void UIManager::render() {
 
 void UIManager::renderComponent(UIComponent *component) {
     if (component->type == UIComponentType::UITEXT) {
-        auto text = ((UIText *) component);
+        auto text = (UIText *) component;
         textShader->bind();
         textShader->setUniform4f(SHADER_COLOR_NAME, text->r, text->g, text->b, text->a);
         text->textMesh.render();
@@ -90,7 +90,7 @@ void UIManager::renderComponent(UIComponent *component) {
             textField->cursorMesh.render();
         }
     } else if (component->type == UIComponentType::UIBUTTON) {
-        auto btn = ((UIButton *) component);
+        auto btn = (UIButton *) component;
         UIColor bgc = btn->bgColor;
         if (btn->hovered)
         	bgc = btn->hoveredColor;
@@ -110,17 +110,26 @@ void UIManager::renderComponent(UIComponent *component) {
         btn->text.textMesh.render();
         quadShader->bind();
     } else if (component->type == UIComponentType::UILAYOUT) {
-        auto layout = ((Layout *) component);
+        auto layout = (Layout *) component;
         for (auto subComp : layout->components)
-            renderComponent(subComp);
+        	renderComponent(subComp);
     } else if (component->type == UIComponentType::UISLIDER) {
-    	auto slider = (UISlider *)(component);
+    	auto slider = (UISlider *) component;
     	UIColor dc = slider->dragColor;
     	UIColor bgc = slider->bgColor;
     	quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
     	slider->bgMesh.render();
 	    quadShader->setUniform4f(SHADER_COLOR_NAME, dc.r, dc.g, dc.b, dc.a);
 	    slider->dragMesh.render();
+    } else if (component->type == UIComponentType::UISPLITPANE) {
+    	auto splitpane = (UISplitPane *) component;
+
+	    UIColor bgc = COLOR_GREEN;
+	    quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+	    splitpane->mesh.render();
+
+    	renderComponent(splitpane->getLeft());
+    	renderComponent(splitpane->getRight());
     }
 }
 

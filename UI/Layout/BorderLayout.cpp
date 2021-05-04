@@ -1,9 +1,10 @@
 #include "BorderLayout.h"
 
+#include <iostream>
+
 BorderLayout::BorderLayout(float _width, float _height) : Layout(_width, _height) {
 	gapX = 10;
 	gapY = 10;
-	components.reserve(5);
 }
 
 void BorderLayout::adjust() {
@@ -58,7 +59,7 @@ void BorderLayout::add(UIComponent *c, LayoutPosition pos) {
 		west = c;
 		break;
 	}
-	components[(int)pos] = c;
+	components.push_back(c);
 	adjust();
 }
 

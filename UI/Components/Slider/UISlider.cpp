@@ -83,8 +83,6 @@ void UISlider::drag(float rx) {
 	float vnorm = (value - min) / (max - min);
 	renderX = getInc(width * vnorm, increment);
 
-	std::cout << "Value: " << value << "\n";
-
 	bgMesh.load(positionX, positionY, width, height, 0);
 	dragMesh.load(positionX, positionY, renderX, height, 0);
 }
