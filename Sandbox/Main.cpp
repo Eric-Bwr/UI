@@ -59,7 +59,7 @@ int main() {
     manager.add(&button); */
 
     /* Test 1 */
-    /*
+
     UIButton test(200, 300, 198 * 4, 18 * 4);
     test.setTexture(&tex, 0, 18 * 2, 198, 18, 0, 18, 198, 18, 0, 0, 198, 18);
     test.setText("Test Button", &font, 50);
@@ -83,7 +83,7 @@ int main() {
     UIText sliderText("Slider Value: ", 50, 1000, 400, 1000, 100, UITextMode::LEFT);
     manager.add(&sliderText, 6);
     std::string sliderString("Slider Value: ");
-*/
+/*
     UIButton button;
     UIButton button1;
 
@@ -97,23 +97,23 @@ int main() {
 	layout.setInsets(Insets(0));
 
     manager.add(&layout);
-
+*/
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     while (window.windowIsAlive()) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         manager.render();
-        //sliderText.setText((sliderString + std::to_string(slider.getValue())).c_str());
+        sliderText.setText((sliderString + std::to_string(slider.getValue())).c_str());
         if (glfwGetKey(window.getWindow(), GLFW_KEY_UP) == GLFW_PRESS) {
             text.setFontSize(text.fontSize + 1);
-         //   test.setFontSize(test.text.fontSize + 1);
-         //   textField.setFontSize(textField.text.fontSize + 1);
+            test.setFontSize(test.text.fontSize + 1);
+            textField.setFontSize(textField.text.fontSize + 1);
             std::this_thread::sleep_for(std::chrono::milliseconds(80));
         }
         if (glfwGetKey(window.getWindow(), GLFW_KEY_DOWN) == GLFW_PRESS) {
             text.setFontSize(text.fontSize - 1);
-         //   test.setFontSize(test.text.fontSize - 1);
-         //   textField.setFontSize(textField.text.fontSize - 1);
+            test.setFontSize(test.text.fontSize - 1);
+            textField.setFontSize(textField.text.fontSize - 1);
             std::this_thread::sleep_for(std::chrono::milliseconds(80));
         }
         if (glfwGetKey(window.getWindow(), GLFW_KEY_ESCAPE))

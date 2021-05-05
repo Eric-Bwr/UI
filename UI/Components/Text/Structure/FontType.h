@@ -20,6 +20,7 @@ public:
     FontType(Font* font, int fontSize);
     Texture* texture;
     float getTextWidth(const char* text);
+    float getCharacterWidth(unsigned int ascii);
     ~FontType();
     std::map<int, Character> characters;
     int fontSize;

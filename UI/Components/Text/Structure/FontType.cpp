@@ -1,6 +1,6 @@
 #include "FontType.h"
 
-FontType::FontType(Font *font, int fontSize) : fontSize(fontSize){
+FontType::FontType(Font *font, int fontSize) : fontSize(fontSize) {
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     texture = new Texture(GL_TEXTURE_2D_ARRAY);
     texture->bind();
@@ -19,11 +19,11 @@ FontType::FontType(Font *font, int fontSize) : fontSize(fontSize){
     pixelMapped = 1.0f / fontSize;
     for (int ascii = FONT_CHAR_START; ascii < FONT_CHAR_END; ascii++)
         loadGlyph(ascii);
-    if(!characters.count('|'))
+    if (!characters.count('|'))
         loadGlyph('|');
-    if(!characters.count(' '))
+    if (!characters.count(' '))
         loadGlyph(' ');
-    if(!characters.count('\t'))
+    if (!characters.count('\t'))
         loadGlyph('\t');
     texture->generateMipMap();
 }
@@ -46,12 +46,16 @@ void FontType::loadGlyph(int ascii) {
     characters.insert(std::make_pair(ascii, ch));
 }
 
-float FontType::getTextWidth(const char* text) {
+float FontType::getTextWidth(const char *text) {
     float result = 0.0f;
-    for(int i = 0; i < strlen(text); i++){
+    for (int i = 0; i < strlen(text); i++) {
         result += characters.at(text[i]).advance;
     }
     return result;
+}
+
+float FontType::getCharacterWidth(unsigned int ascii) {
+    return characters.at(ascii).advance;
 }
 
 FontType::~FontType() {

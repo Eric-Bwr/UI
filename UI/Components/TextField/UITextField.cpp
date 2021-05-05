@@ -148,7 +148,7 @@ void UITextField::keyInput(int key, int action, int mods) {
 
 void UITextField::charInput(unsigned int key) {
     if (pressed) {
-        if(fontType->getTextWidth((content + char(key)).c_str()) < width) {
+        if (fontType->getTextWidth((content + char(key)).c_str()) < width) {
             char *end = content.substr(cursorContent.size(), content.size()).data();
             cursorContent += char(key);
             content = content.substr(0, cursorContent.size() - 1) + char(key) + end;
@@ -160,6 +160,8 @@ void UITextField::charInput(unsigned int key) {
 
 void UITextField::mousePositionInput(double x, double y) {
     hovered = COMPONENT_HOVERED(x, y);
+    if (hovered)
+        this->mouseAdvance = x - positionX;
 }
 
 void UITextField::mouseButtonInput(int button, int action) {
@@ -169,6 +171,21 @@ void UITextField::mouseButtonInput(int button, int action) {
             if (content == defaultText) {
                 content.clear();
                 text.setText(content.c_str());
+            } else {
+                float textAdvance = 0;
+                int i;
+                for (i = 0; i < content.size(); i++) {
+                    if (textAdvance > mouseAdvance)
+                        break;
+                    textAdvance += fontType->getCharacterWidth(content.at(i));
+                }
+                if (content.size() > i) {
+                    float w = fontType->getCharacterWidth(content.at(i)) / 2;
+                    if (textAdvance - w > mouseAdvance)
+                        i--;
+                }
+                cursorContent = content.substr(0, i);
+                updateCursor();
             }
         } else {
             pressed = false;

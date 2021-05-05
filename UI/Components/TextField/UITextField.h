@@ -34,5 +34,6 @@ public:
     UIText text;
     FontType* fontType;
 private:
+    double mouseAdvance = 0;
     void updateCursor();
 };
