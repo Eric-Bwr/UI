@@ -7,6 +7,7 @@ void UIManager::init(int width, int height) {
     textShader->setUniformMatrix4f("ortho", ortho.getBuffer());
     quadShader = new Shader("../Assets/Shader/QuadShader.glsl");
     quadShader->setUniformMatrix4f("ortho", ortho.getBuffer());
+    start = std::chrono::system_clock::now();
 }
 
 void UIManager::add(UIComponent *component, int order) {
@@ -58,6 +59,10 @@ void UIManager::mouseButtonInput(int button, int action) {
 }
 
 void UIManager::render() {
+    if((std::chrono::system_clock::now() - start).count() >= CURSOR_INTERVAL){
+        cursor = !cursor;
+        start = std::chrono::system_clock::now();
+    }
     for (auto const &componentList : components)
         for (auto component : *componentList.second)
             renderComponent(component);
@@ -81,14 +86,14 @@ void UIManager::renderComponent(UIComponent *component) {
         if (textField->texture != nullptr)
             textField->texture->bind();
         textField->mesh.render();
+        if(textField->pressed && cursor) {
+            quadShader->setUniform4f(SHADER_COLOR_NAME, textField->cursorColor.r, textField->cursorColor.g, textField->cursorColor.b, textField->cursorColor.a);
+            textField->cursorMesh.render();
+        }
         textShader->bind();
         textShader->setUniform4f(SHADER_COLOR_NAME, textField->fgColor.r, textField->fgColor.g, textField->fgColor.b, textField->fgColor.a);
         textField->text.textMesh.render();
         quadShader->bind();
-        if(textField->pressed) {
-            quadShader->setUniform4f(SHADER_COLOR_NAME, textField->cursorColor.r, textField->cursorColor.g, textField->cursorColor.b, textField->cursorColor.a);
-            textField->cursorMesh.render();
-        }
     } else if (component->type == UIComponentType::UIBUTTON) {
         auto btn = (UIButton *) component;
         UIColor bgc = btn->bgColor;

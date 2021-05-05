@@ -15,6 +15,7 @@ public:
     void setSize(float width, float height);
 	void setBounds(float, float, float, float) override;
 	void setFontSize(int fontSize);
+	void setMaxCharacter(int maxCharacter);
     void keyInput(int key, int action, int mods) override;
     void charInput(unsigned int key) override;
     void mousePositionInput(double x, double y) override;
@@ -32,8 +33,9 @@ public:
     UIColor hoveredColor;
     UIColor pressedColor;
     UIText text;
-    FontType* fontType;
 private:
+    FontType* fontType;
+    int maxCharacter;
     double mouseAdvance = 0;
     void updateCursor();
 };

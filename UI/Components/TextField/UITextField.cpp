@@ -17,6 +17,7 @@ UITextField::UITextField(const char *defaultText, float width, float height)
     this->hoveredColor = bgColor.darker();
     this->pressedColor = bgColor.darker().darker();
     this->fontType = DataManager::getFontType(&text);
+    this->maxCharacter = INT_MAX;
     mesh.load(positionX, positionY, width, height, 0);
     updateCursor();
 }
@@ -37,6 +38,7 @@ UITextField::UITextField(const char *defaultText, float positionX, float positio
     this->hoveredColor = bgColor.darker();
     this->pressedColor = bgColor.darker().darker();
     this->fontType = DataManager::getFontType(&text);
+    this->maxCharacter = INT_MAX;
     mesh.load(positionX, positionY, width, height, 0);
     updateCursor();
 }
@@ -94,6 +96,10 @@ void UITextField::setFontSize(int fontSize) {
     fontType = DataManager::getFontType(&text);
 }
 
+void UITextField::setMaxCharacter(int maxCharacter) {
+    this->maxCharacter = maxCharacter;
+}
+
 void UITextField::keyInput(int key, int action, int mods) {
     if (pressed) {
         if (action == INPUT_PRESSED || action == INPUT_REPEATED) {
@@ -148,12 +154,14 @@ void UITextField::keyInput(int key, int action, int mods) {
 
 void UITextField::charInput(unsigned int key) {
     if (pressed) {
-        if (fontType->getTextWidth((content + char(key)).c_str()) < width) {
-            char *end = content.substr(cursorContent.size(), content.size()).data();
-            cursorContent += char(key);
-            content = content.substr(0, cursorContent.size() - 1) + char(key) + end;
-            text.setText(content.c_str());
-            updateCursor();
+        if (content.size() < maxCharacter) {
+            if (fontType->getTextWidth((content + char(key)).c_str()) < width) {
+                char *end = content.substr(cursorContent.size(), content.size()).data();
+                cursorContent += char(key);
+                content = content.substr(0, cursorContent.size() - 1) + char(key) + end;
+                text.setText(content.c_str());
+                updateCursor();
+            }
         }
     }
 }

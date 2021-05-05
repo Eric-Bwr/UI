@@ -2,6 +2,7 @@
 
 #include <Shader.h>
 #include <Math/Matrix.h>
+#include <chrono>
 
 #include "Components/UIComponent.h"
 #include "Components/Text/UIText.h"
@@ -34,4 +35,6 @@ private:
     Shader* quadShader;
 	std::map<int, std::vector<UIComponent *>*> components;
 	void renderComponent(UIComponent *);
+	bool cursor = false;
+    std::chrono::time_point<std::chrono::system_clock> start;
 };
