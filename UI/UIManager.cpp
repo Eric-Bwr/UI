@@ -32,7 +32,9 @@ void UIManager::remove(UIComponent *component) {
 
 void UIManager::setSize(int width, int height) {
     ortho.orthographic(0.0f, width, height, 0.0, -1.0, 1.0);
+    textShader->bind();
     textShader->setUniformMatrix4f("ortho", ortho.getBuffer());
+    quadShader->bind();
     quadShader->setUniformMatrix4f("ortho", ortho.getBuffer());
 }
 

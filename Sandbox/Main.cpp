@@ -31,7 +31,7 @@ int main() {
     windowSettings->setWidth(1600);
     windowSettings->setHeight(800);
     windowSettings->setCentered(true);
-    windowSettings->setTransparent(false);
+    windowSettings->setTransparent(true);
 
     Window window(windowSettings);
 
@@ -107,7 +107,7 @@ int main() {
     while (window.windowIsAlive()) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         manager.render();
-      //  sliderText.setText((sliderString + std::to_string(slider.getValue())).c_str());
+        sliderText.setText((sliderString + std::to_string(slider.getValue())).c_str());
         if (glfwGetKey(window.getWindow(), GLFW_KEY_UP) == GLFW_PRESS) {
             text.setFontSize(text.fontSize + 1);
             test.setFontSize(test.text.fontSize + 1);
