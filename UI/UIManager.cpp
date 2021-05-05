@@ -32,6 +32,8 @@ void UIManager::remove(UIComponent *component) {
 
 void UIManager::setSize(int width, int height) {
     ortho.orthographic(0.0f, width, height, 0.0, -1.0, 1.0);
+    textShader->setUniformMatrix4f("ortho", ortho.getBuffer());
+    quadShader->setUniformMatrix4f("ortho", ortho.getBuffer());
 }
 
 void UIManager::keyInput(int key, int action, int mods) {

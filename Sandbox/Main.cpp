@@ -6,8 +6,8 @@
 UIManager manager;
 
 static void frameBufferSize(GLFWwindow *window, int width, int height) {
-    manager.setSize(width, height);
-    glViewport(0, 0, width, height);
+	glViewport(0, 0, width, height);
+	manager.setSize(width, height);
 }
 
 static void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
@@ -34,6 +34,7 @@ int main() {
     windowSettings->setTransparent(false);
 
     Window window(windowSettings);
+
     glfwSetFramebufferSizeCallback(window.getWindow(), frameBufferSize);
     glfwSetKeyCallback(window.getWindow(), keyCallback);
     glfwSetCharCallback(window.getWindow(), charCallback);
@@ -66,6 +67,7 @@ int main() {
     test.fgColor = COLOR_WHITE;
     manager.add(&test, 5);
 
+
     UITextField textField("Default", 700, 500, 198 * 4, 18 * 4, 10);
     textField.fgColor = COLOR_WHITE;
     textField.cursorColor = COLOR_WHITE;
@@ -91,7 +93,7 @@ int main() {
 
     button.bgColor = COLOR_RED;
 
-    GridLayout layout(1600, 800);
+    GridLayout layout(windowSettings->getWidth(), windowSettings->getHeight());
     layout.setColumns(2);
     layout.add(&button);
     layout.add(&button1);
@@ -105,17 +107,17 @@ int main() {
     while (window.windowIsAlive()) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         manager.render();
-        sliderText.setText((sliderString + std::to_string(slider.getValue())).c_str());
+      //  sliderText.setText((sliderString + std::to_string(slider.getValue())).c_str());
         if (glfwGetKey(window.getWindow(), GLFW_KEY_UP) == GLFW_PRESS) {
             text.setFontSize(text.fontSize + 1);
             test.setFontSize(test.text.fontSize + 1);
-            textField.setFontSize(textField.text.fontSize + 1);
+        //    textField.setFontSize(textField.text.fontSize + 1);
             std::this_thread::sleep_for(std::chrono::milliseconds(80));
         }
         if (glfwGetKey(window.getWindow(), GLFW_KEY_DOWN) == GLFW_PRESS) {
             text.setFontSize(text.fontSize - 1);
             test.setFontSize(test.text.fontSize - 1);
-            textField.setFontSize(textField.text.fontSize - 1);
+       //     textField.setFontSize(textField.text.fontSize - 1);
             std::this_thread::sleep_for(std::chrono::milliseconds(80));
         }
         if (glfwGetKey(window.getWindow(), GLFW_KEY_ESCAPE))
