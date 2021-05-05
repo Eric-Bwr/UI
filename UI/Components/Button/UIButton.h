@@ -20,6 +20,7 @@ public:
     void setFontSize(int fontSize);
     void mousePositionInput(double x, double y) override;
     void mouseButtonInput(int button, int action) override;
+    inline void setCallback(void(*callback)(bool pressed, bool hovered)){ this->callback = callback; }
     bool hovered = false, pressed = false;
     QuadMesh mesh;
     QuadMesh hoverMesh;
@@ -30,4 +31,6 @@ public:
 	UIColor hoveredColor;
 	UIColor pressedColor;
 	UIText text;
+private:
+    void (*callback)(bool pressed, bool hovered) = nullptr;
 };

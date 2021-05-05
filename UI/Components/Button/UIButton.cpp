@@ -83,13 +83,21 @@ void UIButton::setFontSize(int fontSize) {
 }
 
 void UIButton::mousePositionInput(double x, double y) {
+    bool previous = hovered;
     hovered = COMPONENT_HOVERED(x, y);
+    if (previous && !hovered || !previous && hovered)
+        if (callback != nullptr)
+            (*callback)(pressed, hovered);
 }
 
 void UIButton::mouseButtonInput(int button, int action) {
+    bool previous = pressed;
     if (button == MOUSE_BUTTON_PRESSED && action == INPUT_PRESSED) {
         if (hovered)
             pressed = true;
     } else if (button == MOUSE_BUTTON_PRESSED && action == INPUT_RELEASED)
         pressed = false;
+    if (callback != nullptr)
+        if (previous || pressed)
+            (*callback)(pressed, hovered);
 }

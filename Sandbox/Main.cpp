@@ -26,6 +26,10 @@ static void mouseButtonCallback(GLFWwindow *window, int button, int action, int 
     manager.mouseButtonInput(button, action);
 }
 
+static void callback(bool pressed, bool hovered){
+    std::cout << "Pressed: " << pressed << " Hovered: " << hovered << "\n";
+}
+
 int main() {
     auto windowSettings = new WindowSettings;
     windowSettings->setWidth(1600);
@@ -67,12 +71,12 @@ int main() {
     test.fgColor = COLOR_WHITE;
     manager.add(&test, 5);
 
-
     UITextField textField("Default", 700, 500, 198 * 4, 18 * 4, 10);
     textField.fgColor = COLOR_WHITE;
     textField.cursorColor = COLOR_WHITE;
     Texture fieldTex("../Assets/Textures/TextFieldV2");
     fieldTex.load(true);
+    textField.setCallback(callback);
     textField.setTexture(&fieldTex, 0, 0, 108, 19, 0, 19, 108, 19, 0, 19 * 2, 108, 19);
     manager.add(&textField, 5);
 

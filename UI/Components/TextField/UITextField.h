@@ -21,15 +21,18 @@ public:
 	void setMaxCharacter(int maxCharacter);
 	void setCursorPadding(float cursorPadding);
 	void setOffset(float offset);
+	inline void setPasswordField(bool isPasswordField){ this->isPasswordField = isPasswordField; }
 	inline std::string getContent() const { return content; }
+	inline std::string getPasswordContent() const { return passwordContent; }
     void keyInput(int key, int action, int mods) override;
     void charInput(unsigned int key) override;
     void mousePositionInput(double x, double y) override;
     void mouseButtonInput(int button, int action) override;
+    inline void setCallback(void(*callback)(bool pressed, bool hovered)){ this->callback = callback; }
     bool hovered = false, pressed = false;
-    float cursorWidth = DEFAULT_CURSOR_WIDTH, cursorPadding = DEFAULT_CURSOR_PADDING, offset = 0;
+    float cursorWidth = CURSOR_WIDTH, cursorPadding = CURSOR_PADDING, offset = 0;
     const char* defaultText;
-    std::string content, cursorContent;
+    std::string content, cursorContent, passwordContent;
     QuadMesh mesh;
     QuadMesh hoverMesh;
     QuadMesh pressedMesh;
@@ -44,6 +47,8 @@ public:
 private:
     FontType* fontType;
     int maxCharacter;
+    bool isPasswordField = false;
     double mouseAdvance = 0;
     void updateCursor();
+    void (*callback)(bool pressed, bool hovered) = nullptr;
 };

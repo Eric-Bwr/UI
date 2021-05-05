@@ -12,7 +12,7 @@ FontType::FontType(Font *font, int fontSize) : fontSize(fontSize) {
     texture->setFormat(GL_RED);
     texture->setInternalFormat(GL_R8);
     texture->setData(nullptr);
-    texture->setDepth(FONT_CHAR_END - FONT_CHAR_START + 3);
+    texture->setDepth(FONT_CHAR_END - FONT_CHAR_START + 4);
     texture->load();
     this->font = font;
     FT_Set_Pixel_Sizes(font->face, 0, fontSize);
@@ -25,6 +25,8 @@ FontType::FontType(Font *font, int fontSize) : fontSize(fontSize) {
         loadGlyph(' ');
     if (!characters.count('\t'))
         loadGlyph('\t');
+    if (!characters.count(PASSWORD_CHARACTER))
+        loadGlyph(PASSWORD_CHARACTER);
     texture->generateMipMap();
 }
 

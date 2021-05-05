@@ -110,12 +110,18 @@ void UITextField::keyInput(int key, int action, int mods) {
             if (key == KEY_BACKSPACE) {
                 if (mods == KEY_MOD_CONTROL) {
                     content = content.substr(cursorContent.size(), content.size());
+                    if(isPasswordField)
+                        passwordContent = passwordContent.substr(cursorContent.size(), passwordContent.size());
                     cursorContent.clear();
                     text.setText(content.c_str());
                     updateCursor();
                 } else {
                     if (!cursorContent.empty()) {
                         char *end = content.substr(cursorContent.size(), content.size()).data();
+                        if(isPasswordField) {
+                            char *passwordEnd = passwordContent.substr(cursorContent.size(), passwordContent.size()).data();
+                            passwordContent = passwordContent.substr(0, cursorContent.size() - 1) + passwordEnd;
+                        }
                         content = content.substr(0, cursorContent.size() - 1) + end;
                         text.setText(content.c_str());
                         cursorContent.pop_back();
@@ -125,11 +131,17 @@ void UITextField::keyInput(int key, int action, int mods) {
             } else if (key == KEY_DELETE) {
                 if (mods == KEY_MOD_CONTROL) {
                     content = content.substr(0, cursorContent.size());
+                    if(isPasswordField)
+                        passwordContent = passwordContent.substr(0, cursorContent.size());
                     text.setText(content.c_str());
                     updateCursor();
                 } else {
                     if (cursorContent.size() < content.size()) {
                         char *start = content.substr(0, cursorContent.size()).data();
+                        if(isPasswordField){
+                            char *passwordStart = passwordContent.substr(0, cursorContent.size()).data();
+                            passwordContent = passwordStart + passwordContent.substr(cursorContent.size() + 1, passwordContent.size());
+                        }
                         content = start + content.substr(cursorContent.size() + 1, content.size());
                         text.setText(content.c_str());
                         updateCursor();
@@ -161,8 +173,16 @@ void UITextField::charInput(unsigned int key) {
         if (content.size() < maxCharacter) {
             if (fontType->getTextWidth((content + char(key)).c_str()) < width - offset * 2 - cursorWidth) {
                 char *end = content.substr(cursorContent.size(), content.size()).data();
-                cursorContent += char(key);
-                content = content.substr(0, cursorContent.size() - 1) + char(key) + end;
+                if(isPasswordField){
+                    char *passwordEnd = content.substr(cursorContent.size(), content.size()).data();
+                    cursorContent += PASSWORD_CHARACTER;
+                    passwordContent += char(key);
+                    content = content.substr(0, cursorContent.size() - 1) + PASSWORD_CHARACTER + end;
+                    passwordContent = passwordContent.substr(0, cursorContent.size() - 1) + char(key) + passwordEnd;
+                }else {
+                    cursorContent += char(key);
+                    content = content.substr(0, cursorContent.size() - 1) + char(key) + end;
+                }
                 text.setText(content.c_str());
                 updateCursor();
             }
@@ -171,17 +191,23 @@ void UITextField::charInput(unsigned int key) {
 }
 
 void UITextField::mousePositionInput(double x, double y) {
+    bool previous = hovered;
     hovered = COMPONENT_HOVERED(x, y);
     if (hovered)
         this->mouseAdvance = x - positionX - offset;
+    if (previous && !hovered || !previous && hovered)
+        if (callback != nullptr)
+            (*callback)(pressed, hovered);
 }
 
 void UITextField::mouseButtonInput(int button, int action) {
+    bool previous = pressed;
     if (button == MOUSE_BUTTON_PRESSED && action == INPUT_PRESSED) {
         if (hovered) {
             pressed = true;
             if (content == defaultText) {
                 content.clear();
+                passwordContent.clear();
                 text.setText(content.c_str());
             } else {
                 float textAdvance = 0;
@@ -204,10 +230,14 @@ void UITextField::mouseButtonInput(int button, int action) {
             if (content.empty()) {
                 content = defaultText;
                 cursorContent.clear();
+                passwordContent.clear();
                 text.setText(content.c_str());
             }
         }
     }
+    if (callback != nullptr)
+        if (previous && !pressed || !previous && pressed)
+            (*callback)(pressed, hovered);
 }
 
 void UITextField::updateCursor() {
