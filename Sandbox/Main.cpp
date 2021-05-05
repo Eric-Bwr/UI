@@ -31,7 +31,7 @@ int main() {
     windowSettings->setWidth(1600);
     windowSettings->setHeight(800);
     windowSettings->setCentered(true);
-    windowSettings->setTransparent(true);
+    windowSettings->setTransparent(false);
 
     Window window(windowSettings);
 

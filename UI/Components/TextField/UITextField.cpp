@@ -159,7 +159,7 @@ void UITextField::keyInput(int key, int action, int mods) {
 void UITextField::charInput(unsigned int key) {
     if (pressed) {
         if (content.size() < maxCharacter) {
-            if (fontType->getTextWidth((content + char(key)).c_str()) < width - offset - cursorWidth) {
+            if (fontType->getTextWidth((content + char(key)).c_str()) < width - offset * 2 - cursorWidth) {
                 char *end = content.substr(cursorContent.size(), content.size()).data();
                 cursorContent += char(key);
                 content = content.substr(0, cursorContent.size() - 1) + char(key) + end;
@@ -211,5 +211,5 @@ void UITextField::mouseButtonInput(int button, int action) {
 }
 
 void UITextField::updateCursor() {
-    cursorMesh.loadPosition(positionX + offset + fontType->getTextWidth(cursorContent.c_str()), positionY + cursorPadding, cursorWidth, height - cursorPadding * 2);
+    cursorMesh.loadPosition(positionX + offset + fontType->getTextWidth(cursorContent.c_str()) - cursorWidth / 2, positionY + cursorPadding, cursorWidth, height - cursorPadding * 2);
 }
