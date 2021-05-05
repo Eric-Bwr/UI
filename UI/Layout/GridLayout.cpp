@@ -3,7 +3,7 @@
 GridLayout::GridLayout(float _width, float _height) : Layout(_width, _height) {
 	gapX = 10;
 	gapY = 10;
-	rows = 1;
+	rows = 0;
 	cols = 0;
 }
 

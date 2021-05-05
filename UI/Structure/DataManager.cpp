@@ -28,23 +28,27 @@ int DataManager::init() {
 }
 
 FontType* DataManager::getFontType(UIText *uiText) {
+    return getFontType(uiText->font, uiText->fontSize);
+}
+
+FontType *DataManager::getFontType(Font *font, int fontSize) {
     std::vector<FontType *>* fontTypeBatch;
     FontType* fontType = nullptr;
-    if (!fonts.count(uiText->font->path)) {
+    if (!fonts.count(font->path)) {
         fontTypeBatch = new std::vector<FontType *>;
-        fonts.insert(std::pair<const char*, std::vector<FontType *>*>(uiText->font->path, fontTypeBatch));
-        fontType = new FontType(uiText->font, uiText->fontSize);
+        fonts.insert(std::pair<const char*, std::vector<FontType *>*>(font->path, fontTypeBatch));
+        fontType = new FontType(font, fontSize);
         fontTypeBatch->emplace_back(fontType);
     } else {
-        fontTypeBatch = fonts.find(uiText->font->path)->second;
+        fontTypeBatch = fonts.find(font->path)->second;
         for(auto type : *fontTypeBatch){
-            if(type->fontSize == uiText->fontSize){
+            if(type->fontSize == fontSize){
                 fontType = type;
                 break;
             }
         }
         if(fontType == nullptr) {
-            fontType = new FontType(uiText->font, uiText->fontSize);
+            fontType = new FontType(font, fontSize);
             fontTypeBatch->emplace_back(fontType);
         }
     }

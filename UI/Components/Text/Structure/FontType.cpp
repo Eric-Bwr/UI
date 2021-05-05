@@ -58,6 +58,10 @@ float FontType::getCharacterWidth(unsigned int ascii) {
     return characters.at(ascii).advance;
 }
 
+float FontType::getOffset() {
+    return characters.at('|').height - characters.at('|').bearingY;
+}
+
 FontType::~FontType() {
     delete texture;
 }

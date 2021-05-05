@@ -6,8 +6,8 @@
 UIManager manager;
 
 static void frameBufferSize(GLFWwindow *window, int width, int height) {
-    glViewport(0, 0, width, height);
     manager.setSize(width, height);
+    glViewport(0, 0, width, height);
 }
 
 static void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
@@ -66,12 +66,12 @@ int main() {
     test.fgColor = COLOR_WHITE;
     manager.add(&test, 5);
 
-    UITextField textField("Default", 700, 500, 198 * 4, 18 * 4);
+    UITextField textField("Default", 700, 500, 198 * 4, 18 * 4, 10);
     textField.fgColor = COLOR_WHITE;
     textField.cursorColor = COLOR_WHITE;
-    Texture fieldTex("../Assets/Textures/TextField");
+    Texture fieldTex("../Assets/Textures/TextFieldV2");
     fieldTex.load(true);
-    textField.setTexture(&fieldTex);
+    textField.setTexture(&fieldTex, 0, 0, 108, 19, 0, 19, 108, 19, 0, 19 * 2, 108, 19);
     manager.add(&textField, 5);
 
     UISlider slider(1000, 300, 500, 50);
@@ -86,15 +86,17 @@ int main() {
 /*
     UIButton button;
     UIButton button1;
+    UIButton button2;
+    UIButton button3;
 
     button.bgColor = COLOR_RED;
 
-    UISplitPane splitPane(&button, &button1);
-    splitPane.setDivider(0.5);
-    BorderLayout layout(1600, 900);
-
-    layout.add(&splitPane, LayoutPosition::CENTER);
-	layout.setInsets(Insets(0));
+    GridLayout layout(1600, 800);
+    layout.setColumns(2);
+    layout.add(&button);
+    layout.add(&button1);
+    layout.add(&button2);
+    layout.add(&button3);
 
     manager.add(&layout);
 */

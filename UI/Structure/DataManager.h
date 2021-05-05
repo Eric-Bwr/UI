@@ -15,6 +15,7 @@ class DataManager {
 public:
     static int init();
     static FontType* getFontType(UIText *uiText);
+    static FontType* getFontType(Font *font, int fontSize);
     static void loadText(UIText* uiText);
     static FT_Library library;
     static Font* defaultFont;

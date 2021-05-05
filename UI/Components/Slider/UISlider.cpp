@@ -1,6 +1,7 @@
 #include "UISlider.h"
 
-#include <iostream>
+UISlider::UISlider(float width, float height)
+        : UISlider(0, 0, width, height) {}
 
 UISlider::UISlider(float positionX, float positionY, float width, float height) {
     type = UIComponentType::UISLIDER;
@@ -9,58 +10,56 @@ UISlider::UISlider(float positionX, float positionY, float width, float height) 
     this->width = width;
     this->height = height;
     this->bgColor = COLOR_BLUE;
-	this->dragColor = COLOR_RED;
-	update();
-
-    bgMesh.load(positionX, positionY, width, height, 0);
+    this->dragColor = COLOR_RED;
+    update();
     dragMesh.load(positionX, positionY, renderX, height, 0);
-}
-
-UISlider::UISlider(float width, float height) {
-    type = UIComponentType::UISLIDER;
-    this->positionX = 0;
-    this->positionY = 0;
-    this->width = width;
-    this->height = height;
-	this->bgColor = COLOR_BLUE;
-	this->dragColor = COLOR_RED;
-	update();
-
-	bgMesh.load(positionX, positionY, width, height, 0);
-	dragMesh.load(positionX, positionY, renderX, height, 0);
+    dragHoverMesh.load(positionX, positionY, renderX, height, 0);
+    dragPressedMesh.load(positionX, positionY, renderX, height, 0);
+    bgMesh.load(positionX, positionY, width, height, 0);
+    bgHoverMesh.load(positionX, positionY, width, height, 0);
+    bgPressedMesh.load(positionX, positionY, width, height, 0);
 }
 
 void UISlider::setPosition(float positionX, float positionY) {
     this->positionX = positionX;
     this->positionY = positionY;
-
-	bgMesh.load(positionX, positionY, width, height, 0);
-	dragMesh.load(positionX, positionY, renderX, height, 0);
+    dragMesh.loadPosition(positionX, positionY, renderX, height);
+    dragHoverMesh.loadPosition(positionX, positionY, renderX, height);
+    dragPressedMesh.loadPosition(positionX, positionY, renderX, height);
+    bgMesh.loadPosition(positionX, positionY, width, height);
+    bgHoverMesh.loadPosition(positionX, positionY, width, height);
+    bgPressedMesh.loadPosition(positionX, positionY, width, height);
 }
 
 void UISlider::setSize(float width, float height) {
     this->width = width;
     this->height = height;
-	bgMesh.load(positionX, positionY, width, height, 0);
-	dragMesh.load(positionX, positionY, renderX, height, 0);
+    dragMesh.loadPosition(positionX, positionY, renderX, height);
+    dragHoverMesh.loadPosition(positionX, positionY, renderX, height);
+    dragPressedMesh.loadPosition(positionX, positionY, renderX, height);
+    bgMesh.loadPosition(positionX, positionY, width, height);
+    bgHoverMesh.loadPosition(positionX, positionY, width, height);
+    bgPressedMesh.loadPosition(positionX, positionY, width, height);
 }
 
 void UISlider::setBounds(float x, float y, float w, float h) {
-	this->positionX = x;
-	this->positionY = y;
-	this->width = w;
-	this->height = h;
-
-	bgMesh.load(positionX, positionY, width, height, 0);
-	dragMesh.load(positionX, positionY, renderX, height, 0);
+    this->positionX = x;
+    this->positionY = y;
+    this->width = w;
+    this->height = h;
+    dragMesh.loadPosition(positionX, positionY, renderX, height);
+    dragHoverMesh.loadPosition(positionX, positionY, renderX, height);
+    dragPressedMesh.loadPosition(positionX, positionY, renderX, height);
+    bgMesh.loadPosition(positionX, positionY, width, height);
+    bgHoverMesh.loadPosition(positionX, positionY, width, height);
+    bgPressedMesh.loadPosition(positionX, positionY, width, height);
 }
 
-
 void UISlider::mousePositionInput(double x, double y) {
-	hovered = COMPONENT_HOVERED(x, y);
-	if (dragging) {
-		drag(x - positionX);
-	}
+    hovered = COMPONENT_HOVERED(x, y);
+    if (dragging) {
+        drag(x - positionX);
+    }
 }
 
 void UISlider::mouseButtonInput(int button, int action) {
@@ -72,73 +71,73 @@ void UISlider::mouseButtonInput(int button, int action) {
 }
 
 void UISlider::drag(float rx) {
-	if (!hovered)
-		return;
+    if (!hovered)
+        return;
 
-//	renderX = rx;
+//TODO:	renderX = rx;
 
-	float norm = rx / width;
-	value = getInc(min + (max - min) * norm, increment);
+    float norm = rx / width;
+    value = getInc(min + (max - min) * norm, increment);
 
-	float vnorm = (value - min) / (max - min);
-	renderX = getInc(width * vnorm, increment);
+    float vnorm = (value - min) / (max - min);
+    renderX = getInc(width * vnorm, increment);
 
-	bgMesh.load(positionX, positionY, width, height, 0);
-	dragMesh.load(positionX, positionY, renderX, height, 0);
+    dragMesh.loadPosition(positionX, positionY, renderX, height);
+    dragHoverMesh.loadPosition(positionX, positionY, renderX, height);
+    dragPressedMesh.loadPosition(positionX, positionY, renderX, height);
 }
 
-
 float UISlider::getInc(float val, float inc) {
-	if (floating)
-		return val;
-	float one = 1.0f / inc;
-	return std::round(val * one) / one;
+    if (floating)
+        return val;
+    float one = 1.0f / inc;
+    return std::round(val * one) / one;
 }
 
 void UISlider::update() {
-	float norm = (value - min) / (max - min);
-	renderX = width * norm;
+    float norm = (value - min) / (max - min);
+    renderX = width * norm;
 }
 
 float UISlider::getMin() const {
-	return min;
+    return min;
 }
 
 float UISlider::getMax() const {
-	return max;
+    return max;
 }
 
 float UISlider::getValue() const {
-	return value;
+    return value;
 }
 
 float UISlider::getIncrement() const {
-	return increment;
+    return increment;
 }
 
 bool UISlider::isFloating() const {
-	return floating;
+    return floating;
 }
 
 void UISlider::setMin(float m) {
-	min = m;
-	update();
+    min = m;
+    update();
 }
 
 void UISlider::setMax(float m) {
-	max = m;
-	update();
+    max = m;
+    update();
 }
 
 void UISlider::setValue(float v) {
-	value = v;
-	update();
+    value = v;
+    update();
 }
 
 void UISlider::setIncrement(float inc) {
-	increment = inc;
+    increment = inc;
 }
 
 void UISlider::setFloating(bool f) {
-	floating = f;
+    floating = f;
 }

@@ -1,29 +1,14 @@
 #include "UITextField.h"
 #include "../Text/Structure/FontType.h"
 
-UITextField::UITextField(const char *defaultText, float width, float height)
-        : text(defaultText, height - 10, positionX, positionY, width, height, UITextMode::CENTERED_VERTICAL_LEFT) {
-    type = UIComponentType::UITEXTFIELD;
-    texture = nullptr;
-    this->defaultText = defaultText;
-    this->content = defaultText;
-    this->positionX = 0;
-    this->positionY = 0;
-    this->width = width;
-    this->height = height;
-    this->bgColor = COLOR_WHITE;
-    this->fgColor = COLOR_RED;
-    this->cursorColor = COLOR_BLACK;
-    this->hoveredColor = bgColor.darker();
-    this->pressedColor = bgColor.darker().darker();
-    this->fontType = DataManager::getFontType(&text);
-    this->maxCharacter = INT_MAX;
-    mesh.load(positionX, positionY, width, height, 0);
-    updateCursor();
-}
+UITextField::UITextField(const char *defaultText, Font *font, float width, float height, float offset)
+        : UITextField(defaultText, font, height, 0, 0, width, height, offset) {}
 
-UITextField::UITextField(const char *defaultText, float positionX, float positionY, float width, float height)
-        : text(defaultText, height - 10, positionX, positionY, width, height, UITextMode::CENTERED_VERTICAL_LEFT) {
+UITextField::UITextField(const char *defaultText, float positionX, float positionY, float width, float height, float offset)
+        : UITextField(defaultText, DataManager::defaultFont, height, positionX, positionY, width, height, offset) {}
+
+UITextField::UITextField(const char *defaultText, Font *font, int fontSize, float positionX, float positionY, float width, float height, float offset)
+        : text(defaultText, font, height - DataManager::getFontType(font, fontSize)->getOffset(), positionX + offset, positionY, width, height, UITextMode::CENTERED_VERTICAL_LEFT) {
     type = UIComponentType::UITEXTFIELD;
     texture = nullptr;
     this->defaultText = defaultText;
@@ -39,20 +24,35 @@ UITextField::UITextField(const char *defaultText, float positionX, float positio
     this->pressedColor = bgColor.darker().darker();
     this->fontType = DataManager::getFontType(&text);
     this->maxCharacter = INT_MAX;
+    this->offset = offset;
     mesh.load(positionX, positionY, width, height, 0);
+    hoverMesh.load(positionX, positionY, width, height, 0);
+    pressedMesh.load(positionX, positionY, width, height, 0);
+    cursorMesh.load(positionX + offset + fontType->getTextWidth(cursorContent.c_str()), positionY + cursorPadding, cursorWidth, height - cursorPadding * 2, 0);
     updateCursor();
 }
 
 void UITextField::setTexture(Texture *texture) {
     this->texture = texture;
     mesh.load(positionX, positionY, width, height, texture != nullptr);
+    hoverMesh.load(positionX, positionY, width, height, texture != nullptr);
+    pressedMesh.load(positionX, positionY, width, height, texture != nullptr);
+}
+
+void UITextField::setTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight) {
+    this->texture = texture;
+    mesh.load(positionX, positionY, width, height, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, texture != nullptr);
+    hoverMesh.load(positionX, positionY, width, height, texture->getWidth(), texture->getHeight(), hoverX, hoverY, hoverWidth, hoverHeight, texture != nullptr);
+    pressedMesh.load(positionX, positionY, width, height, texture->getWidth(), texture->getHeight(), pressedX, pressedY, pressedWidth, pressedHeight, texture != nullptr);
 }
 
 void UITextField::setPosition(float positionX, float positionY) {
     this->positionX = positionX;
     this->positionY = positionY;
-    text.setPosition(positionX, positionY);
-    mesh.load(positionX, positionY, width, height, texture != nullptr);
+    text.setPosition(positionX + offset, positionY);
+    mesh.loadPosition(positionX, positionY, width, height);
+    hoverMesh.loadPosition(positionX, positionY, width, height);
+    pressedMesh.loadPosition(positionX, positionY, width, height);
     updateCursor();
 }
 
@@ -60,7 +60,9 @@ void UITextField::setSize(float width, float height) {
     this->width = width;
     this->height = height;
     text.setSize(width, height);
-    mesh.load(positionX, positionY, width, height, texture != nullptr);
+    mesh.loadPosition(positionX, positionY, width, height);
+    hoverMesh.loadPosition(positionX, positionY, width, height);
+    pressedMesh.loadPosition(positionX, positionY, width, height);
     updateCursor();
 }
 
@@ -69,35 +71,37 @@ void UITextField::setBounds(float x, float y, float w, float h) {
     this->positionY = y;
     this->width = w;
     this->height = h;
-    text.setBounds(x, y, w, h);
-    mesh.load(positionX, positionY, width, height, texture != nullptr);
+    text.setBounds(x + offset, y, w, h);
+    mesh.loadPosition(positionX, positionY, width, height);
+    hoverMesh.loadPosition(positionX, positionY, width, height);
+    pressedMesh.loadPosition(positionX, positionY, width, height);
     updateCursor();
-}
-//- 10 font size in constructor
-/*
-void UITextField::setText(const char *string, Font *font, int fontSize) {
-    text.text = string;
-    text.font = font;
-    text.positionX = positionX;
-    text.positionY = positionY;
-    text.setFontSize(fontSize);
-}
-
-void UITextField::setText(const char *string) {
-    text.setText(string);
 }
 
 void UITextField::setFont(Font *font) {
     text.setFont(font);
+    fontType = DataManager::getFontType(&text);
+    updateCursor();
 }
-*/
+
 void UITextField::setFontSize(int fontSize) {
     text.setFontSize(fontSize);
     fontType = DataManager::getFontType(&text);
+    updateCursor();
 }
 
 void UITextField::setMaxCharacter(int maxCharacter) {
     this->maxCharacter = maxCharacter;
+}
+
+void UITextField::setCursorPadding(float cursorPadding) {
+    this->cursorPadding = cursorPadding;
+    updateCursor();
+}
+
+void UITextField::setOffset(float offset) {
+    this->offset = offset;
+    updateCursor();
 }
 
 void UITextField::keyInput(int key, int action, int mods) {
@@ -155,7 +159,7 @@ void UITextField::keyInput(int key, int action, int mods) {
 void UITextField::charInput(unsigned int key) {
     if (pressed) {
         if (content.size() < maxCharacter) {
-            if (fontType->getTextWidth((content + char(key)).c_str()) < width) {
+            if (fontType->getTextWidth((content + char(key)).c_str()) < width - offset - cursorWidth) {
                 char *end = content.substr(cursorContent.size(), content.size()).data();
                 cursorContent += char(key);
                 content = content.substr(0, cursorContent.size() - 1) + char(key) + end;
@@ -169,7 +173,7 @@ void UITextField::charInput(unsigned int key) {
 void UITextField::mousePositionInput(double x, double y) {
     hovered = COMPONENT_HOVERED(x, y);
     if (hovered)
-        this->mouseAdvance = x - positionX;
+        this->mouseAdvance = x - positionX - offset;
 }
 
 void UITextField::mouseButtonInput(int button, int action) {
@@ -207,5 +211,5 @@ void UITextField::mouseButtonInput(int button, int action) {
 }
 
 void UITextField::updateCursor() {
-    cursorMesh.load(positionX + fontType->getTextWidth(cursorContent.c_str()), positionY + cursorPadding, cursorWidth, height - cursorPadding * 2, 0);
+    cursorMesh.loadPosition(positionX + offset + fontType->getTextWidth(cursorContent.c_str()), positionY + cursorPadding, cursorWidth, height - cursorPadding * 2);
 }

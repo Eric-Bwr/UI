@@ -7,8 +7,8 @@
 
 class UIButton : public UIComponent {
 public:
-    UIButton(float positionX, float positionY, float width, float height);
     explicit UIButton(float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT);
+    UIButton(float positionX, float positionY, float width, float height);
     void setTexture(Texture* texture);
     void setTexture(Texture* texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight);
     void setPosition(float positionX, float positionY) override;

@@ -28,20 +28,19 @@ public:
 	void setFloating(bool);
 
 	bool hovered = false, dragging = false;
-
 	float renderX = 0;
-
-	QuadMesh bgMesh;
-	QuadMesh dragMesh;
-
+    QuadMesh dragMesh;
+    QuadMesh dragHoverMesh;
+    QuadMesh dragPressedMesh;
+    QuadMesh bgMesh;
+    QuadMesh bgHoverMesh;
+    QuadMesh bgPressedMesh;
 	UIColor bgColor;
 	UIColor dragColor;
 private:
 	void drag(float);
 	void update();
-
 	float getInc(float, float);
-
 	float min = 0;
 	float max = 10;
 	float value = 5;

@@ -59,7 +59,7 @@ void UIManager::mouseButtonInput(int button, int action) {
 }
 
 void UIManager::render() {
-    if((std::chrono::system_clock::now() - start).count() >= CURSOR_INTERVAL){
+    if ((std::chrono::system_clock::now() - start).count() >= CURSOR_INTERVAL) {
         cursor = !cursor;
         start = std::chrono::system_clock::now();
     }
@@ -70,71 +70,77 @@ void UIManager::render() {
 
 void UIManager::renderComponent(UIComponent *component) {
     if (component->type == UIComponentType::UITEXT) {
-        auto text = (UIText *) component;
+        auto ui = (UIText *) component;
         textShader->bind();
-        textShader->setUniform4f(SHADER_COLOR_NAME, text->r, text->g, text->b, text->a);
-        text->textMesh.render();
+        textShader->setUniform4f(SHADER_COLOR_NAME, ui->r, ui->g, ui->b, ui->a);
+        ui->textMesh.render();
         quadShader->bind();
-    }else if (component->type == UIComponentType::UITEXTFIELD) {
-        auto textField = ((UITextField *) component);
-        UIColor bgc = textField->bgColor;
-        if (textField->hovered)
-            bgc = textField->hoveredColor;
-        if (textField->pressed)
-            bgc = textField->pressedColor;
+    } else if (component->type == UIComponentType::UITEXTFIELD) {
+        auto ui = ((UITextField *) component);
+        auto bgc = ui->bgColor;
+        if (ui->pressed)
+            bgc = ui->pressedColor;
+        else if (ui->hovered)
+            bgc = ui->hoveredColor;
         quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
-        if (textField->texture != nullptr)
-            textField->texture->bind();
-        textField->mesh.render();
-        if(textField->pressed && cursor) {
-            quadShader->setUniform4f(SHADER_COLOR_NAME, textField->cursorColor.r, textField->cursorColor.g, textField->cursorColor.b, textField->cursorColor.a);
-            textField->cursorMesh.render();
+        if (ui->texture != nullptr)
+            ui->texture->bind();
+        if (ui->pressed)
+            ui->pressedMesh.render();
+        else if (ui->hovered)
+            ui->hoverMesh.render();
+        else
+            ui->mesh.render();
+        if (ui->pressed && cursor) {
+            auto cc = ui->cursorColor;
+            quadShader->setUniform4f(SHADER_COLOR_NAME, cc.r, cc.g, cc.b, cc.a);
+            ui->cursorMesh.render();
         }
+        auto fgc = ui->fgColor;
         textShader->bind();
-        textShader->setUniform4f(SHADER_COLOR_NAME, textField->fgColor.r, textField->fgColor.g, textField->fgColor.b, textField->fgColor.a);
-        textField->text.textMesh.render();
+        textShader->setUniform4f(SHADER_COLOR_NAME, fgc.r, fgc.g, fgc.b, fgc.a);
+        ui->text.textMesh.render();
         quadShader->bind();
     } else if (component->type == UIComponentType::UIBUTTON) {
-        auto btn = (UIButton *) component;
-        UIColor bgc = btn->bgColor;
-        if (btn->hovered)
-        	bgc = btn->hoveredColor;
-	    if (btn->pressed)
-		    bgc = btn->pressedColor;
+        auto ui = (UIButton *) component;
+        auto bgc = ui->bgColor;
+        if (ui->pressed)
+            bgc = ui->pressedColor;
+        else if (ui->hovered)
+            bgc = ui->hoveredColor;
         quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
-        if (btn->texture != nullptr)
-	        btn->texture->bind();
-        if (btn->pressed)
-            btn->pressedMesh.render();
-        else if (btn->hovered)
-            btn->hoverMesh.render();
+        if (ui->texture != nullptr)
+            ui->texture->bind();
+        if (ui->pressed)
+            ui->pressedMesh.render();
+        else if (ui->hovered)
+            ui->hoverMesh.render();
         else
-            btn->mesh.render();
+            ui->mesh.render();
+        auto fgc = ui->fgColor;
         textShader->bind();
-        textShader->setUniform4f(SHADER_COLOR_NAME, btn->fgColor.r, btn->fgColor.g, btn->fgColor.b, btn->fgColor.a);
-        btn->text.textMesh.render();
+        textShader->setUniform4f(SHADER_COLOR_NAME, fgc.r, fgc.g, fgc.b, fgc.a);
+        ui->text.textMesh.render();
         quadShader->bind();
     } else if (component->type == UIComponentType::UILAYOUT) {
         auto layout = (Layout *) component;
-        for (auto subComp : layout->components)
-        	renderComponent(subComp);
+        for (auto ui : layout->components)
+            renderComponent(ui);
     } else if (component->type == UIComponentType::UISLIDER) {
-    	auto slider = (UISlider *) component;
-    	UIColor dc = slider->dragColor;
-    	UIColor bgc = slider->bgColor;
-    	quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
-    	slider->bgMesh.render();
-	    quadShader->setUniform4f(SHADER_COLOR_NAME, dc.r, dc.g, dc.b, dc.a);
-	    slider->dragMesh.render();
+        auto ui = (UISlider *) component;
+        auto fgc = ui->dragColor;
+        auto bgc = ui->bgColor;
+        quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+        ui->bgMesh.render();
+        quadShader->setUniform4f(SHADER_COLOR_NAME, fgc.r, fgc.g, fgc.b, fgc.a);
+        ui->dragMesh.render();
     } else if (component->type == UIComponentType::UISPLITPANE) {
-    	auto splitpane = (UISplitPane *) component;
-
-	    UIColor bgc = COLOR_GREEN;
-	    quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
-	    splitpane->mesh.render();
-
-    	renderComponent(splitpane->getLeft());
-    	renderComponent(splitpane->getRight());
+        auto ui = (UISplitPane *) component;
+        UIColor bgc = COLOR_GREEN;
+        quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+        ui->mesh.render();
+        renderComponent(ui->getLeft());
+        renderComponent(ui->getRight());
     }
 }
 

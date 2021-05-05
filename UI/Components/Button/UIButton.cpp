@@ -1,27 +1,14 @@
 #include "UIButton.h"
 
+UIButton::UIButton(float width, float height)
+        : UIButton(0, 0, width, height) {}
+
 UIButton::UIButton(float positionX, float positionY, float width, float height)
         : text("", 0, positionX, positionY, width, height, UITextMode::CENTERED) {
     type = UIComponentType::UIBUTTON;
     texture = nullptr;
     this->positionX = positionX;
     this->positionY = positionY;
-    this->width = width;
-    this->height = height;
-    this->bgColor = COLOR_WHITE;
-    this->hoveredColor = bgColor.darker();
-    this->pressedColor = bgColor.darker().darker();
-    mesh.load(positionX, positionY, width, height, 0);
-    hoverMesh.load(positionX, positionY, width, height, 0);
-    pressedMesh.load(positionX, positionY, width, height, 0);
-}
-
-UIButton::UIButton(float width, float height)
-        : text("", 0, 0, 0, width, height, UITextMode::CENTERED) {
-    type = UIComponentType::UIBUTTON;
-    texture = nullptr;
-    this->positionX = 0;
-    this->positionY = 0;
     this->width = width;
     this->height = height;
     this->bgColor = COLOR_WHITE;
@@ -65,11 +52,11 @@ void UIButton::setSize(float width, float height) {
 }
 
 void UIButton::setBounds(float x, float y, float w, float h) {
-	this->positionX = x;
-	this->positionY = y;
-	this->width = w;
-	this->height = h;
-	text.setBounds(x, y, w, h);
+    this->positionX = x;
+    this->positionY = y;
+    this->width = w;
+    this->height = h;
+    text.setBounds(x, y, w, h);
     mesh.loadPosition(positionX, positionY, width, height);
     hoverMesh.loadPosition(positionX, positionY, width, height);
     pressedMesh.loadPosition(positionX, positionY, width, height);

@@ -21,6 +21,7 @@ public:
     Texture* texture;
     float getTextWidth(const char* text);
     float getCharacterWidth(unsigned int ascii);
+    float getOffset();
     ~FontType();
     std::map<int, Character> characters;
     int fontSize;
