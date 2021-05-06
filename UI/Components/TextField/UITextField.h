@@ -29,6 +29,7 @@ public:
     void mousePositionInput(double x, double y) override;
     void mouseButtonInput(int button, int action) override;
     inline void setCallback(void(*callback)(bool pressed, bool hovered)){ this->callback = callback; }
+    inline void setContentCallback(void(*contentCallback)(std::string content, std::string passwordContent)){ this->contentCallback = contentCallback; }
     bool hovered = false, pressed = false;
     float cursorWidth = CURSOR_WIDTH, cursorPadding = CURSOR_PADDING, offset = 0;
     const char* defaultText;
@@ -51,4 +52,5 @@ private:
     double mouseAdvance = 0;
     void updateCursor();
     void (*callback)(bool pressed, bool hovered) = nullptr;
+    void (*contentCallback)(std::string content, std::string passwordContent) = nullptr;
 };

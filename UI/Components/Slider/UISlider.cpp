@@ -20,6 +20,30 @@ UISlider::UISlider(float positionX, float positionY, float width, float height) 
     bgPressedMesh.load(positionX, positionY, width, height, 0);
 }
 
+void UISlider::setTexture(Texture *texture) {
+    this->texture = texture;
+    dragMesh.load(positionX, positionY, renderX, height, texture != nullptr);
+    dragHoverMesh.load(positionX, positionY, renderX, height, texture != nullptr);
+    dragPressedMesh.load(positionX, positionY, renderX, height, texture != nullptr);
+    bgMesh.load(positionX, positionY, width, height, texture != nullptr);
+    bgHoverMesh.load(positionX, positionY, width, height, texture != nullptr);
+    bgPressedMesh.load(positionX, positionY, width, height, texture != nullptr);
+}
+/*
+void UISlider::setTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight) {
+    this->texture = texture;
+    dragMesh.load(positionX, positionY, renderX, height, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, texture != nullptr);
+    dragHoverMesh.load(positionX, positionY, renderX, height, texture->getWidth(), texture->getHeight(), hoverX, hoverY, hoverWidth, hoverHeight, texture != nullptr);
+    dragPressedMesh.load(positionX, positionY, renderX, height, texture->getWidth(), texture->getHeight(), pressedX, pressedY, pressedWidth, pressedHeight, texture != nullptr);
+}
+
+void UISlider::setBackgroundTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight) {
+    this->texture = texture;
+    bgMesh.load(positionX, positionY, renderX, height, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, texture != nullptr);
+    bgHoverMesh.load(positionX, positionY, renderX, height, texture->getWidth(), texture->getHeight(), hoverX, hoverY, hoverWidth, hoverHeight, texture != nullptr);
+    bgPressedMesh.load(positionX, positionY, renderX, height, texture->getWidth(), texture->getHeight(), pressedX, pressedY, pressedWidth, pressedHeight, texture != nullptr);
+}
+*/
 void UISlider::setPosition(float positionX, float positionY) {
     this->positionX = positionX;
     this->positionY = positionY;

@@ -9,6 +9,8 @@ class UISlider : public UIComponent {
 public:
 	UISlider(float positionX, float positionY, float width, float height);
 	explicit UISlider(float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT);
+	void setTexture(Texture* texture);
+    void setTexture(Texture* texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight);
 	void setPosition(float positionX, float positionY) override;
 	void setSize(float width, float height);
 	void setBounds(float, float, float, float) override;
@@ -29,6 +31,7 @@ public:
 
 	bool hovered = false, dragging = false;
 	float renderX = 0;
+	Texture* texture;
     QuadMesh dragMesh;
     QuadMesh dragHoverMesh;
     QuadMesh dragPressedMesh;

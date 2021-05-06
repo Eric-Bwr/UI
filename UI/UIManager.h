@@ -4,6 +4,7 @@
 #include <Math/Matrix.h>
 #include <chrono>
 
+#include "UITexture.h"
 #include "Components/UIComponent.h"
 #include "Components/Text/UIText.h"
 #include "Components/Text/Font.h"

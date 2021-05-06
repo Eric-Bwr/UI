@@ -110,7 +110,7 @@ void UITextField::keyInput(int key, int action, int mods) {
             if (key == KEY_BACKSPACE) {
                 if (mods == KEY_MOD_CONTROL) {
                     content = content.substr(cursorContent.size(), content.size());
-                    if(isPasswordField)
+                    if (isPasswordField)
                         passwordContent = passwordContent.substr(cursorContent.size(), passwordContent.size());
                     cursorContent.clear();
                     text.setText(content.c_str());
@@ -118,7 +118,7 @@ void UITextField::keyInput(int key, int action, int mods) {
                 } else {
                     if (!cursorContent.empty()) {
                         char *end = content.substr(cursorContent.size(), content.size()).data();
-                        if(isPasswordField) {
+                        if (isPasswordField) {
                             char *passwordEnd = passwordContent.substr(cursorContent.size(), passwordContent.size()).data();
                             passwordContent = passwordContent.substr(0, cursorContent.size() - 1) + passwordEnd;
                         }
@@ -131,14 +131,14 @@ void UITextField::keyInput(int key, int action, int mods) {
             } else if (key == KEY_DELETE) {
                 if (mods == KEY_MOD_CONTROL) {
                     content = content.substr(0, cursorContent.size());
-                    if(isPasswordField)
+                    if (isPasswordField)
                         passwordContent = passwordContent.substr(0, cursorContent.size());
                     text.setText(content.c_str());
                     updateCursor();
                 } else {
                     if (cursorContent.size() < content.size()) {
                         char *start = content.substr(0, cursorContent.size()).data();
-                        if(isPasswordField){
+                        if (isPasswordField) {
                             char *passwordStart = passwordContent.substr(0, cursorContent.size()).data();
                             passwordContent = passwordStart + passwordContent.substr(cursorContent.size() + 1, passwordContent.size());
                         }
@@ -164,6 +164,8 @@ void UITextField::keyInput(int key, int action, int mods) {
                     updateCursor();
                 }
             }
+            if (contentCallback != nullptr)
+                (*contentCallback)(content, passwordContent);
         }
     }
 }
@@ -173,18 +175,20 @@ void UITextField::charInput(unsigned int key) {
         if (content.size() < maxCharacter) {
             if (fontType->getTextWidth((content + char(key)).c_str()) < width - offset * 2 - cursorWidth) {
                 char *end = content.substr(cursorContent.size(), content.size()).data();
-                if(isPasswordField){
+                if (isPasswordField) {
                     char *passwordEnd = content.substr(cursorContent.size(), content.size()).data();
                     cursorContent += PASSWORD_CHARACTER;
                     passwordContent += char(key);
                     content = content.substr(0, cursorContent.size() - 1) + PASSWORD_CHARACTER + end;
                     passwordContent = passwordContent.substr(0, cursorContent.size() - 1) + char(key) + passwordEnd;
-                }else {
+                } else {
                     cursorContent += char(key);
                     content = content.substr(0, cursorContent.size() - 1) + char(key) + end;
                 }
                 text.setText(content.c_str());
                 updateCursor();
+                if (contentCallback != nullptr)
+                    (*contentCallback)(content, passwordContent);
             }
         }
     }
