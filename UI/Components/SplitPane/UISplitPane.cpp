@@ -9,6 +9,7 @@ UISplitPane::UISplitPane(UIComponent *_left, UIComponent *_right, Orientation _o
 	dragging = false;
 	hovered = false;
 	divWidth = 4;
+	dividerColor = COLOR_BLACK;
 	calc();
 }
 

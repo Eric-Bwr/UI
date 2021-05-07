@@ -140,11 +140,20 @@ void UIManager::renderComponent(UIComponent *component) {
         ui->dragMesh.render();
     } else if (component->type == UIComponentType::UISPLITPANE) {
         auto ui = (UISplitPane *) component;
-        UIColor bgc = COLOR_GREEN;
+        UIColor bgc = ui->dividerColor;
         quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
         ui->mesh.render();
         renderComponent(ui->getLeft());
         renderComponent(ui->getRight());
+    } else if (component->type == UIComponentType::UISCROLLBAR) {
+    	auto scrollbar = (UIScrollbar *) component;
+	    UIColor bgc = scrollbar->barBgColor;
+	    quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+	    scrollbar->barBgMesh.render();
+	    UIColor fgc = scrollbar->barFgColor;
+	    quadShader->setUniform4f(SHADER_COLOR_NAME, fgc.r, fgc.g, fgc.b, fgc.a);
+	    scrollbar->barFgMesh.render();
+	    renderComponent(scrollbar->target);
     }
 }
 
