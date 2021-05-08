@@ -15,22 +15,16 @@ UIButton::UIButton(float positionX, float positionY, float width, float height)
     this->hoveredColor = bgColor.darker();
     this->pressedColor = bgColor.darker().darker();
     mesh.load(positionX, positionY, width, height, 0);
-    hoverMesh.load(positionX, positionY, width, height, 0);
-    pressedMesh.load(positionX, positionY, width, height, 0);
 }
 
 void UIButton::setTexture(Texture *texture) {
     this->texture = texture;
     mesh.load(positionX, positionY, width, height, texture != nullptr);
-    hoverMesh.load(positionX, positionY, width, height, texture != nullptr);
-    pressedMesh.load(positionX, positionY, width, height, texture != nullptr);
 }
 
 void UIButton::setTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight) {
     this->texture = texture;
-    mesh.load(positionX, positionY, width, height, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, texture != nullptr);
-    hoverMesh.load(positionX, positionY, width, height, texture->getWidth(), texture->getHeight(), hoverX, hoverY, hoverWidth, hoverHeight, texture != nullptr);
-    pressedMesh.load(positionX, positionY, width, height, texture->getWidth(), texture->getHeight(), pressedX, pressedY, pressedWidth, pressedHeight, texture != nullptr);
+    mesh.load(positionX, positionY, width, height, texture != nullptr, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, hoverX, hoverY, hoverWidth, hoverHeight, pressedX, pressedY, pressedWidth, pressedHeight);
 }
 
 void UIButton::setPosition(float positionX, float positionY) {
@@ -38,8 +32,6 @@ void UIButton::setPosition(float positionX, float positionY) {
     this->positionY = positionY;
     text.setPosition(positionX, positionY);
     mesh.loadPosition(positionX, positionY, width, height);
-    hoverMesh.loadPosition(positionX, positionY, width, height);
-    pressedMesh.loadPosition(positionX, positionY, width, height);
 }
 
 void UIButton::setSize(float width, float height) {
@@ -47,8 +39,6 @@ void UIButton::setSize(float width, float height) {
     this->height = height;
     text.setSize(width, height);
     mesh.loadPosition(positionX, positionY, width, height);
-    hoverMesh.loadPosition(positionX, positionY, width, height);
-    pressedMesh.loadPosition(positionX, positionY, width, height);
 }
 
 void UIButton::setBounds(float x, float y, float w, float h) {
@@ -58,8 +48,6 @@ void UIButton::setBounds(float x, float y, float w, float h) {
     this->height = h;
     text.setBounds(x, y, w, h);
     mesh.loadPosition(positionX, positionY, width, height);
-    hoverMesh.loadPosition(positionX, positionY, width, height);
-    pressedMesh.loadPosition(positionX, positionY, width, height);
 }
 
 void UIButton::setText(const char *string, Font *font, int fontSize) {

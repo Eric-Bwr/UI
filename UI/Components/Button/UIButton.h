@@ -22,9 +22,7 @@ public:
     void mouseButtonInput(int button, int action) override;
     inline void setCallback(void(*callback)(bool pressed, bool hovered)){ this->callback = callback; }
     bool hovered = false, pressed = false;
-    QuadMesh mesh;
-    QuadMesh hoverMesh;
-    QuadMesh pressedMesh;
+    QuadMeshTriplet mesh;
     Texture* texture;
     UIColor bgColor;
     UIColor fgColor;

@@ -68,6 +68,10 @@ int main() {
     manager.add(&textField, 5);
 
     UISlider slider(1000, 300, 500, 50);
+    UITexture sliderTex("../Assets/Textures/Slider.png");
+    slider.setTexture(&sliderTex, 0, 0, 300, 35, 0, 35, 300, 35, 0, 35, 300, 35);
+    slider.setSlideCoords(0, 0, 300, 35, 0, 35 * 2, 300, 35, 0, 35 * 2, 300, 35);
+    slider.setDragCoords(300, 0, 40, 40, 300, 40, 40, 40, 340, 0, 40, 40);
     slider.bgColor.setRGBA(80, 80, 80, 255, COLOR_DECIMAL);
     slider.dragColor.setRGBA(198, 198, 198, 255, COLOR_DECIMAL);
     slider.setFloating(false);

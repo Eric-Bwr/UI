@@ -34,9 +34,7 @@ public:
     float cursorWidth = CURSOR_WIDTH, cursorPadding = CURSOR_PADDING, offset = 0;
     const char* defaultText;
     std::string content, cursorContent, passwordContent;
-    QuadMesh mesh;
-    QuadMesh hoverMesh;
-    QuadMesh pressedMesh;
+    QuadMeshTriplet mesh;
     QuadMesh cursorMesh;
     Texture* texture;
     UIColor bgColor;

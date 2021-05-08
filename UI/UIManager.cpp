@@ -90,11 +90,11 @@ void UIManager::renderComponent(UIComponent *component) {
         if (ui->texture != nullptr)
             ui->texture->bind();
         if (ui->pressed)
-            ui->pressedMesh.render();
+            ui->mesh.render(2);
         else if (ui->hovered)
-            ui->hoverMesh.render();
+            ui->mesh.render(1);
         else
-            ui->mesh.render();
+            ui->mesh.render(0);
         if (ui->pressed && cursor) {
             auto cc = ui->cursorColor;
             quadShader->setUniform4f(SHADER_COLOR_NAME, cc.r, cc.g, cc.b, cc.a);
@@ -116,11 +116,11 @@ void UIManager::renderComponent(UIComponent *component) {
         if (ui->texture != nullptr)
             ui->texture->bind();
         if (ui->pressed)
-            ui->pressedMesh.render();
+            ui->mesh.render(2);
         else if (ui->hovered)
-            ui->hoverMesh.render();
+            ui->mesh.render(1);
         else
-            ui->mesh.render();
+            ui->mesh.render(0);
         auto fgc = ui->fgColor;
         textShader->bind();
         textShader->setUniform4f(SHADER_COLOR_NAME, fgc.r, fgc.g, fgc.b, fgc.a);
@@ -132,12 +132,31 @@ void UIManager::renderComponent(UIComponent *component) {
             renderComponent(ui);
     } else if (component->type == UIComponentType::UISLIDER) {
         auto ui = (UISlider *) component;
-        auto fgc = ui->dragColor;
         auto bgc = ui->bgColor;
+        auto dc = ui->dragColor;
+        auto sc = ui->slideColor;
+        if (ui->texture != nullptr)
+            ui->texture->bind();
         quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
-        ui->bgMesh.render();
-        quadShader->setUniform4f(SHADER_COLOR_NAME, fgc.r, fgc.g, fgc.b, fgc.a);
-        ui->dragMesh.render();
+        if (ui->dragging) {
+            ui->bgMesh.render(2);
+            quadShader->setUniform4f(SHADER_COLOR_NAME, sc.r, sc.g, sc.b, sc.a);
+            ui->slideMesh.render(2);
+            quadShader->setUniform4f(SHADER_COLOR_NAME, dc.r, dc.g, dc.b, dc.a);
+            ui->dragMesh.render(2);
+        }else if (ui->hovered) {
+            ui->bgMesh.render(1);
+            quadShader->setUniform4f(SHADER_COLOR_NAME, sc.r, sc.g, sc.b, sc.a);
+            ui->slideMesh.render(1);
+            quadShader->setUniform4f(SHADER_COLOR_NAME, dc.r, dc.g, dc.b, dc.a);
+            ui->dragMesh.render(1);
+        }else {
+            ui->bgMesh.render(0);
+            quadShader->setUniform4f(SHADER_COLOR_NAME, sc.r, sc.g, sc.b, sc.a);
+            ui->slideMesh.render(0);
+            quadShader->setUniform4f(SHADER_COLOR_NAME, dc.r, dc.g, dc.b, dc.a);
+            ui->dragMesh.render(0);
+        }
     } else if (component->type == UIComponentType::UISPLITPANE) {
         auto ui = (UISplitPane *) component;
         UIColor bgc = COLOR_GREEN;

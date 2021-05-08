@@ -160,7 +160,6 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
         cursorY += fontType->fontSize;
     }
     vertexCount = vertices.size() / 5;
-    vao.bind();
     vbo.subData(vertices.data(), vertexCount * DataManager::textLayout.getStride(), 0, GL_DYNAMIC_DRAW);
 }
 

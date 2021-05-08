@@ -26,8 +26,6 @@ UITextField::UITextField(const char *defaultText, Font *font, int fontSize, floa
     this->maxCharacter = INT_MAX;
     this->offset = offset;
     mesh.load(positionX, positionY, width, height, 0);
-    hoverMesh.load(positionX, positionY, width, height, 0);
-    pressedMesh.load(positionX, positionY, width, height, 0);
     cursorMesh.load(positionX + offset + fontType->getTextWidth(cursorContent.c_str()), positionY + cursorPadding, cursorWidth, height - cursorPadding * 2, 0);
     updateCursor();
 }
@@ -35,15 +33,11 @@ UITextField::UITextField(const char *defaultText, Font *font, int fontSize, floa
 void UITextField::setTexture(Texture *texture) {
     this->texture = texture;
     mesh.load(positionX, positionY, width, height, texture != nullptr);
-    hoverMesh.load(positionX, positionY, width, height, texture != nullptr);
-    pressedMesh.load(positionX, positionY, width, height, texture != nullptr);
 }
 
 void UITextField::setTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight) {
     this->texture = texture;
-    mesh.load(positionX, positionY, width, height, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, texture != nullptr);
-    hoverMesh.load(positionX, positionY, width, height, texture->getWidth(), texture->getHeight(), hoverX, hoverY, hoverWidth, hoverHeight, texture != nullptr);
-    pressedMesh.load(positionX, positionY, width, height, texture->getWidth(), texture->getHeight(), pressedX, pressedY, pressedWidth, pressedHeight, texture != nullptr);
+    mesh.load(positionX, positionY, width, height, texture != nullptr, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, hoverX, hoverY, hoverWidth, hoverHeight, pressedX, pressedY, pressedWidth, pressedHeight);
 }
 
 void UITextField::setPosition(float positionX, float positionY) {
@@ -51,8 +45,6 @@ void UITextField::setPosition(float positionX, float positionY) {
     this->positionY = positionY;
     text.setPosition(positionX + offset, positionY);
     mesh.loadPosition(positionX, positionY, width, height);
-    hoverMesh.loadPosition(positionX, positionY, width, height);
-    pressedMesh.loadPosition(positionX, positionY, width, height);
     updateCursor();
 }
 
@@ -61,8 +53,6 @@ void UITextField::setSize(float width, float height) {
     this->height = height;
     text.setSize(width, height);
     mesh.loadPosition(positionX, positionY, width, height);
-    hoverMesh.loadPosition(positionX, positionY, width, height);
-    pressedMesh.loadPosition(positionX, positionY, width, height);
     updateCursor();
 }
 
@@ -73,8 +63,6 @@ void UITextField::setBounds(float x, float y, float w, float h) {
     this->height = h;
     text.setBounds(x + offset, y, w, h);
     mesh.loadPosition(positionX, positionY, width, height);
-    hoverMesh.loadPosition(positionX, positionY, width, height);
-    pressedMesh.loadPosition(positionX, positionY, width, height);
     updateCursor();
 }
 
