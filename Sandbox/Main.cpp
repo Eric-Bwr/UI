@@ -97,6 +97,16 @@ int main() {
 
     manager.add(&layout);
 */
+
+	UIButton btn1;
+	btn1.bgColor = COLOR_YELLOW;
+	btn1.setSize(400, 1200);
+
+	UIScrollbar scrollbar(&btn1);
+	scrollbar.setBounds(40, 40, 400, 400);
+
+	manager.add(&scrollbar);
+
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     while (window.windowIsAlive()) {

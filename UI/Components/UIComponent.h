@@ -6,6 +6,11 @@
                                    mx <= positionX + width && \
                                    my <= positionY + height)
 
+enum class Orientation {
+	VERTICAL = 0,
+	HORIZONTAL
+};
+
 enum UIComponentType {
 	UIIMAGE = 0,
 	UIBUTTON,
@@ -13,6 +18,7 @@ enum UIComponentType {
 	UITEXT,
     UITEXTFIELD,
 	UISPLITPANE,
+	UISCROLLBAR,
 	UILAYOUT,
 };
 

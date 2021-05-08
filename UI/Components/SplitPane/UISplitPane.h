@@ -2,11 +2,7 @@
 
 #include "../UIComponent.h"
 #include "../../Structure/QuadMesh.h"
-
-enum class Orientation {
-	VERTICAL = 0,
-	HORIZONTAL
-};
+#include "../../UIColor.h"
 
 class UISplitPane: public UIComponent {
 public:
@@ -32,6 +28,7 @@ public:
 	float getDivider();
 
 	QuadMesh mesh;
+	UIColor dividerColor;
 private:
 	void calc();
 
