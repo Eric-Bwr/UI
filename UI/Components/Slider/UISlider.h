@@ -7,8 +7,9 @@
 
 class UISlider : public UIComponent {
 public:
-	UISlider(float positionX, float positionY, float width, float height);
-	explicit UISlider(float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT);
+    explicit UISlider(float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT);
+    UISlider(float positionX, float positionY, float width, float height);
+	UISlider(float positionX, float positionY, float width, float height, float value, float min, float max);
     void setTexture(Texture* texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight);
     void setSlideCoords(float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight);
     void setDragCoords(float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight);
@@ -36,14 +37,14 @@ public:
 	UIColor slideColor;
 	UIColor dragColor;
 private:
-	void drag(float);
+	void drag(float x);
 	void update();
-	float getInc(float, float) const;
-	float min = 0;
-	float max = 10;
-	float value = 5;
+	float getInc(float value) const;
+	float min;
+	float max;
+	float value;
 	float increment = 1;
-    float renderX = 0;
+    float renderX = 0, renderWidth;
 	bool floating = false;
 	float sizes[18];
 };

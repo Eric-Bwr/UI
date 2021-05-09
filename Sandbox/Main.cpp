@@ -67,7 +67,7 @@ int main() {
     textField.setTexture(&fieldTex, 0, 0, 108, 19, 0, 19, 108, 19, 0, 19 * 2, 108, 19);
     manager.add(&textField, 5);
 
-    UISlider slider(1000, 300, 500, 50);
+    UISlider slider(1000, 300, 500, 50, 5, -10, 10);
     UITexture sliderTex("../Assets/Textures/Slider.png");
     slider.setTexture(&sliderTex, 0, 0, 300, 35, 0, 35, 300, 35, 0, 35, 300, 35);
     slider.setSlideCoords(0, 0, 300, 35, 0, 35 * 2, 300, 35, 0, 35 * 2, 300, 35);
