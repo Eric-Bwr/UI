@@ -144,13 +144,13 @@ void UIManager::renderComponent(UIComponent *component) {
             ui->slideMesh.render(2);
             quadShader->setUniform4f(SHADER_COLOR_NAME, dc.r, dc.g, dc.b, dc.a);
             ui->dragMesh.render(2);
-        }else if (ui->hovered) {
+        } else if (ui->hovered) {
             ui->bgMesh.render(1);
             quadShader->setUniform4f(SHADER_COLOR_NAME, sc.r, sc.g, sc.b, sc.a);
             ui->slideMesh.render(1);
             quadShader->setUniform4f(SHADER_COLOR_NAME, dc.r, dc.g, dc.b, dc.a);
             ui->dragMesh.render(1);
-        }else {
+        } else {
             ui->bgMesh.render(0);
             quadShader->setUniform4f(SHADER_COLOR_NAME, sc.r, sc.g, sc.b, sc.a);
             ui->slideMesh.render(0);
@@ -165,14 +165,14 @@ void UIManager::renderComponent(UIComponent *component) {
         renderComponent(ui->getLeft());
         renderComponent(ui->getRight());
     } else if (component->type == UIComponentType::UISCROLLBAR) {
-    	auto scrollbar = (UIScrollbar *) component;
-	    UIColor bgc = scrollbar->barBgColor;
-	    quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
-	    scrollbar->barBgMesh.render();
-	    UIColor fgc = scrollbar->barFgColor;
-	    quadShader->setUniform4f(SHADER_COLOR_NAME, fgc.r, fgc.g, fgc.b, fgc.a);
-	    scrollbar->barFgMesh.render();
-	    renderComponent(scrollbar->target);
+        auto scrollbar = (UIScrollbar *) component;
+        UIColor bgc = scrollbar->barBgColor;
+        quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+        scrollbar->barBgMesh.render();
+        UIColor fgc = scrollbar->barFgColor;
+        quadShader->setUniform4f(SHADER_COLOR_NAME, fgc.r, fgc.g, fgc.b, fgc.a);
+        scrollbar->barFgMesh.render();
+        renderComponent(scrollbar->target);
     }
 }
 

@@ -45,7 +45,7 @@ void UISlider::setSlideCoords(float buttonX, float buttonY, float buttonWidth, f
     sizes[15] = pressedY;
     sizes[16] = pressedWidth;
     sizes[17] = pressedHeight;
-    slideMesh.load(positionX, positionY, renderX + sizes[0] / 2, height, texture != nullptr, texture->getWidth(), texture->getHeight(), sizes[6], sizes[7], (renderX / width) * sizes[8], sizes[9], sizes[10], sizes[11], (renderX / width) * sizes[12], sizes[13], sizes[14], sizes[15], (renderX / width) * sizes[16], sizes[17]);
+    slideMesh.load(positionX, positionY, renderX + sizes[0] / 2, height, texture != nullptr, texture->getWidth(), texture->getHeight(), sizes[6], sizes[7], ((renderX + sizes[0] / 2) / width) * sizes[8], sizes[9], sizes[10], sizes[11], ((renderX + sizes[0] / 2) / width) * sizes[12], sizes[13], sizes[14], sizes[15], ((renderX + sizes[0] / 2) / width) * sizes[16], sizes[17]);
 }
 
 void UISlider::setDragCoords(float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight) {
@@ -57,14 +57,14 @@ void UISlider::setDragCoords(float buttonX, float buttonY, float buttonWidth, fl
     sizes[5] = pressedHeight;
     renderWidth = width - sizes[0];
     dragMesh.load(positionX + renderX, positionY + height / 2 - sizes[1] / 2, sizes[0], sizes[1], positionX + renderX, positionY + height / 2 - sizes[3] / 2, sizes[2], sizes[3], positionX + renderX, positionY + height / 2 - sizes[5] / 2, sizes[4], sizes[5], texture != nullptr, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, hoverX, hoverY, hoverWidth, hoverHeight, pressedX, pressedY, pressedWidth, pressedHeight);
-    slideMesh.load(positionX, positionY, renderX + sizes[0] / 2, height, texture != nullptr, texture->getWidth(), texture->getHeight(), sizes[6], sizes[7], (renderX / width) * sizes[8], sizes[9], sizes[10], sizes[11], (renderX / width) * sizes[12], sizes[13], sizes[14], sizes[15], (renderX / width) * sizes[16], sizes[17]);
+    slideMesh.load(positionX, positionY, renderX + sizes[0] / 2, height, texture != nullptr, texture->getWidth(), texture->getHeight(), sizes[6], sizes[7], ((renderX + sizes[0] / 2) / width) * sizes[8], sizes[9], sizes[10], sizes[11], ((renderX + sizes[0] / 2) / width) * sizes[12], sizes[13], sizes[14], sizes[15], ((renderX + sizes[0] / 2) / width) * sizes[16], sizes[17]);
 }
 
 void UISlider::setPosition(float positionX, float positionY) {
     this->positionX = positionX;
     this->positionY = positionY;
     bgMesh.loadPosition(positionX, positionY, width, height);
-    slideMesh.load(positionX, positionY, renderX + sizes[0] / 2, height, texture != nullptr, texture->getWidth(), texture->getHeight(), sizes[6], sizes[7], (renderX / width) * sizes[8], sizes[9], sizes[10], sizes[11], (renderX / width) * sizes[12], sizes[13], sizes[14], sizes[15], (renderX / width) * sizes[16], sizes[17]);
+    slideMesh.load(positionX, positionY, renderX + sizes[0] / 2, height, texture != nullptr, texture->getWidth(), texture->getHeight(), sizes[6], sizes[7], ((renderX + sizes[0] / 2) / width) * sizes[8], sizes[9], sizes[10], sizes[11], ((renderX + sizes[0] / 2) / width) * sizes[12], sizes[13], sizes[14], sizes[15], ((renderX + sizes[0] / 2) / width) * sizes[16], sizes[17]);
     dragMesh.loadPosition(positionX + renderX, positionY + height / 2 - sizes[1] / 2, sizes[0], sizes[1], positionX + renderX, positionY + height / 2 - sizes[3] / 2, sizes[2], sizes[3], positionX + renderX, positionY + height / 2 - sizes[5] / 2, sizes[4], sizes[5]);
 }
 
@@ -72,8 +72,7 @@ void UISlider::setSize(float width, float height) {
     this->width = width;
     this->height = height;
     bgMesh.loadPosition(positionX, positionY, width, height);
-    slideMesh.load(positionX, positionY, renderX + sizes[0] / 2, height, texture != nullptr, texture->getWidth(), texture->getHeight(), sizes[6], sizes[7], (renderX / width) * sizes[8], sizes[9], sizes[10], sizes[11], (renderX / width) * sizes[12], sizes[13], sizes[14], sizes[15], (renderX / width) * sizes[16], sizes[17]);
-    dragMesh.loadPosition(positionX + renderX, positionY + height / 2 - sizes[1] / 2, sizes[0], sizes[1], positionX + renderX, positionY + height / 2 - sizes[3] / 2, sizes[2], sizes[3], positionX + renderX, positionY + height / 2 - sizes[5] / 2, sizes[4], sizes[5]);
+    slideMesh.load(positionX, positionY, renderX + sizes[0] / 2, height, texture != nullptr, texture->getWidth(), texture->getHeight(), sizes[6], sizes[7], ((renderX + sizes[0] / 2) / width) * sizes[8], sizes[9], sizes[10], sizes[11], ((renderX + sizes[0] / 2) / width) * sizes[12], sizes[13], sizes[14], sizes[15], ((renderX + sizes[0] / 2) / width) * sizes[16], sizes[17]);
 }
 
 void UISlider::setBounds(float x, float y, float w, float h) {
@@ -82,8 +81,7 @@ void UISlider::setBounds(float x, float y, float w, float h) {
     this->width = w;
     this->height = h;
     bgMesh.loadPosition(positionX, positionY, width, height);
-    slideMesh.load(positionX, positionY, renderX + sizes[0] / 2, height, texture != nullptr, texture->getWidth(), texture->getHeight(), sizes[6], sizes[7], (renderX / width) * sizes[8], sizes[9], sizes[10], sizes[11], (renderX / width) * sizes[12], sizes[13], sizes[14], sizes[15], (renderX / width) * sizes[16], sizes[17]);
-    dragMesh.loadPosition(positionX + renderX, positionY + height / 2 - sizes[1] / 2, sizes[0], sizes[1], positionX + renderX, positionY + height / 2 - sizes[3] / 2, sizes[2], sizes[3], positionX + renderX, positionY + height / 2 - sizes[5] / 2, sizes[4], sizes[5]);
+    slideMesh.load(positionX, positionY, renderX + sizes[0] / 2, height, texture != nullptr, texture->getWidth(), texture->getHeight(), sizes[6], sizes[7], ((renderX + sizes[0] / 2) / width) * sizes[8], sizes[9], sizes[10], sizes[11], ((renderX + sizes[0] / 2) / width) * sizes[12], sizes[13], sizes[14], sizes[15], ((renderX + sizes[0] / 2) / width) * sizes[16], sizes[17]);
 }
 
 void UISlider::mousePositionInput(double x, double y) {
@@ -104,12 +102,12 @@ void UISlider::drag(float rx) {
     if (!hovered)
         return;
     value = getInc(min + (max - min) * (rx / renderWidth));
-    if(value > max)
+    if (value > max)
         value = max;
-    else if(value < min)
+    else if (value < min)
         value = min;
     renderX = getInc(renderWidth * (value - min) / (max - min));
-    slideMesh.load(positionX, positionY, renderX + sizes[0] / 2, height, texture != nullptr, texture->getWidth(), texture->getHeight(), sizes[6], sizes[7], (renderX / width) * sizes[8], sizes[9], sizes[10], sizes[11], (renderX / width) * sizes[12], sizes[13], sizes[14], sizes[15], (renderX / width) * sizes[16], sizes[17]);
+    slideMesh.load(positionX, positionY, renderX + sizes[0] / 2, height, texture != nullptr, texture->getWidth(), texture->getHeight(), sizes[6], sizes[7], ((renderX + sizes[0] / 2) / width) * sizes[8], sizes[9], sizes[10], sizes[11], ((renderX + sizes[0] / 2) / width) * sizes[12], sizes[13], sizes[14], sizes[15], ((renderX + sizes[0] / 2) / width) * sizes[16], sizes[17]);
     dragMesh.loadPosition(positionX + renderX, positionY + height / 2 - sizes[1] / 2, sizes[0], sizes[1], positionX + renderX, positionY + height / 2 - sizes[3] / 2, sizes[2], sizes[3], positionX + renderX, positionY + height / 2 - sizes[5] / 2, sizes[4], sizes[5]);
 }
 
