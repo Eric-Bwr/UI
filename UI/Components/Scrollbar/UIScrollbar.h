@@ -30,7 +30,7 @@ private:
 	float barWidth;
 	float barHeight;
 
-	bool dragging, hovered;
+	bool dragging = false, hovered = false;
 
 	float lastMx;
 	float lastMy;

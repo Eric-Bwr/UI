@@ -172,7 +172,15 @@ void UIManager::renderComponent(UIComponent *component) {
         UIColor fgc = scrollbar->barFgColor;
         quadShader->setUniform4f(SHADER_COLOR_NAME, fgc.r, fgc.g, fgc.b, fgc.a);
         scrollbar->barFgMesh.render();
-        renderComponent(scrollbar->target);
+
+        auto target = scrollbar->target;
+
+        glPushMatrix();
+	    glEnable(GL_SCISSOR_TEST);
+	    glScissor(scrollbar->positionX, 800 /* TODO: replace 800 with this->height */ - (scrollbar->positionY + scrollbar->height), target->width, scrollbar->height);
+        renderComponent(target);
+        glDisable(GL_SCISSOR_TEST);
+        glPopMatrix();
     }
 }
 

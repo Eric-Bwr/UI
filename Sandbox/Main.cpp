@@ -53,7 +53,7 @@ int main() {
     manager.add(&text, 4);
 
     UITexture texture("../Assets/Textures/Button.png");
-    UIButton test(200, 300, 198 * 4, 18 * 4);
+    UIButton test(500, 100, 198 * 4, 18 * 4);
     test.setTexture(&texture, 0, 18 * 2, 198, 18, 0, 18, 198, 18, 0, 0, 198, 18);
     test.setText("Test Button", &font, 50);
     test.fgColor = COLOR_WHITE;
@@ -102,8 +102,12 @@ int main() {
 	btn1.bgColor = COLOR_YELLOW;
 	btn1.setSize(400, 1200);
 
-	UIScrollbar scrollbar(&btn1);
-	scrollbar.setBounds(40, 40, 400, 400);
+	string = "a\nb\nc\nd\ne\nf\ng\nh\ni\nj\nk\nl\nm\nn\no\np\nq\nr\ns\nt\nu\nv\nx\ny\nz\n0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n";
+	UIText text1(string, &font, 20, 0, 0, 400, 1600, UITextMode::CENTERED_HORIZONTAL);
+	text1.fontSize = 40;
+
+	UIScrollbar scrollbar(&text1);
+	scrollbar.setBounds(40, 80, 400, 400);
 
 	manager.add(&scrollbar);
 
