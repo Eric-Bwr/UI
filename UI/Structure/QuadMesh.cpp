@@ -1,5 +1,10 @@
 #include "QuadMesh.h"
 
+UIColorTriplet& UIColorTriplet::operator=(const UIColor &color) {
+    standard = color, hover = color, pressed = color;
+    return *this;
+}
+
 QuadMesh::QuadMesh() {
     vbo.init(nullptr, 0, GL_DYNAMIC_DRAW);
     vao.addBuffer(vbo, DataManager::quadLayout);
@@ -23,6 +28,34 @@ void QuadMesh::loadPosition(float positionX, float positionY, float width, float
 
     vertices.at(25) = positionX + width;
     vertices.at(26) = positionY + height;
+
+    vbo.subData(vertices.data(), 6 * DataManager::quadLayout.getStride(), 0, GL_DYNAMIC_DRAW);
+}
+
+void QuadMesh::loadPosition(float positionX, float positionY, float width, float height, float info) {
+    vertices.at(0) = positionX;
+    vertices.at(1) = positionY + height;
+    vertices.at(4) = info;
+
+    vertices.at(5) = positionX;
+    vertices.at(6) = positionY;
+    vertices.at(9) = info;
+
+    vertices.at(10) = positionX + width;
+    vertices.at(11) = positionY;
+    vertices.at(14) = info;
+
+    vertices.at(15) = positionX;
+    vertices.at(16) = positionY + height;
+    vertices.at(19) = info;
+
+    vertices.at(20) = positionX + width;
+    vertices.at(21) = positionY;
+    vertices.at(24) = info;
+
+    vertices.at(25) = positionX + width;
+    vertices.at(26) = positionY + height;
+    vertices.at(29) = info;
 
     vbo.subData(vertices.data(), 6 * DataManager::quadLayout.getStride(), 0, GL_DYNAMIC_DRAW);
 }
@@ -128,10 +161,25 @@ void QuadMeshTriplet::loadPosition(float x, float y, float w, float h,
     meshes[2].loadPosition(xxx, yyy, www, hhh);
 }
 
+void QuadMeshTriplet::loadPosition(float x, float y, float w, float h,
+                                   float xx, float yy, float ww, float hh,
+                                   float xxx, float yyy, float www, float hhh,
+                                   float info) {
+    meshes[0].loadPosition(x, y, w, h, info);
+    meshes[1].loadPosition(xx, yy, ww, hh, info);
+    meshes[2].loadPosition(xxx, yyy, www, hhh, info);
+}
+
 void QuadMeshTriplet::loadPosition(float x, float y, float w, float h) {
     meshes[0].loadPosition(x, y, w, h);
     meshes[1].loadPosition(x, y, w, h);
     meshes[2].loadPosition(x, y, w, h);
+}
+
+void QuadMeshTriplet::loadPosition(float x, float y, float w, float h, float info) {
+    meshes[0].loadPosition(x, y, w, h, info);
+    meshes[1].loadPosition(x, y, w, h, info);
+    meshes[2].loadPosition(x, y, w, h, info);
 }
 
 void QuadMeshTriplet::load(float x, float y, float w, float h,

@@ -9,8 +9,8 @@ class UIButton : public UIComponent {
 public:
     explicit UIButton(float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT);
     UIButton(float positionX, float positionY, float width, float height);
-    void setTexture(Texture* texture);
-    void setTexture(Texture* texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight);
+    void setBackgroundColor(const UIColor& standardColor, const UIColor& hoverColor, const UIColor& pressedColor);
+    void setBackgroundTexture(Texture* texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight);
     void setPosition(float positionX, float positionY) override;
 	void setBounds(float, float, float, float) override;
     void setSize(float width, float height);
@@ -18,17 +18,17 @@ public:
     void setText(const char* text);
     void setFont(Font* font);
     void setFontSize(int fontSize);
+    void setTextColor(const UIColor& color);
     void mousePositionInput(double x, double y) override;
     void mouseButtonInput(int button, int action) override;
     inline void setCallback(void(*callback)(bool pressed, bool hovered)){ this->callback = callback; }
     bool hovered = false, pressed = false;
     QuadMeshTriplet mesh;
     Texture* texture;
-    UIColor bgColor;
+    UIColorTriplet bgColor;
     UIColor fgColor;
-	UIColor hoveredColor;
-	UIColor pressedColor;
 	UIText text;
 private:
+    int mode = 0;
     void (*callback)(bool pressed, bool hovered) = nullptr;
 };

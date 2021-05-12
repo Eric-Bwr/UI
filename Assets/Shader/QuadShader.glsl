@@ -28,8 +28,10 @@ uniform sampler2D image;
 out vec4 FragColor;
 
 void main() {
-    if(info == 0)
+    if(info == 0 || info == 1)
         FragColor = color;
-    else if(info == 1)
+    else if(info == 2)
         FragColor = texture(image, textureCoords);
+    else if(info == 3)
+        FragColor = texture(image, textureCoords) * color;
 }

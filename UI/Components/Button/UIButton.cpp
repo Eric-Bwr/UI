@@ -11,20 +11,31 @@ UIButton::UIButton(float positionX, float positionY, float width, float height)
     this->positionY = positionY;
     this->width = width;
     this->height = height;
-    this->bgColor = COLOR_WHITE;
-    this->hoveredColor = bgColor.darker();
-    this->pressedColor = bgColor.darker().darker();
+    this->bgColor.standard = COLOR_RED;
+    this->bgColor.hover = COLOR_RED.darker();
+    this->bgColor.pressed = COLOR_RED.darker().darker();
+    this->fgColor = COLOR_WHITE;
     mesh.load(positionX, positionY, width, height, 0);
 }
 
-void UIButton::setTexture(Texture *texture) {
-    this->texture = texture;
-    mesh.load(positionX, positionY, width, height, texture != nullptr);
+void UIButton::setBackgroundColor(const UIColor& standardColor, const UIColor& hoverColor, const UIColor& pressedColor) {
+    this->bgColor.standard = standardColor;
+    this->bgColor.hover = hoverColor;
+    this->bgColor.pressed = pressedColor;
+    if (mode == 0)
+        mode = 1;
+    else if (mode == 2)
+        mode = 3;
+    mesh.loadPosition(positionX, positionY, width, height, mode);
 }
 
-void UIButton::setTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight) {
+void UIButton::setBackgroundTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight) {
     this->texture = texture;
-    mesh.load(positionX, positionY, width, height, texture != nullptr, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, hoverX, hoverY, hoverWidth, hoverHeight, pressedX, pressedY, pressedWidth, pressedHeight);
+    if (mode == 0)
+        mode = 2;
+    else if (mode == 1)
+        mode = 3;
+    mesh.load(positionX, positionY, width, height, mode, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, hoverX, hoverY, hoverWidth, hoverHeight, pressedX, pressedY, pressedWidth, pressedHeight);
 }
 
 void UIButton::setPosition(float positionX, float positionY) {
@@ -68,6 +79,10 @@ void UIButton::setFont(Font *font) {
 
 void UIButton::setFontSize(int fontSize) {
     text.setFontSize(fontSize);
+}
+
+void UIButton::setTextColor(const UIColor& color) {
+    this->fgColor = color;
 }
 
 void UIButton::mousePositionInput(double x, double y) {

@@ -9,12 +9,12 @@
 class UIColor{
 public:
     UIColor();
-    UIColor(float red, float green, float blue, float alpha, int colorMode);
+    UIColor(float red, float green, float blue, float alpha, int colorMode = COLOR_NORMALIZED);
     explicit UIColor(int hex, float alpha = 1.0f);
 	explicit UIColor(const std::string& hex, float alpha = 1.0f);
     Vec4f getNormalizedDecimal() const;
     Vec4f getDecimal() const;
-    std::string getHexString(bool alpha = false, std::string heading="");
+    std::string getHexString(bool alpha = false, std::string heading = "");
     int getHex(bool alpha = false);
     void setRGBA(float red, float green, float blue, float alpha, int colorMode);
     void setRed(float red,int colorMode);

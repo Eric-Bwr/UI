@@ -11,8 +11,8 @@ public:
     explicit UITextField(const char* defaultText, Font* font = DataManager::defaultFont, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, float offset = 0);
     UITextField(const char* defaultText, float positionX, float positionY, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, float offset = 0);
     UITextField(const char* defaultText, Font* font, int fontSize, float positionX, float positionY, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, float offset = 0);
-    void setTexture(Texture* texture);
-    void setTexture(Texture* texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight);
+    void setBackgroundColor(const UIColor& standardColor, const UIColor& hoverColor, const UIColor& pressedColor);
+    void setBackgroundTexture(Texture* texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight);
     void setPosition(float positionX, float positionY) override;
     void setSize(float width, float height);
 	void setBounds(float, float, float, float) override;
@@ -37,15 +37,13 @@ public:
     QuadMeshTriplet mesh;
     QuadMesh cursorMesh;
     Texture* texture;
-    UIColor bgColor;
+    UIColorTriplet bgColor;
     UIColor fgColor;
     UIColor cursorColor;
-    UIColor hoveredColor;
-    UIColor pressedColor;
     UIText text;
 private:
     FontType* fontType;
-    int maxCharacter;
+    int maxCharacter, mode = 0;
     bool isPasswordField = false;
     double mouseAdvance = 0;
     void updateCursor();

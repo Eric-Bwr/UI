@@ -1,6 +1,6 @@
 #include "UIManager.h"
 
-void UIManager::init(int width, int height) {
+void UIManager::init(int width, int height, bool scaleOnResize) {
     DataManager::init();
     ortho = orthographicMatrix(0.0f, width, height, 0.0, -1.0, 1.0);
     textShader = new Shader("../Assets/Shader/TextShader.glsl");
@@ -8,6 +8,9 @@ void UIManager::init(int width, int height) {
     quadShader = new Shader("../Assets/Shader/QuadShader.glsl");
     quadShader->setUniformMatrix4f("ortho", ortho.getBuffer());
     start = std::chrono::system_clock::now();
+    this->width = width;
+    this->height = height;
+    this->scaleOnResize = scaleOnResize;
 }
 
 void UIManager::add(UIComponent *component, int order) {
@@ -36,6 +39,15 @@ void UIManager::setSize(int width, int height) {
     textShader->setUniformMatrix4f("ortho", ortho.getBuffer());
     quadShader->bind();
     quadShader->setUniformMatrix4f("ortho", ortho.getBuffer());
+    if (scaleOnResize) {
+        float factorX = (float) width / (float) this->width;
+        float factorY = (float) height / (float) this->height;
+        for (auto const &componentList : components)
+            for (auto component : *componentList.second)
+                component->setBounds(component->positionX * factorX, component->positionY * factorY, component->width * factorX, component->height * factorY);
+    }
+    this->width = width;
+    this->height = height;
 }
 
 void UIManager::keyInput(int key, int action, int mods) {
@@ -51,15 +63,20 @@ void UIManager::charInput(unsigned int key) {
 }
 
 void UIManager::mousePositionInput(double x, double y) {
+    this->mouseX = x;
+    this->mouseY = y;
     for (auto const &componentList : components)
         for (auto component : *componentList.second)
             component->mousePositionInput(x, y);
 }
 
 void UIManager::mouseButtonInput(int button, int action) {
-    for (auto const &componentList : components)
-        for (auto component : *componentList.second)
+    for (auto const &componentList : components) {
+        for (auto component : *componentList.second) {
             component->mouseButtonInput(button, action);
+            component->mousePositionInput(mouseX, mouseY);
+        }
+    }
 }
 
 void UIManager::render() {
@@ -81,11 +98,11 @@ void UIManager::renderComponent(UIComponent *component) {
         quadShader->bind();
     } else if (component->type == UIComponentType::UITEXTFIELD) {
         auto ui = ((UITextField *) component);
-        auto bgc = ui->bgColor;
+        auto bgc = ui->bgColor.standard;
         if (ui->pressed)
-            bgc = ui->pressedColor;
+            bgc = ui->bgColor.pressed;
         else if (ui->hovered)
-            bgc = ui->hoveredColor;
+            bgc = ui->bgColor.hover;
         quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
         if (ui->texture != nullptr)
             ui->texture->bind();
@@ -107,11 +124,11 @@ void UIManager::renderComponent(UIComponent *component) {
         quadShader->bind();
     } else if (component->type == UIComponentType::UIBUTTON) {
         auto ui = (UIButton *) component;
-        auto bgc = ui->bgColor;
+        auto bgc = ui->bgColor.standard;
         if (ui->pressed)
-            bgc = ui->pressedColor;
+            bgc = ui->bgColor.pressed;
         else if (ui->hovered)
-            bgc = ui->hoveredColor;
+            bgc = ui->bgColor.hover;
         quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
         if (ui->texture != nullptr)
             ui->texture->bind();
@@ -137,24 +154,26 @@ void UIManager::renderComponent(UIComponent *component) {
         auto sc = ui->slideColor;
         if (ui->texture != nullptr)
             ui->texture->bind();
-        quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
         if (ui->dragging) {
+            quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.pressed.r, bgc.pressed.g, bgc.pressed.b, bgc.pressed.a);
             ui->bgMesh.render(2);
-            quadShader->setUniform4f(SHADER_COLOR_NAME, sc.r, sc.g, sc.b, sc.a);
+            quadShader->setUniform4f(SHADER_COLOR_NAME, sc.pressed.r, sc.pressed.g, sc.pressed.b, sc.pressed.a);
             ui->slideMesh.render(2);
-            quadShader->setUniform4f(SHADER_COLOR_NAME, dc.r, dc.g, dc.b, dc.a);
+            quadShader->setUniform4f(SHADER_COLOR_NAME, dc.pressed.r, dc.pressed.g, dc.pressed.b, dc.pressed.a);
             ui->dragMesh.render(2);
         } else if (ui->hovered) {
+            quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.hover.r, bgc.hover.g, bgc.hover.b, bgc.hover.a);
             ui->bgMesh.render(1);
-            quadShader->setUniform4f(SHADER_COLOR_NAME, sc.r, sc.g, sc.b, sc.a);
+            quadShader->setUniform4f(SHADER_COLOR_NAME, sc.hover.r, sc.hover.g, sc.hover.b, sc.hover.a);
             ui->slideMesh.render(1);
-            quadShader->setUniform4f(SHADER_COLOR_NAME, dc.r, dc.g, dc.b, dc.a);
+            quadShader->setUniform4f(SHADER_COLOR_NAME, dc.hover.r, dc.hover.g, dc.hover.b, dc.hover.a);
             ui->dragMesh.render(1);
         } else {
+            quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.standard.r, bgc.standard.g, bgc.standard.b, bgc.standard.a);
             ui->bgMesh.render(0);
-            quadShader->setUniform4f(SHADER_COLOR_NAME, sc.r, sc.g, sc.b, sc.a);
+            quadShader->setUniform4f(SHADER_COLOR_NAME, sc.standard.r, sc.standard.g, sc.standard.b, sc.standard.a);
             ui->slideMesh.render(0);
-            quadShader->setUniform4f(SHADER_COLOR_NAME, dc.r, dc.g, dc.b, dc.a);
+            quadShader->setUniform4f(SHADER_COLOR_NAME, dc.standard.r, dc.standard.g, dc.standard.b, dc.standard.a);
             ui->dragMesh.render(0);
         }
     } else if (component->type == UIComponentType::UISPLITPANE) {
@@ -172,20 +191,16 @@ void UIManager::renderComponent(UIComponent *component) {
         UIColor fgc = scrollbar->barFgColor;
         quadShader->setUniform4f(SHADER_COLOR_NAME, fgc.r, fgc.g, fgc.b, fgc.a);
         scrollbar->barFgMesh.render();
-
-        auto target = scrollbar->target;
-
-        glPushMatrix();
 	    glEnable(GL_SCISSOR_TEST);
-	    glScissor(scrollbar->positionX, 800 /* TODO: replace 800 with this->height */ - (scrollbar->positionY + scrollbar->height), target->width, scrollbar->height);
-        renderComponent(target);
+	    glScissor(scrollbar->positionX, height - (scrollbar->positionY + scrollbar->height), scrollbar->target->width, scrollbar->height);
+        renderComponent(scrollbar->target);
         glDisable(GL_SCISSOR_TEST);
-        glPopMatrix();
     }
 }
 
 UIManager::~UIManager() {
-    for (auto compPair : components) {
+    for (auto compPair : components)
         delete compPair.second;
-    }
+    delete quadShader;
+    delete textShader;
 }

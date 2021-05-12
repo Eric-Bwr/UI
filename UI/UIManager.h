@@ -21,7 +21,7 @@
 
 class UIManager {
 public:
-	void init(int width, int height);
+	void init(int width, int height, bool scaleOnResize = false);
 	void add(UIComponent *component, int order = 0);
 	void remove(UIComponent *component);
 	void setSize(int width, int height);
@@ -35,8 +35,10 @@ private:
     Mat4f ortho;
     Shader* textShader;
     Shader* quadShader;
+    int width, height;
+    double mouseX = 0, mouseY = 0;
 	std::map<int, std::vector<UIComponent *>*> components;
 	void renderComponent(UIComponent *);
-	bool cursor = false;
+	bool cursor = false, scaleOnResize = false;
     std::chrono::time_point<std::chrono::system_clock> start;
 };
