@@ -97,12 +97,10 @@ int main() {
     btn1.bgColor = COLOR_YELLOW;
     btn1.setSize(400, 1200);
 
-	string = "a\nb\nc\nd\ne\nf\ng\nh\ni\nj\nk\nl\nm\nn\no\np\nq\nr\ns\nt\nu\nv\nx\ny\nz\n0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n";
-	UIText text1(string, &font, 20, 0, 0, 400, 1600, UITextMode::CENTERED_HORIZONTAL);
+	UIText text1(string, &font, 20, 0, 0, 1600, 800, UITextMode::CENTERED_HORIZONTAL);
 	text1.fontSize = 40;
 
-	UIScrollbar scrollbar(&text1);
-	scrollbar.setBounds(40, 80, 400, 400);
+	UIScrollbar scrollbar(&text1, 40, 300, 400, 400, Orientation::VERTICAL);
 
 	manager.add(&scrollbar);
 

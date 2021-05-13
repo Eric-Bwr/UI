@@ -6,11 +6,11 @@
 
 #define MAX(a, b) (a > b ? a : b)
 
-UIScrollbar::UIScrollbar(UIComponent *_target, float width, float height)
-		: UIScrollbar(_target, 0, 0, width, height) {
+UIScrollbar::UIScrollbar(UIComponent *_target, float width, float height, Orientation orientation)
+		: UIScrollbar(_target, 0, 0, width, height, orientation) {
 }
 
-UIScrollbar::UIScrollbar(UIComponent *_target, float positionX, float positionY, float width, float height) {
+UIScrollbar::UIScrollbar(UIComponent *_target, float positionX, float positionY, float width, float height, Orientation orientation) {
 	type = UIComponentType::UISCROLLBAR;
 	this->target = _target;
 	this->positionX = positionX;
@@ -19,10 +19,14 @@ UIScrollbar::UIScrollbar(UIComponent *_target, float positionX, float positionY,
 	this->height = height;
 	this->barFgColor = COLOR_GREEN;
 	this->barBgColor = COLOR_RED;
-	orientation = Orientation::VERTICAL;
+	this->orientation = orientation;
 	barY = 0;
 	barWidth = 6;
-	barHeight = height;
+	if (orientation == Orientation::VERTICAL)
+		barHeight = height;
+	else
+		barHeight = width;
+
 	barBgMesh.load(positionX, positionY, width, height, 0);
 	barFgMesh.load(positionX, positionY, width, height, 0);
 	calc();
@@ -42,6 +46,19 @@ void UIScrollbar::calc() {
 
 		barBgMesh.load(positionX + width - barWidth, positionY, barWidth, height, 0);
 		barFgMesh.load(positionX + width - barWidth, positionY + barY, barWidth, barHeight, 0);
+	} else {
+		auto w = MAX(target->width, width);
+		barHeight = width * width / w;
+
+		if (barY <= 0)
+			barY = 0;
+		if (barY >= width - barHeight)
+			barY = width - barHeight;
+
+		target->setBounds(positionX - barY * (w / width), positionY, w, height - barWidth);
+
+		barBgMesh.load(positionX, positionY + height - barWidth, width, barWidth, 0);
+		barFgMesh.load(positionX + barY, positionY + height - barWidth, barHeight, barWidth, 0);
 	}
 }
 
@@ -49,13 +66,20 @@ void UIScrollbar::drag(float mx, float my) {
 	float dx = mx - lastMx;
 	float dy = my - lastMy;
 
-	barY += dy;
+	if (orientation == Orientation::VERTICAL)
+		barY += dy;
+	else
+		barY += dx;
 	calc();
 }
 
 void UIScrollbar::mousePositionInput(double mx, double my) {
-	hovered = mx >= positionX + width - barWidth && my >= positionY + barY &&
-			mx <= positionX + width && my <= positionY + barY + barHeight;
+	if (orientation == Orientation::VERTICAL)
+		hovered = mx >= positionX + width - barWidth && my >= positionY + barY &&
+		          mx <= positionX + width && my <= positionY + barY + barHeight;
+	else
+		hovered = mx >= positionX + barY && my >= positionY + height - barWidth &&
+		          mx <= positionX + barY + barHeight && my <= positionY + height;
 
 	if (dragging)
 		drag(mx, my);
@@ -89,13 +113,4 @@ void UIScrollbar::setBounds(float x, float y, float w, float h) {
 	this->width = w;
 	this->height = h;
 	calc();
-}
-
-void UIScrollbar::setOrientation(Orientation o) {
-	orientation = o;
-	calc();
-}
-
-Orientation UIScrollbar::getOrientation() {
-	return orientation;
 }
