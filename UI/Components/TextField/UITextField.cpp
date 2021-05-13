@@ -75,6 +75,13 @@ void UITextField::setBounds(float x, float y, float w, float h) {
     updateCursor();
 }
 
+void UITextField::setText(const char *string) {
+    text.setText(string);
+    content = string;
+    cursorContent = content;
+    updateCursor();
+}
+
 void UITextField::setFont(Font *font) {
     text.setFont(font);
     fontType = DataManager::getFontType(&text);
@@ -99,6 +106,21 @@ void UITextField::setCursorPadding(float cursorPadding) {
 void UITextField::setOffset(float offset) {
     this->offset = offset;
     updateCursor();
+}
+
+void UITextField::setPasswordVisible(bool visible) {
+    if (visible) {
+        setText(passwordContent.c_str());
+        isPasswordField = false;
+    } else {
+        isPasswordField = true;
+        passwordContent = content;
+        content.clear();
+        for (int i = 0; i < passwordContent.size(); i++) {
+            content += PASSWORD_CHARACTER;
+        }
+        setText(content.c_str());
+    }
 }
 
 void UITextField::keyInput(int key, int action, int mods) {
@@ -170,7 +192,7 @@ void UITextField::keyInput(int key, int action, int mods) {
 void UITextField::charInput(unsigned int key) {
     if (pressed) {
         if (content.size() < maxCharacter) {
-            if (fontType->getTextWidth((content + char(key)).c_str()) < width - offset * 2 - cursorWidth) {
+            if (fontType->getTextWidth((content + char(key)).c_str()) < width - offset * 2 - cursorWidth && fontType->getTextWidth((passwordContent + char(key)).c_str()) < width - offset * 2 - cursorWidth) {
                 char *end = content.substr(cursorContent.size(), content.size()).data();
                 if (isPasswordField) {
                     char *passwordEnd = content.substr(cursorContent.size(), content.size()).data();
@@ -200,8 +222,6 @@ void UITextField::mousePositionInput(double x, double y) {
         if (callback != nullptr)
             (*callback)(pressed, hovered);
 }
-
-#include "iostream"
 
 void UITextField::mouseButtonInput(int button, int action) {
     bool previous = pressed;

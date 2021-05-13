@@ -191,13 +191,12 @@ void UIManager::renderComponent(UIComponent *component) {
         UIColor fgc = scrollbar->barFgColor;
         quadShader->setUniform4f(SHADER_COLOR_NAME, fgc.r, fgc.g, fgc.b, fgc.a);
         scrollbar->barFgMesh.render();
-	    glEnable(GL_SCISSOR_TEST);
-	    if (scrollbar->orientation == Orientation::VERTICAL)
-	        glScissor(scrollbar->positionX, height - (scrollbar->positionY + scrollbar->height), scrollbar->width - scrollbar->barWidth, scrollbar->height);
-		else
-		    glScissor(scrollbar->positionX, height - (scrollbar->positionY + scrollbar->height - scrollbar->barWidth), scrollbar->width, scrollbar->height - scrollbar->barWidth);
-
-	    renderComponent(scrollbar->target);
+        glEnable(GL_SCISSOR_TEST);
+        if (scrollbar->orientation == Orientation::VERTICAL)
+            glScissor(scrollbar->positionX, height - (scrollbar->positionY + scrollbar->height), scrollbar->width - scrollbar->barWidth, scrollbar->height);
+        else
+            glScissor(scrollbar->positionX, height - (scrollbar->positionY + scrollbar->height - scrollbar->barWidth), scrollbar->width, scrollbar->height - scrollbar->barWidth);
+        renderComponent(scrollbar->target);
         glDisable(GL_SCISSOR_TEST);
     }
 }

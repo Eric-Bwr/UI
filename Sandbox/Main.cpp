@@ -49,8 +49,6 @@ int main() {
 
     Font font("C:/Windows/Fonts/Arial.ttf");
     const char *string = "Crocs, Inc. is an American company based in Niwot, Colorado that manufactures and markets the Crocs brand of foam clogs.\nThe company has since established a considerable following with American middle school and high school students, with many opting for Crocs to use as school shoes for the school day.";
-    UIText text(string, &font, 15, 0, 0, 1600, 800, UITextMode::RIGHT);
-    manager.add(&text, 4);
 
     UITexture texture("../Assets/Textures/Button.png");
     UIButton test(500, 100, 198 * 4, 18 * 4);
@@ -59,6 +57,7 @@ int main() {
     manager.add(&test, 5);
 
     UITextField textField("Default", 700, 500, 198 * 4, 18 * 4, 10);
+    textField.setPasswordField(true);
     UITexture fieldTex("../Assets/Textures/TextField.png");
     textField.setCallback(callback);
     textField.setBackgroundTexture(&fieldTex, 0, 0, 108, 19, 0, 19, 108, 19, 0, 19 * 2, 108, 19);
@@ -100,7 +99,7 @@ int main() {
 	UIText text1(string, &font, 20, 0, 0, 1600, 800, UITextMode::CENTERED_HORIZONTAL);
 	text1.fontSize = 40;
 
-	UIScrollbar scrollbar(&text1, 40, 300, 400, 400, Orientation::VERTICAL);
+	UIScrollbar scrollbar(&text1, 40, 300, 400, 400, Orientation::HORIZONTAL);
 
 	manager.add(&scrollbar);
 

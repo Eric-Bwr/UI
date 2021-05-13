@@ -16,11 +16,13 @@ public:
     void setPosition(float positionX, float positionY) override;
     void setSize(float width, float height);
 	void setBounds(float, float, float, float) override;
+	void setText(const char* text);
     void setFont(Font *font);
 	void setFontSize(int fontSize);
 	void setMaxCharacter(int maxCharacter);
 	void setCursorPadding(float cursorPadding);
 	void setOffset(float offset);
+	void setPasswordVisible(bool visible);
 	inline void setPasswordField(bool isPasswordField){ this->isPasswordField = isPasswordField; }
 	inline std::string getContent() const { return content; }
 	inline std::string getPasswordContent() const { return passwordContent; }
