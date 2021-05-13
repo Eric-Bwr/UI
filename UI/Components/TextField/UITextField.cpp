@@ -29,7 +29,7 @@ UITextField::UITextField(const char *defaultText, Font *font, int fontSize, floa
     updateCursor();
 }
 
-void UITextField::setBackgroundColor(const UIColor& standardColor, const UIColor& hoverColor, const UIColor& pressedColor) {
+void UITextField::setBackgroundColor(const UIColor &standardColor, const UIColor &hoverColor, const UIColor &pressedColor) {
     this->bgColor.standard = standardColor;
     this->bgColor.hover = hoverColor;
     this->bgColor.pressed = pressedColor;
@@ -201,6 +201,8 @@ void UITextField::mousePositionInput(double x, double y) {
             (*callback)(pressed, hovered);
 }
 
+#include "iostream"
+
 void UITextField::mouseButtonInput(int button, int action) {
     bool previous = pressed;
     if (button == MOUSE_BUTTON_PRESSED && action == INPUT_PRESSED) {
@@ -214,12 +216,16 @@ void UITextField::mouseButtonInput(int button, int action) {
                 float textAdvance = 0;
                 int i;
                 for (i = 0; i < content.size(); i++) {
-                    if (textAdvance > mouseAdvance)
+                    if (textAdvance >= mouseAdvance)
                         break;
                     textAdvance += fontType->getCharacterWidth(content.at(i));
                 }
-                if (content.size() > i) {
+                if (i < content.size()) {
                     float w = fontType->getCharacterWidth(content.at(i)) / 2;
+                    if (textAdvance - w > mouseAdvance)
+                        i--;
+                } else {
+                    float w = fontType->getCharacterWidth(content.back()) / 2;
                     if (textAdvance - w > mouseAdvance)
                         i--;
                 }
