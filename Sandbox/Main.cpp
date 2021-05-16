@@ -54,7 +54,6 @@ int main() {
     UIButton test(500, 100, 198 * 4, 18 * 4);
     test.setBackgroundTexture(&texture, 0, 18 * 2, 198, 18, 0, 18, 198, 18, 0, 0, 198, 18);
     test.setText("Test Button", &font, 50);
-    test.setRadii(35, true, false, true, false);
     manager.add(&test, 5);
 
     UITextField textField("Default", 700, 500, 198 * 4, 18 * 4, 10);
