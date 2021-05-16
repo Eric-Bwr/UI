@@ -142,6 +142,12 @@ void UISlider::setBounds(float x, float y, float w, float h) {
     updateDragMesh();
 }
 
+void UISlider::setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight) {
+    dragMesh.setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
+    slideMesh.setRadii(radii, upperLeft, lowerLeft, false, false);
+    bgMesh.setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
+}
+
 void UISlider::mousePositionInput(double x, double y) {
     hovered = COMPONENT_HOVERED(x, y);
     if (dragging)

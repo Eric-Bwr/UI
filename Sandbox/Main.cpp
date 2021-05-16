@@ -54,6 +54,7 @@ int main() {
     UIButton test(500, 100, 198 * 4, 18 * 4);
     test.setBackgroundTexture(&texture, 0, 18 * 2, 198, 18, 0, 18, 198, 18, 0, 0, 198, 18);
     test.setText("Test Button", &font, 50);
+    test.setRadii(35, true, false, true, false);
     manager.add(&test, 5);
 
     UITextField textField("Default", 700, 500, 198 * 4, 18 * 4, 10);
@@ -64,6 +65,7 @@ int main() {
     manager.add(&textField, 5);
 
     UISlider slider(1000, 300, 500, 50, 5, -10, 10);
+    slider.setRadii(20);
     UITexture sliderTex("../Assets/Textures/Slider.png");
     slider.setTexture(&sliderTex);
     slider.setBackgroundCoords(0, 0, 300, 35, 0, 35, 300, 35, 0, 35, 300, 35);
@@ -99,7 +101,8 @@ int main() {
 	UIText text1(string, &font, 20, 0, 0, 1600, 800, UITextMode::CENTERED_HORIZONTAL);
 	text1.fontSize = 40;
 
-	UIScrollbar scrollbar(&text1, 40, 300, 400, 400, Orientation::HORIZONTAL);
+	UIScrollbar scrollbar(&text1, 40, 300, 400, 400, Orientation::VERTICAL);
+	scrollbar.setRadii(5);
 
 	manager.add(&scrollbar);
 

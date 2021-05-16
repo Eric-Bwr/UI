@@ -7,6 +7,7 @@ void UIManager::init(int width, int height, bool scaleOnResize) {
     textShader->setUniformMatrix4f("ortho", ortho.getBuffer());
     quadShader = new Shader("../Assets/Shader/QuadShader.glsl");
     quadShader->setUniformMatrix4f("ortho", ortho.getBuffer());
+    quadShader->setUniform1f("smoothness", CORNER_SMOOTHNESS);
     start = std::chrono::system_clock::now();
     this->width = width;
     this->height = height;
@@ -185,10 +186,10 @@ void UIManager::renderComponent(UIComponent *component) {
         renderComponent(ui->getRight());
     } else if (component->type == UIComponentType::UISCROLLBAR) {
         auto scrollbar = (UIScrollbar *) component;
-        UIColor bgc = scrollbar->barBgColor;
+        auto bgc = scrollbar->barBgColor;
         quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
         scrollbar->barBgMesh.render();
-        UIColor fgc = scrollbar->barFgColor;
+        auto fgc = scrollbar->barFgColor;
         quadShader->setUniform4f(SHADER_COLOR_NAME, fgc.r, fgc.g, fgc.b, fgc.a);
         scrollbar->barFgMesh.render();
         glEnable(GL_SCISSOR_TEST);

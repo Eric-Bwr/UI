@@ -4,10 +4,15 @@
 #define DEFAULT_FONT_PATH "C:/Windows/Fonts/Arial.ttf"
 #endif
 
+//SHADER
 #ifndef SHADER_COLOR_NAME
 #define SHADER_COLOR_NAME "color"
 #endif
+#ifndef CORNER_SMOOTHNESS
+#define CORNER_SMOOTHNESS 0.9
+#endif
 
+//UI
 #ifndef DEFAULT_WIDTH
 #define DEFAULT_WIDTH 140
 #endif
@@ -15,6 +20,7 @@
 #define DEFAULT_HEIGHT 30
 #endif
 
+//TEXT FIELD
 #ifndef CURSOR_WIDTH
 #define CURSOR_WIDTH 2.75
 #endif
@@ -28,6 +34,7 @@
 #define PASSWORD_CHARACTER '*'
 #endif
 
+//KEY MAPPING
 #ifndef MOUSE_BUTTON_PRESSED
 #define MOUSE_BUTTON_PRESSED 0
 #endif

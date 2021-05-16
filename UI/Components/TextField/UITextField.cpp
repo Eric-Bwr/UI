@@ -108,6 +108,10 @@ void UITextField::setOffset(float offset) {
     updateCursor();
 }
 
+void UITextField::setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight) {
+    mesh.setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
+}
+
 void UITextField::setPasswordVisible(bool visible) {
     if (visible) {
         setText(passwordContent.c_str());
@@ -233,24 +237,26 @@ void UITextField::mouseButtonInput(int button, int action) {
                 passwordContent.clear();
                 text.setText(content.c_str());
             } else {
-                float textAdvance = 0;
-                int i;
-                for (i = 0; i < content.size(); i++) {
-                    if (textAdvance >= mouseAdvance)
-                        break;
-                    textAdvance += fontType->getCharacterWidth(content.at(i));
+                if(!content.empty()) {
+                    float textAdvance = 0;
+                    int i;
+                    for (i = 0; i < content.size(); i++) {
+                        if (textAdvance >= mouseAdvance)
+                            break;
+                        textAdvance += fontType->getCharacterWidth(content.at(i));
+                    }
+                    if (i < content.size()) {
+                        float w = fontType->getCharacterWidth(content.at(i)) / 2;
+                        if (textAdvance - w > mouseAdvance)
+                            i--;
+                    } else {
+                        float w = fontType->getCharacterWidth(content.back()) / 2;
+                        if (textAdvance - w > mouseAdvance)
+                            i--;
+                    }
+                    cursorContent = content.substr(0, i);
+                    updateCursor();
                 }
-                if (i < content.size()) {
-                    float w = fontType->getCharacterWidth(content.at(i)) / 2;
-                    if (textAdvance - w > mouseAdvance)
-                        i--;
-                } else {
-                    float w = fontType->getCharacterWidth(content.back()) / 2;
-                    if (textAdvance - w > mouseAdvance)
-                        i--;
-                }
-                cursorContent = content.substr(0, i);
-                updateCursor();
             }
         } else {
             pressed = false;

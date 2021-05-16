@@ -19,6 +19,8 @@ public:
     ~QuadMesh();
     VertexArrayObject vao;
     VertexBufferObject vbo;
+    void setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight);
+    float radii = 0, corners = 0 << 8 | 0 << 6 | 0 << 4 | 0 << 2;
 private:
     std::vector<float> vertices;
 };
@@ -51,6 +53,8 @@ public:
               float texXX, float texYY, float texWW, float texHH,
               float texXXX, float texYYY, float texWWW, float texHHH);
     void render(int index);
+    void setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight);
+    float radii = 0;
 private:
     QuadMesh meshes[3];
 };

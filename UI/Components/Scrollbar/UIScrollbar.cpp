@@ -21,7 +21,7 @@ UIScrollbar::UIScrollbar(UIComponent *_target, float positionX, float positionY,
 	this->barBgColor = COLOR_RED;
 	this->orientation = orientation;
 	barY = 0;
-	barWidth = 6;
+	barWidth = 10;
 	if (orientation == Orientation::VERTICAL)
 		barHeight = height;
 	else
@@ -71,6 +71,11 @@ void UIScrollbar::drag(float mx, float my) {
 	else
 		barY += dx;
 	calc();
+}
+
+void UIScrollbar::setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight) {
+    barBgMesh.setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
+    barFgMesh.setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
 }
 
 void UIScrollbar::mousePositionInput(double mx, double my) {

@@ -85,6 +85,10 @@ void UIButton::setTextColor(const UIColor& color) {
     this->fgColor = color;
 }
 
+void UIButton::setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight) {
+    mesh.setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
+}
+
 void UIButton::mousePositionInput(double x, double y) {
     bool previous = hovered;
     hovered = COMPONENT_HOVERED(x, y);

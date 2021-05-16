@@ -22,6 +22,7 @@ public:
 	void setMaxCharacter(int maxCharacter);
 	void setCursorPadding(float cursorPadding);
 	void setOffset(float offset);
+    void setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight);
 	void setPasswordVisible(bool visible);
 	inline void setPasswordField(bool isPasswordField){ this->isPasswordField = isPasswordField; }
 	inline std::string getContent() const { return content; }

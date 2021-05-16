@@ -20,6 +20,7 @@ public:
     void setPosition(float positionX, float positionY) override;
 	void setSize(float width, float height);
 	void setBounds(float, float, float, float) override;
+    void setRadii(float radii, bool upperLeft = true, bool lowerLeft = true, bool upperRight = true, bool lowerRight = true);
 	void mousePositionInput(double x, double y) override;
 	void mouseButtonInput(int button, int action) override;
 	inline float getMin() { return min; }

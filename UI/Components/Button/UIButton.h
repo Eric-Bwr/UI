@@ -19,6 +19,7 @@ public:
     void setFont(Font* font);
     void setFontSize(int fontSize);
     void setTextColor(const UIColor& color);
+    void setRadii(float radii, bool upperLeft = true, bool lowerLeft = true, bool upperRight = true, bool lowerRight = true);
     void mousePositionInput(double x, double y) override;
     void mouseButtonInput(int button, int action) override;
     inline void setCallback(void(*callback)(bool pressed, bool hovered)){ this->callback = callback; }
