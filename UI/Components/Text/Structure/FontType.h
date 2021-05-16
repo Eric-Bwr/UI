@@ -25,6 +25,7 @@ public:
     ~FontType();
     std::map<int, Character> characters;
     int fontSize;
+    float bearing = 0, height = 0;
 private:
     float pixelMapped;
     void loadGlyph(int glyph);

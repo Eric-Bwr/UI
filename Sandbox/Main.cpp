@@ -36,6 +36,8 @@ int main() {
     windowSettings->setHeight(800);
     windowSettings->setCentered(true);
     windowSettings->setTransparent(false);
+    windowSettings->setShouldMultiSample(true);
+    windowSettings->setSampleSize(2);
 
     Window window(windowSettings);
 
@@ -49,6 +51,11 @@ int main() {
 
     Font font("C:/Windows/Fonts/Arial.ttf");
     const char *string = "Crocs, Inc. is an American company based in Niwot, Colorado that manufactures and markets the Crocs brand of foam clogs.\nThe company has since established a considerable following with American middle school and high school students, with many opting for Crocs to use as school shoes for the school day.";
+
+    Font farCry("../Assets/Fonts/FarCry.ttf");
+    const char *farCryString = "g";
+    UIText farCryText(farCryString, &farCry, 200, 0, 0, 1600, 800, LEFT);
+    manager.add(&farCryText, 6);
 
     UITexture texture("../Assets/Textures/Button.png");
     UIButton test(500, 100, 198 * 4, 18 * 4);

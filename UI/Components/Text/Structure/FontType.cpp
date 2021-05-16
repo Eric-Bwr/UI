@@ -46,6 +46,10 @@ void FontType::loadGlyph(int ascii) {
     ch.textureX = pixelMapped * ch.width;
     ch.textureY = pixelMapped * ch.height;
     characters.insert(std::make_pair(ascii, ch));
+    if(ch.bearingY > bearing)
+        bearing = ch.bearingY;
+    if(ch.height > height)
+        height = ch.height;
 }
 
 float FontType::getTextWidth(const char *text) {

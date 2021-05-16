@@ -23,8 +23,8 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
     vertices.clear();
     auto length = strlen(uiText->text);
     auto spaceWidth = fontType->characters[' '].advance;
-    auto bearing = fontType->characters['|'].bearingY + 2;
-    auto height = fontType->characters['|'].height;
+    auto bearing = fontType->bearing + 2;
+    auto height = fontType->height;
     auto cutoff = height - (bearing - 2);
     Word currentWord;
     std::vector<Word> words;

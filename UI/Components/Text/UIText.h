@@ -28,6 +28,9 @@ public:
     void setFont(Font* font);
     void setFontSize(int fontSize);
     void setMode(int mode);
+    inline int getFontSize() { return fontSize; }
+    inline const char* getText() { return text; }
+    inline Font* getFont() { return font; }
     const char* text;
     int fontSize, mode;
     Font* font;
