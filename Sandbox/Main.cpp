@@ -96,6 +96,13 @@ int main() {
     UIButton btn1;
     btn1.bgColor = COLOR_YELLOW;
     btn1.setSize(400, 1200);
+    UIButton btn2;
+    btn1.bgColor = COLOR_YELLOW;
+    btn1.setSize(400, 1200);
+
+    UISplitPane splitPane(&btn1, &test, Orientation::HORIZONTAL);
+    splitPane.setBounds(0, 0, 1600, 800);
+    manager.add(&splitPane, 10);
 
 	UIText text1(string, &font, 20, 0, 0, 1600, 800, UITextMode::CENTERED_HORIZONTAL);
 	text1.fontSize = 40;

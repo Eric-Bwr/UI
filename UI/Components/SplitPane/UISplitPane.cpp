@@ -44,6 +44,10 @@ void UISplitPane::mousePositionInput(double mx, double my) {
 
 		if (dragging) {
 			divider = (mx - positionX)  / width;
+			if(divider < divWidth / width)
+			    divider = divWidth / width;
+			if(width * divider > width - divWidth)
+			    divider = 1 - divWidth / width;
 			calc();
 		}
 	} else {
@@ -54,6 +58,10 @@ void UISplitPane::mousePositionInput(double mx, double my) {
 
 		if (dragging) {
 			divider = (my - positionY)  / height;
+            if(divider < divWidth / height)
+                divider = divWidth / height;
+            if(height * divider > height - divWidth)
+                divider = 1 - divWidth / height;
 			calc();
 		}
 	}
