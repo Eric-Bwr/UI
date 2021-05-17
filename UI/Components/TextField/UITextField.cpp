@@ -227,9 +227,9 @@ void UITextField::mousePositionInput(double x, double y) {
             (*callback)(pressed, hovered);
 }
 
-void UITextField::mouseButtonInput(int button, int action) {
+void UITextField::mouseButtonInput(int action) {
     bool previous = pressed;
-    if (button == MOUSE_BUTTON_PRESSED && action == INPUT_PRESSED) {
+    if (action == INPUT_PRESSED) {
         if (hovered) {
             pressed = true;
             if (content == defaultText) {

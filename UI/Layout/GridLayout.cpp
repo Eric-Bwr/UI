@@ -1,17 +1,17 @@
 #include "GridLayout.h"
 
-GridLayout::GridLayout(float _width, float _height) : Layout(_width, _height) {
+GridLayout::GridLayout(float width, float height) : Layout(width, height) {
 	gapX = 10;
 	gapY = 10;
 	rows = 0;
 	cols = 0;
 }
 
-GridLayout::GridLayout(int _rows, int _cols, float _width, float _height) : Layout(_width, _height) {
-	gapX = 10;
-	gapY = 10;
-	rows = _rows;
-	cols = _cols;
+GridLayout::GridLayout(int rows, int cols, float width, float height) : Layout(width, height) {
+	this->gapX = 10;
+	this->gapY = 10;
+	this->rows = rows;
+	this->cols = cols;
 	if (rows != 0 && cols != 0) /* either rows or cols has to be 0 */
 		; /* TODO: Error */
 }
@@ -58,38 +58,22 @@ void GridLayout::adjust() {
 	}
 }
 
-void GridLayout::setGapX(float m) {
-	gapX = m;
+void GridLayout::setGapX(float gapX) {
+    this->gapX = gapX;
 	adjust();
 }
 
-void GridLayout::setGapY(float m) {
-	gapY = m;
+void GridLayout::setGapY(float gapY) {
+    this->gapY = gapY;
 	adjust();
 }
 
-float GridLayout::getGapX() const {
-	return gapX;
-}
-
-float GridLayout::getGapY() const {
-	return gapY;
-}
-
-void GridLayout::setRows(int r) {
-	rows = r;
+void GridLayout::setRows(int rows) {
+    this->rows = rows;
 	adjust();
 }
 
-void GridLayout::setColumns(int c) {
-	cols = c;
+void GridLayout::setColumns(int cols) {
+	this->cols = cols;
 	adjust();
-}
-
-int GridLayout::getRows() {
-	return rows;
-}
-
-int GridLayout::getColumns() {
-	return cols;
 }

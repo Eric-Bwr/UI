@@ -2,7 +2,7 @@
 
 #define MAX(a, b) (a > b ? a : b)
 
-FlowLayout::FlowLayout(float _width, float _height) : Layout(_width, _height) {
+FlowLayout::FlowLayout(float width, float height) : Layout(width, height) {
 	gapX = 10;
 	gapY = 10;
 }
@@ -23,20 +23,12 @@ void FlowLayout::adjust() {
 	}
 }
 
-void FlowLayout::setGapX(float m) {
-	gapX = m;
+void FlowLayout::setGapX(float gapX) {
+	this->gapX = gapX;
 	adjust();
 }
 
-void FlowLayout::setGapY(float m) {
-	gapY = m;
+void FlowLayout::setGapY(float gapY) {
+	this->gapY = gapY;
 	adjust();
-}
-
-float FlowLayout::getGapX() const {
-	return gapX;
-}
-
-float FlowLayout::getGapY() const {
-	return gapY;
 }

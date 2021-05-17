@@ -5,14 +5,16 @@
 
 class UIScrollbar: public UIComponent {
 public:
-	explicit UIScrollbar(UIComponent *, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, Orientation orientation=Orientation::VERTICAL);
-	UIScrollbar(UIComponent *, float positionX, float positionY, float width, float height, Orientation orientation=Orientation::VERTICAL);
+	explicit UIScrollbar(UIComponent *, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, Orientation orientation = Orientation::VERTICAL);
+	UIScrollbar(UIComponent *, float positionX, float positionY, float width, float height, Orientation orientation = Orientation::VERTICAL);
+
 	void setPosition(float positionX, float positionY) override;
-	void setBounds(float, float, float, float) override;
+	void setBounds(float positionX, float positionY, float width, float height) override;
 	void setSize(float width, float height);
     void setRadii(float radii, bool upperLeft = true, bool lowerLeft = true, bool upperRight = true, bool lowerRight = true);
-	void mousePositionInput(double x, double y) override;
-	void mouseButtonInput(int button, int action) override;
+
+    void mousePositionInput(double x, double y) override;
+	void mouseButtonInput(int action) override;
 
 	UIComponent *target;
 	QuadMesh barBgMesh;
@@ -20,17 +22,13 @@ public:
 	UIColor barFgColor;
 	UIColor barBgColor;
 	float barWidth;
-
 	Orientation orientation;
 private:
 	void calc();
-	void drag(float, float);
-
+	void drag(float mx, float my);
 	float barY;
 	float barHeight;
-
 	bool dragging = false, hovered = false;
-
 	float lastMx;
 	float lastMy;
 };

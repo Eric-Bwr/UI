@@ -34,15 +34,14 @@ public:
 	Vec2f getPosition() const { return Vec2f(positionX, positionY); }
 	Vec2f getSize() const { return Vec2f(width, height); }
 
-	virtual void setPosition(float, float) {}
-	virtual void setBounds(float, float, float, float) {}
+	virtual void setPosition(float positionX, float positionY) {}
+	virtual void setBounds(float positionX, float positionY, float width, float height) {}
 
     virtual void keyInput(int key, int action, int mods) {}
     virtual void charInput(unsigned int key) {}
     virtual void mousePositionInput(double x, double y) {}
-    virtual void mouseButtonInput(int button, int action) {}
+    virtual void mouseButtonInput(int action) {}
 
 	float positionX, positionY;
 	float width, height;
 };
-

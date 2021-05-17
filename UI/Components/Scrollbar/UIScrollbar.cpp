@@ -2,17 +2,15 @@
 
 #include "UIScrollbar.h"
 
-#include <iostream>
-
 #define MAX(a, b) (a > b ? a : b)
 
-UIScrollbar::UIScrollbar(UIComponent *_target, float width, float height, Orientation orientation)
-		: UIScrollbar(_target, 0, 0, width, height, orientation) {
+UIScrollbar::UIScrollbar(UIComponent *target, float width, float height, Orientation orientation)
+		: UIScrollbar(target, 0, 0, width, height, orientation) {
 }
 
-UIScrollbar::UIScrollbar(UIComponent *_target, float positionX, float positionY, float width, float height, Orientation orientation) {
+UIScrollbar::UIScrollbar(UIComponent *target, float positionX, float positionY, float width, float height, Orientation orientation) {
 	type = UIComponentType::UISCROLLBAR;
-	this->target = _target;
+	this->target = target;
 	this->positionX = positionX;
 	this->positionY = positionY;
 	this->width = width;
@@ -93,7 +91,7 @@ void UIScrollbar::mousePositionInput(double mx, double my) {
 	lastMy = my;
 }
 
-void UIScrollbar::mouseButtonInput(int button, int action) {
+void UIScrollbar::mouseButtonInput(int action) {
 	if (action == INPUT_RELEASED)
 		dragging = false;
 	if (action == INPUT_PRESSED && hovered)
@@ -112,10 +110,10 @@ void UIScrollbar::setSize(float width, float height) {
 	calc();
 }
 
-void UIScrollbar::setBounds(float x, float y, float w, float h) {
-	this->positionX = x;
-	this->positionY = y;
-	this->width = w;
-	this->height = h;
+void UIScrollbar::setBounds(float positionX, float positionY, float width, float height) {
+	this->positionX = positionX;
+	this->positionY = positionY;
+	this->width = width;
+	this->height = height;
 	calc();
 }

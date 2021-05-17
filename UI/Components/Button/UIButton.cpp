@@ -97,12 +97,12 @@ void UIButton::mousePositionInput(double x, double y) {
             (*callback)(pressed, hovered);
 }
 
-void UIButton::mouseButtonInput(int button, int action) {
+void UIButton::mouseButtonInput(int action) {
     bool previous = pressed;
-    if (button == MOUSE_BUTTON_PRESSED && action == INPUT_PRESSED) {
+    if (action == INPUT_PRESSED) {
         if (hovered)
             pressed = true;
-    } else if (button == MOUSE_BUTTON_PRESSED && action == INPUT_RELEASED)
+    } else if (action == INPUT_RELEASED)
         pressed = false;
     if (callback != nullptr)
         if (previous || pressed)

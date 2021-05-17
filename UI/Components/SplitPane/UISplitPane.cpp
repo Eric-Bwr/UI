@@ -1,10 +1,10 @@
 #include "UISplitPane.h"
 
-UISplitPane::UISplitPane(UIComponent *_left, UIComponent *_right, Orientation _orientation) {
+UISplitPane::UISplitPane(UIComponent *left, UIComponent *right, Orientation orientation) {
 	type = UIComponentType::UISPLITPANE;
-	left = _left;
-	right = _right;
-	orientation = _orientation;
+	this->left = left;
+    this->right = right;
+	this->orientation = orientation;
 	divider = 0.5;
 	dragging = false;
 	hovered = false;
@@ -21,8 +21,7 @@ void UISplitPane::calc() {
 	float vertSplit = height * divider;
 	float x = positionX;
 	float y = positionY;
-
-
+	
 	if (orientation == Orientation::HORIZONTAL) {
 		left->setBounds(x, y, horiSplit - divWidth, height);
 		right->setBounds(x + horiSplit + divWidth, y, width - horiSplit - divWidth, height);
@@ -64,7 +63,7 @@ void UISplitPane::mousePositionInput(double mx, double my) {
 		right->mousePositionInput(mx, my);
 }
 
-void UISplitPane::mouseButtonInput(int button, int action) {
+void UISplitPane::mouseButtonInput(int action) {
 	if (action == INPUT_PRESSED) {
 		if (hovered)
 			dragging = true;
@@ -73,9 +72,9 @@ void UISplitPane::mouseButtonInput(int button, int action) {
 	}
 
 	if (left != nullptr)
-		left->mouseButtonInput(button, action);
+		left->mouseButtonInput(action);
 	if (right != nullptr)
-		right->mouseButtonInput(button, action);
+		right->mouseButtonInput(action);
 }
 
 void UISplitPane::keyInput(int key, int action, int mods) {
@@ -92,58 +91,42 @@ void UISplitPane::charInput(unsigned int key) {
 		right->charInput(key);
 }
 
-void UISplitPane::setLeft(UIComponent *_left) {
-	left = _left;
+void UISplitPane::setLeft(UIComponent *left) {
+    this->left = left;
 	calc();
 }
 
-void UISplitPane::setRight(UIComponent *_right) {
-	right = _right;
+void UISplitPane::setRight(UIComponent *right) {
+    this->right = right;
 	calc();
 }
 
-void UISplitPane::setOrientation(Orientation _ori) {
-	orientation = _ori;
+void UISplitPane::setOrientation(Orientation ori) {
+    this->orientation = ori;
 	calc();
 }
 
-void UISplitPane::setDivider(float _divider) {
-	divider = _divider;
+void UISplitPane::setDivider(float divider) {
+    this->divider = divider;
 	calc();
 }
 
-void UISplitPane::setPosition(float _x, float _y) {
-	positionX = _x;
-	positionY = _y;
+void UISplitPane::setPosition(float x, float y) {
+	this->positionX = x;
+	this->positionY = y;
 	calc();
 }
 
-void UISplitPane::setBounds(float _x, float _y, float _w, float _h) {
-	positionX = _x;
-	positionY = _y;
-	width = _w;
-	height= _h;
+void UISplitPane::setBounds(float positionX, float positionY, float width, float height) {
+	this->positionX = positionX;
+	this->positionY = positionY;
+	this->width = width;
+	this->height = height;
 	calc();
 }
 
-void UISplitPane::setSize(float _width, float _height) {
-	width = _width;
-	height = _height;
+void UISplitPane::setSize(float width, float height) {
+	this->width = width;
+	this->height = height;
 	calc();
-}
-
-UIComponent *UISplitPane::getLeft() {
-	return left;
-}
-
-UIComponent *UISplitPane::getRight() {
-	return right;
-}
-
-Orientation UISplitPane::getOrientation() {
-	return orientation;
-}
-
-float UISplitPane::getDivider() {
-	return divider;
 }

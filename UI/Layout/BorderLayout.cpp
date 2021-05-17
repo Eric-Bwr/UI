@@ -1,8 +1,6 @@
 #include "BorderLayout.h"
 
-#include <iostream>
-
-BorderLayout::BorderLayout(float _width, float _height) : Layout(_width, _height) {
+BorderLayout::BorderLayout(float width, float height) : Layout(width, height) {
 	gapX = 10;
 	gapY = 10;
 }
@@ -37,46 +35,38 @@ void BorderLayout::adjust() {
 		center->setBounds(left, top, right - left, bottom - top);
 }
 
-void BorderLayout::add(UIComponent *c) {
-	add(c, LayoutPosition::CENTER);
+void BorderLayout::add(UIComponent *component) {
+	add(component, LayoutPosition::CENTER);
 }
 
-void BorderLayout::add(UIComponent *c, LayoutPosition pos) {
+void BorderLayout::add(UIComponent *component, LayoutPosition pos) {
 	switch (pos) {
 	case LayoutPosition::CENTER:
-		center = c;
+		center = component;
 		break;
 	case LayoutPosition::NORTH:
-		north = c;
+		north = component;
 		break;
 	case LayoutPosition::SOUTH:
-		south = c;
+		south = component;
 		break;
 	case LayoutPosition::EAST:
-		east = c;
+		east = component;
 		break;
 	case LayoutPosition::WEST:
-		west = c;
+		west = component;
 		break;
 	}
-	components.push_back(c);
+	components.emplace_back(component);
 	adjust();
 }
 
-void BorderLayout::setGapX(float m) {
-	gapX = m;
+void BorderLayout::setGapX(float gapX) {
+    this->gapX = gapX;
 	adjust();
 }
 
-void BorderLayout::setGapY(float m) {
-	gapY = m;
+void BorderLayout::setGapY(float gapY) {
+	this->gapY = gapY;
 	adjust();
-}
-
-float BorderLayout::getGapX() const {
-	return gapX;
-}
-
-float BorderLayout::getGapY() const {
-	return gapY;
 }

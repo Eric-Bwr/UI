@@ -64,7 +64,6 @@ int main() {
     manager.add(&test, 5);
 
     UITextField textField("Default", 700, 500, 198 * 4, 18 * 4, 10);
-    textField.setPasswordField(true);
     UITexture fieldTex("../Assets/Textures/TextField.png");
     textField.setCallback(callback);
     textField.setBackgroundTexture(&fieldTex, 0, 0, 108, 19, 0, 19, 108, 19, 0, 19 * 2, 108, 19);

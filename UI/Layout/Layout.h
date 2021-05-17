@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-
 #include "../Components/UIComponent.h"
 
 enum class LayoutDirection {
@@ -19,34 +18,34 @@ enum class LayoutPosition {
 
 class Insets {
 public:
-	float left;
-	float right;
-	float top;
-	float bottom;
-
 	Insets();
-	explicit Insets(float);
-	Insets(float, float, float, float);
+	explicit Insets(float value);
+	Insets(float left, float right, float top, float bottom);
+
+    float left;
+    float right;
+    float top;
+    float bottom;
 };
 
 class Layout : public UIComponent {
 public:
-	Layout(float, float);
+	Layout(float width, float height);
 
 	virtual void adjust() {}
-	virtual void add(UIComponent *);
-	virtual void add(UIComponent *, LayoutPosition);
+
+	virtual void add(UIComponent *component);
+	virtual void add(UIComponent *component, LayoutPosition position);
+    void setInsets(Insets insets);
+
+	Insets getInsets();
 
     void keyInput(int key, int action, int mods) override;
     void charInput(unsigned int key) override;
     void mousePositionInput(double x, double y) override;
-    void mouseButtonInput(int button, int action) override;
+    void mouseButtonInput(int action) override;
 
-	std::vector<UIComponent *> components = {};
-
-	Insets getInsets();
-	void setInsets(Insets);
-
+    std::vector<UIComponent *> components = {};
 protected:
 	Insets insets;
 };

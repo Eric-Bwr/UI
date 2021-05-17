@@ -9,10 +9,11 @@ class UIButton : public UIComponent {
 public:
     explicit UIButton(float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT);
     UIButton(float positionX, float positionY, float width, float height);
+
     void setBackgroundColor(const UIColor& standardColor, const UIColor& hoverColor, const UIColor& pressedColor);
     void setBackgroundTexture(Texture* texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight);
     void setPosition(float positionX, float positionY) override;
-	void setBounds(float, float, float, float) override;
+	void setBounds(float positionX, float positionY, float width, float height) override;
     void setSize(float width, float height);
     void setText(const char *string, Font* font, int fontSize);
     void setText(const char* text);
@@ -20,9 +21,11 @@ public:
     void setFontSize(int fontSize);
     void setTextColor(const UIColor& color);
     void setRadii(float radii, bool upperLeft = true, bool lowerLeft = true, bool upperRight = true, bool lowerRight = true);
-    void mousePositionInput(double x, double y) override;
-    void mouseButtonInput(int button, int action) override;
     inline void setCallback(void(*callback)(bool pressed, bool hovered)){ this->callback = callback; }
+
+    void mousePositionInput(double x, double y) override;
+    void mouseButtonInput(int action) override;
+
     bool hovered = false, pressed = false;
     QuadMeshTriplet mesh;
     Texture* texture;

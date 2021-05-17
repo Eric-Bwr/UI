@@ -4,26 +4,23 @@
 
 class GridLayout : public Layout {
 public:
-
-	GridLayout(float, float);
-	GridLayout(int, int, float, float);
+	GridLayout(float width, float height);
+	GridLayout(int rows, int cols, float width, float height);
 
 	void adjust() override;
 
-	void setGapX(float);
-	void setGapY(float);
-	float getGapX() const;
-	float getGapY() const;
+	void setGapX(float gapX);
+	void setGapY(float gapY);
+	void setRows(int rows);
+	void setColumns(int cols);
 
-	void setRows(int);
-	void setColumns(int);
+    inline float getGapX() { return gapX; }
+    inline float getGapY() { return gapY; }
+    inline float getRows() { return rows; }
+    inline float getColumns() { return cols; }
 
-	int getRows();
-	int getColumns();
-
-private:
-	float gapX;
-	float gapY;
+    float gapX;
+    float gapY;
 	int rows;
 	int cols;
 };

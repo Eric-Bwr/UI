@@ -132,11 +132,11 @@ void UISlider::setSize(float width, float height) {
     updateDragMesh();
 }
 
-void UISlider::setBounds(float x, float y, float w, float h) {
-    this->positionX = x;
-    this->positionY = y;
-    this->width = w;
-    this->height = h;
+void UISlider::setBounds(float positionX, float positionY, float width, float height) {
+    this->positionX = positionX;
+    this->positionY = positionY;
+    this->width = width;
+    this->height = height;
     updateBackgroundMesh();
     updateSlideMesh();
     updateDragMesh();
@@ -154,11 +154,11 @@ void UISlider::mousePositionInput(double x, double y) {
         drag(x - positionX - sizes[0] / 2);
 }
 
-void UISlider::mouseButtonInput(int button, int action) {
-    if (button == MOUSE_BUTTON_PRESSED && action == INPUT_PRESSED) {
+void UISlider::mouseButtonInput(int action) {
+    if (action == INPUT_PRESSED) {
         if (hovered)
             dragging = true;
-    } else if (button == MOUSE_BUTTON_PRESSED && action == INPUT_RELEASED)
+    } else if (action == INPUT_RELEASED)
         dragging = false;
 }
 
