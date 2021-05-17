@@ -268,7 +268,7 @@ void QuadMesh::render() {
 
 void QuadMesh::setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight) {
     this->radii = radii;
-    this->corners = float((int)upperLeft << 8 | (int)lowerLeft << 6 | (int)upperRight << 4 | (int)lowerRight << 2);
+    this->corners = float((int)upperLeft << 3 | (int)lowerLeft << 2 | (int)upperRight << 1 | (int)lowerRight);
     vertices.at(6) = corners;
     vertices.at(8) = radii;
     vertices.at(17) = corners;

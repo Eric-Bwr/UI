@@ -100,12 +100,12 @@ int main() {
     btn1.bgColor = COLOR_YELLOW;
     btn1.setSize(400, 1200);
 
-    UISplitPane splitPane(0, 0, 1600, 800, &btn1, &test, Orientation::HORIZONTAL);
+   /* UISplitPane splitPane(0, 0, 1600, 800, &btn1, &test, Orientation::HORIZONTAL);
     UITexture splitPaneTexture("../Assets/Textures/SplitPane.png");
     splitPane.setDividerTexture(&splitPaneTexture, 0, 0, 10, 800);
     splitPane.setDividerColor({0, 0, 0, 1}, {0.1, 0.1, 0.1, 1}, {0.3, 0.3, 0.3, 1});
     manager.add(&splitPane, 10);
-
+*/
 	UIText text1(string, &font, 20, 0, 0, 1600, 800, UITextMode::CENTERED_HORIZONTAL);
 	text1.fontSize = 40;
 

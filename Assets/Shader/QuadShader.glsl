@@ -36,7 +36,7 @@ uniform sampler2D image;
 out vec4 FragColor;
 
 float roundCorners(float alpha){
-    vec4 radii = vec4(int(corners) >> 8 & 1, int(corners) >> 6 & 1, int(corners) >> 2 & 1, int(corners) >> 4 & 1) * info.y;
+    vec4 radii = vec4(int(corners) >> 3 & 1, int(corners) >> 2 & 1, int(corners) & 1, int(corners) >> 1& 1) * info.y;
     float yMaxY = info.w - radii.y;
     float xMaxZ = info.z - radii.z;
     float yMaxZ = info.w - radii.z;
