@@ -12,15 +12,13 @@ FontType::FontType(Font *font, int fontSize) : fontSize(fontSize) {
     texture->setFormat(GL_RED);
     texture->setInternalFormat(GL_R8);
     texture->setData(nullptr);
-    texture->setDepth(FONT_CHAR_END - FONT_CHAR_START + 4);
+    texture->setDepth(FONT_CHAR_END - FONT_CHAR_START + 3);
     texture->load();
     this->font = font;
     FT_Set_Pixel_Sizes(font->face, 0, fontSize);
     pixelMapped = 1.0f / fontSize;
     for (int ascii = FONT_CHAR_START; ascii < FONT_CHAR_END; ascii++)
         loadGlyph(ascii);
-    if (!characters.count('|'))
-        loadGlyph('|');
     if (!characters.count(' '))
         loadGlyph(' ');
     if (!characters.count('\t'))
@@ -65,7 +63,7 @@ float FontType::getCharacterWidth(unsigned int ascii) {
 }
 
 float FontType::getOffset() {
-    return characters.at('|').height - characters.at('|').bearingY;
+    return height - bearing;
 }
 
 FontType::~FontType() {

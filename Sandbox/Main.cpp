@@ -1,6 +1,5 @@
 #include "../UI/UIManager.h"
 #include "Window/Window.h"
-#include <thread>
 #include <iostream>
 
 UIManager manager;
@@ -24,10 +23,6 @@ static void mousePositionCallback(GLFWwindow *window, double x, double y) {
 
 static void mouseButtonCallback(GLFWwindow *window, int button, int action, int mods) {
     manager.mouseButtonInput(button, action);
-}
-
-static void callback(bool pressed, bool hovered) {
-    std::cout << "Pressed: " << pressed << " Hovered: " << hovered << "\n";
 }
 
 int main() {
@@ -65,7 +60,6 @@ int main() {
 
     UITextField textField("Default", 700, 500, 198 * 4, 18 * 4, 10);
     UITexture fieldTex("../Assets/Textures/TextField.png");
-    textField.setCallback(callback);
     textField.setBackgroundTexture(&fieldTex, 0, 0, 108, 19, 0, 19, 108, 19, 0, 19 * 2, 108, 19);
     manager.add(&textField, 5);
 

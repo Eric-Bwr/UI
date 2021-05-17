@@ -32,6 +32,7 @@ public:
 	void setValue(float value);
 	inline void setIncrement(float increment){ this->increment = increment; }
 	inline void setFloating(bool floating){ this->floating = floating; }
+    inline void setCallback(void(*callback)(bool dragging, bool hovered, float value)){ this->callback = callback; }
 
     void mousePositionInput(double x, double y) override;
     void mouseButtonInput(int action) override;
@@ -51,6 +52,7 @@ private:
     void updateSlideMesh();
     void updateDragMesh();
 	float getInc(float value) const;
+    void (*callback)(bool dragging, bool hovered, float value) = nullptr;
 	float min;
 	float max;
 	float value;
