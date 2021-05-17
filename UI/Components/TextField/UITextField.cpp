@@ -40,6 +40,15 @@ void UITextField::setBackgroundColor(const UIColor &standardColor, const UIColor
     mesh.loadPosition(positionX, positionY, width, height, mode);
 }
 
+void UITextField::setBackgroundTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight) {
+    this->texture = texture;
+    if (mode == 0)
+        mode = 2;
+    else if (mode == 1)
+        mode = 3;
+    mesh.load(positionX, positionY, width, height, mode, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight);
+}
+
 void UITextField::setBackgroundTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight) {
     this->texture = texture;
     if (mode == 0)

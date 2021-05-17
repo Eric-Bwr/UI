@@ -11,6 +11,7 @@ public:
     UIButton(float positionX, float positionY, float width, float height);
 
     void setBackgroundColor(const UIColor& standardColor, const UIColor& hoverColor, const UIColor& pressedColor);
+    void setBackgroundTexture(Texture* texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight);
     void setBackgroundTexture(Texture* texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight);
     void setPosition(float positionX, float positionY) override;
 	void setBounds(float positionX, float positionY, float width, float height) override;

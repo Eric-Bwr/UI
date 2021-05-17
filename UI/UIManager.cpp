@@ -181,25 +181,37 @@ void UIManager::renderComponent(UIComponent *component) {
         }
     } else if (component->type == UIComponentType::UISPLITPANE) {
         auto ui = (UISplitPane *) component;
-        UIColor bgc = ui->dividerColor;
-        quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
-        ui->mesh.render();
+        if (ui->texture != nullptr)
+            ui->texture->bind();
+        auto bgc = ui->dividerColor.standard;
+        if(ui->dragging){
+            bgc = ui->dividerColor.pressed;
+            quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+            ui->mesh.render(2);
+        }else if(ui->hovered){
+            bgc = ui->dividerColor.hover;
+            quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+            ui->mesh.render(1);
+        }else{
+            quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+            ui->mesh.render(0);
+        }
         renderComponent(ui->getLeft());
         renderComponent(ui->getRight());
     } else if (component->type == UIComponentType::UISCROLLBAR) {
-        auto scrollbar = (UIScrollbar *) component;
-        auto bgc = scrollbar->barBgColor;
+        auto ui = (UIScrollbar*) component;
+        auto bgc = ui->barBgColor;
         quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
-        scrollbar->barBgMesh.render();
-        auto fgc = scrollbar->barFgColor;
+        ui->barBgMesh.render();
+        auto fgc = ui->barFgColor;
         quadShader->setUniform4f(SHADER_COLOR_NAME, fgc.r, fgc.g, fgc.b, fgc.a);
-        scrollbar->barFgMesh.render();
+        ui->barFgMesh.render();
         glEnable(GL_SCISSOR_TEST);
-        if (scrollbar->orientation == Orientation::VERTICAL)
-            glScissor(scrollbar->positionX, height - (scrollbar->positionY + scrollbar->height), scrollbar->width - scrollbar->barWidth, scrollbar->height);
+        if (ui->orientation == Orientation::VERTICAL)
+            glScissor(ui->positionX, height - (ui->positionY + ui->height), ui->width - ui->barWidth, ui->height);
         else
-            glScissor(scrollbar->positionX, height - (scrollbar->positionY + scrollbar->height - scrollbar->barWidth), scrollbar->width, scrollbar->height - scrollbar->barWidth);
-        renderComponent(scrollbar->target);
+            glScissor(ui->positionX, height - (ui->positionY + ui->height - ui->barWidth), ui->width, ui->height - ui->barWidth);
+        renderComponent(ui->target);
         glDisable(GL_SCISSOR_TEST);
     }
 }

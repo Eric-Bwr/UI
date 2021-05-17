@@ -21,14 +21,12 @@ public:
 	QuadMesh barFgMesh;
 	UIColor barFgColor;
 	UIColor barBgColor;
-	float barWidth;
 	Orientation orientation;
+    float barWidth;
 private:
 	void calc();
 	void drag(float mx, float my);
-	float barY;
-	float barHeight;
+	float barY, barHeight;
 	bool dragging = false, hovered = false;
-	float lastMx;
-	float lastMy;
+	float lastMx, lastMy;
 };

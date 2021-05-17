@@ -53,9 +53,7 @@ private:
     void updateDragMesh();
 	float getInc(float value) const;
     void (*callback)(bool dragging, bool hovered, float value) = nullptr;
-	float min;
-	float max;
-	float value;
+	float min, max, value;
 	float increment = 1;
     float renderX = 0, renderWidth;
 	bool floating = false;

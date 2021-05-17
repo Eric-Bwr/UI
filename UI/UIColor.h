@@ -10,6 +10,7 @@ class UIColor{
 public:
     UIColor();
     UIColor(float red, float green, float blue, float alpha, int colorMode = COLOR_NORMALIZED);
+    UIColor(std::initializer_list<float> colors, int colorMode = COLOR_NORMALIZED);
     explicit UIColor(int hex, float alpha = 1.0f);
 	explicit UIColor(const std::string& hex, float alpha = 1.0f);
     Vec4f getNormalizedDecimal() const;

@@ -102,6 +102,9 @@ int main() {
 
     UISplitPane splitPane(&btn1, &test, Orientation::HORIZONTAL);
     splitPane.setBounds(0, 0, 1600, 800);
+    UITexture splitPaneTexture("../Assets/Textures/SplitPane.png");
+    splitPane.setDividerTexture(&splitPaneTexture, 0, 0, 10, 800);
+    splitPane.setDividerColor({0, 0, 0, 1}, {0.1, 0.1, 0.1, 1}, {0.3, 0.3, 0.3, 1});
     manager.add(&splitPane, 10);
 
 	UIText text1(string, &font, 20, 0, 0, 1600, 800, UITextMode::CENTERED_HORIZONTAL);
