@@ -100,8 +100,7 @@ int main() {
     btn1.bgColor = COLOR_YELLOW;
     btn1.setSize(400, 1200);
 
-    UISplitPane splitPane(&btn1, &test, Orientation::HORIZONTAL);
-    splitPane.setBounds(0, 0, 1600, 800);
+    UISplitPane splitPane(0, 0, 1600, 800, &btn1, &test, Orientation::HORIZONTAL);
     UITexture splitPaneTexture("../Assets/Textures/SplitPane.png");
     splitPane.setDividerTexture(&splitPaneTexture, 0, 0, 10, 800);
     splitPane.setDividerColor({0, 0, 0, 1}, {0.1, 0.1, 0.1, 1}, {0.3, 0.3, 0.3, 1});
