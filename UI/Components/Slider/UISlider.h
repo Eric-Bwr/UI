@@ -10,7 +10,8 @@ public:
     explicit UISlider(float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT);
     UISlider(float positionX, float positionY, float width, float height);
 	UISlider(float positionX, float positionY, float width, float height, float value, float min, float max);
-    void setTexture(Texture* texture);
+
+	void setTexture(Texture* texture);
     void setBackgroundColor(const UIColor& standardColor, const UIColor& hoverColor, const UIColor& pressedColor);
     void setBackgroundCoords(float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight);
     void setSlideColor(const UIColor& standardColor, const UIColor& hoverColor, const UIColor& pressedColor);
@@ -19,9 +20,8 @@ public:
     void setDragCoords(float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight);
     void setPosition(float positionX, float positionY) override;
 	void setSize(float width, float height);
-	void setBounds(float, float, float, float) override;
-	void mousePositionInput(double x, double y) override;
-	void mouseButtonInput(int button, int action) override;
+	void setBounds(float positionX, float positionY, float width, float height) override;
+    void setRadii(float radii, bool upperLeft = true, bool lowerLeft = true, bool upperRight = true, bool lowerRight = true);
 	inline float getMin() { return min; }
 	inline float getMax() { return max; }
 	inline float getValue() { return value; }
@@ -32,7 +32,12 @@ public:
 	void setValue(float value);
 	inline void setIncrement(float increment){ this->increment = increment; }
 	inline void setFloating(bool floating){ this->floating = floating; }
-	bool hovered = false, dragging = false;
+    inline void setCallback(void(*callback)(bool dragging, bool hovered, float value)){ this->callback = callback; }
+
+    void mousePositionInput(double x, double y) override;
+    void mouseButtonInput(int action) override;
+
+    bool hovered = false, dragging = false;
 	Texture* texture;
     QuadMeshTriplet dragMesh;
     QuadMeshTriplet slideMesh;
@@ -47,9 +52,8 @@ private:
     void updateSlideMesh();
     void updateDragMesh();
 	float getInc(float value) const;
-	float min;
-	float max;
-	float value;
+    void (*callback)(bool dragging, bool hovered, float value) = nullptr;
+	float min, max, value;
 	float increment = 1;
     float renderX = 0, renderWidth;
 	bool floating = false;

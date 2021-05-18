@@ -4,16 +4,16 @@
 
 class FlowLayout : public Layout {
 public:
-
-	FlowLayout(float, float);
+	FlowLayout(float width, float height);
 
 	void adjust() override;
 
-	void setGapX(float);
-	void setGapY(float);
-	float getGapX() const;
-	float getGapY() const;
-private:
-	float gapX;
-	float gapY;
+	void setGapX(float gapX);
+	void setGapY(float gapY);
+
+	inline float getGapX() { return gapX ;}
+	inline float getGapY() { return gapY ;}
+
+    float gapX;
+    float gapY;
 };

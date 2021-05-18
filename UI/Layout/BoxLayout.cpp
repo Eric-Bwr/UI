@@ -1,7 +1,7 @@
 #include "BoxLayout.h"
 
-BoxLayout::BoxLayout(float _width, float _height, LayoutDirection dir) : Layout(_width, _height) {
-	direction = dir;
+BoxLayout::BoxLayout(float width, float height, LayoutDirection direction) : Layout(width, height) {
+	this->direction = direction;
 	gap = 10;
 }
 
@@ -21,20 +21,12 @@ void BoxLayout::adjust() {
 	}
 }
 
-void BoxLayout::setGap(float m) {
-	gap = m;
+void BoxLayout::setGap(float gap) {
+    this->gap = gap;
 	adjust();
 }
 
-float BoxLayout::getGap() const {
-	return gap;
-}
-
-void BoxLayout::setDirection(LayoutDirection ld) {
-	direction = ld;
+void BoxLayout::setDirection(LayoutDirection direction) {
+    this->direction = direction;
 	adjust();
-}
-
-LayoutDirection BoxLayout::getDirection() const {
-	return direction;
 }

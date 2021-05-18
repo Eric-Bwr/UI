@@ -7,6 +7,7 @@ void UIManager::init(int width, int height, bool scaleOnResize) {
     textShader->setUniformMatrix4f("ortho", ortho.getBuffer());
     quadShader = new Shader("../Assets/Shader/QuadShader.glsl");
     quadShader->setUniformMatrix4f("ortho", ortho.getBuffer());
+    quadShader->setUniform1f("smoothness", CORNER_SMOOTHNESS);
     start = std::chrono::system_clock::now();
     this->width = width;
     this->height = height;
@@ -71,10 +72,12 @@ void UIManager::mousePositionInput(double x, double y) {
 }
 
 void UIManager::mouseButtonInput(int button, int action) {
-    for (auto const &componentList : components) {
-        for (auto component : *componentList.second) {
-            component->mouseButtonInput(button, action);
-            component->mousePositionInput(mouseX, mouseY);
+    if(button == MOUSE_BUTTON_PRESSED) {
+        for (auto const &componentList : components) {
+            for (auto component : *componentList.second) {
+                component->mouseButtonInput(action);
+                component->mousePositionInput(mouseX, mouseY);
+            }
         }
     }
 }
@@ -178,26 +181,37 @@ void UIManager::renderComponent(UIComponent *component) {
         }
     } else if (component->type == UIComponentType::UISPLITPANE) {
         auto ui = (UISplitPane *) component;
-        UIColor bgc = ui->dividerColor;
-        quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
-        ui->mesh.render();
+        if (ui->texture != nullptr)
+            ui->texture->bind();
+        auto bgc = ui->dividerColor.standard;
+        if(ui->dragging){
+            bgc = ui->dividerColor.pressed;
+            quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+            ui->mesh.render(2);
+        }else if(ui->hovered){
+            bgc = ui->dividerColor.hover;
+            quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+            ui->mesh.render(1);
+        }else{
+            quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+            ui->mesh.render(0);
+        }
         renderComponent(ui->getLeft());
         renderComponent(ui->getRight());
     } else if (component->type == UIComponentType::UISCROLLBAR) {
-        auto scrollbar = (UIScrollbar *) component;
-        UIColor bgc = scrollbar->barBgColor;
+        auto ui = (UIScrollbar*) component;
+        auto bgc = ui->barBgColor;
         quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
-        scrollbar->barBgMesh.render();
-        UIColor fgc = scrollbar->barFgColor;
+        ui->barBgMesh.render();
+        auto fgc = ui->barFgColor;
         quadShader->setUniform4f(SHADER_COLOR_NAME, fgc.r, fgc.g, fgc.b, fgc.a);
-        scrollbar->barFgMesh.render();
-	    glEnable(GL_SCISSOR_TEST);
-	    if (scrollbar->orientation == Orientation::VERTICAL)
-	        glScissor(scrollbar->positionX, height - (scrollbar->positionY + scrollbar->height), scrollbar->width - scrollbar->barWidth, scrollbar->height);
-		else
-		    glScissor(scrollbar->positionX, height - (scrollbar->positionY + scrollbar->height - scrollbar->barWidth), scrollbar->width, scrollbar->height - scrollbar->barWidth);
-
-	    renderComponent(scrollbar->target);
+        ui->barFgMesh.render();
+        glEnable(GL_SCISSOR_TEST);
+        if (ui->orientation == Orientation::VERTICAL)
+            glScissor(ui->positionX, height - (ui->positionY + ui->height), ui->width - ui->barWidth, ui->height);
+        else
+            glScissor(ui->positionX, height - (ui->positionY + ui->height - ui->barWidth), ui->width, ui->height - ui->barWidth);
+        renderComponent(ui->target);
         glDisable(GL_SCISSOR_TEST);
     }
 }

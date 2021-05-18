@@ -1,10 +1,10 @@
 #include "Layout.h"
 
-Layout::Layout(float _width, float _height) : UIComponent() {
+Layout::Layout(float width, float height) : UIComponent() {
 	type = UIComponentType::UILAYOUT;
 	insets = Insets();
-	width = _width;
-	height = _height;
+	this->width = width;
+	this->height = height;
 }
 
 void Layout::add(UIComponent *c) {
@@ -12,9 +12,8 @@ void Layout::add(UIComponent *c) {
 	adjust();
 }
 
-
-void Layout::add(UIComponent *c, LayoutPosition pos) {
-	components.emplace_back(c);
+void Layout::add(UIComponent *component, LayoutPosition pos) {
+	components.emplace_back(component);
 	adjust();
 }
 
@@ -33,17 +32,17 @@ void Layout::mousePositionInput(double x, double y) {
         component->mousePositionInput(x, y);
 }
 
-void Layout::mouseButtonInput(int button, int action) {
+void Layout::mouseButtonInput(int action) {
     for(auto component : components)
-        component->mouseButtonInput(button, action);
+        component->mouseButtonInput(action);
 }
 
 Insets Layout::getInsets() {
 	return insets;
 }
 
-void Layout::setInsets(Insets i) {
-	insets = i;
+void Layout::setInsets(Insets insets) {
+	this->insets = insets;
 	adjust();
 }
 
@@ -54,16 +53,16 @@ Insets::Insets() {
 	bottom = 10;
 }
 
-Insets::Insets(float v) {
-	left = v;
-	right = v;
-	top = v;
-	bottom = v;
+Insets::Insets(float value) {
+	left = value;
+	right = value;
+	top = value;
+	bottom = value;
 }
 
-Insets::Insets(float l, float r, float t, float b) {
-	left = l;
-	right = r;
-	top = t;
-	bottom = b;
+Insets::Insets(float left, float right, float top, float bottom) {
+	this->left = left;
+	this->right = right;
+	this->top = top;
+	this->bottom = bottom;
 }

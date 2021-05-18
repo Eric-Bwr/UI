@@ -1,11 +1,9 @@
-#include <iostream>
-
 #include "GridLayout.h"
 
 GridLayout::GridLayout(float _width, float _height) : Layout(_width, _height) {
 	gapX = 10;
 	gapY = 10;
-	rows = 1;
+	rows = 0;
 	cols = 0;
 }
 
@@ -64,8 +62,8 @@ void GridLayout::adjust() {
 	}
 }
 
-void GridLayout::setGapX(float m) {
-	gapX = m;
+void GridLayout::setGapX(float gapX) {
+    this->gapX = gapX;
 	adjust();
 }
 
@@ -74,23 +72,13 @@ void GridLayout::setGapY(float m) {
 	adjust();
 }
 
-float GridLayout::getGapX() const {
-	return gapX;
-}
-
-float GridLayout::getGapY() const {
-	return gapY;
-}
-
-void GridLayout::setRows(int r) {
-	rows = r;
-	cols = 0;
+void GridLayout::setRows(int rows) {
+    this->rows = rows;
 	adjust();
 }
 
-void GridLayout::setColumns(int c) {
-	cols = c;
-	rows = 0;
+void GridLayout::setColumns(int cols) {
+	this->cols = cols;
 	adjust();
 }
 

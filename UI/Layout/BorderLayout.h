@@ -4,23 +4,22 @@
 
 class BorderLayout : public Layout {
 public:
-
-	BorderLayout(float, float);
+	BorderLayout(float width, float height);
 
 	void adjust() override;
 
-	void add(UIComponent *) override;
-	void add(UIComponent *, LayoutPosition) override;
+	void add(UIComponent *component) override;
+	void add(UIComponent *component, LayoutPosition position) override;
 
-	void setGapX(float);
-	void setGapY(float);
-	float getGapX() const;
-	float getGapY() const;
+    void setGapX(float gapX);
+    void setGapY(float gapY);
 
+    inline float getGapX() { return gapX ;}
+    inline float getGapY() { return gapY ;}
+
+    float gapX;
+    float gapY;
 private:
-	float gapX;
-	float gapY;
-
 	UIComponent *east = nullptr;
 	UIComponent *north = nullptr;
 	UIComponent *west = nullptr;

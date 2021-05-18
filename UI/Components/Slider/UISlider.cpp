@@ -132,14 +132,20 @@ void UISlider::setSize(float width, float height) {
     updateDragMesh();
 }
 
-void UISlider::setBounds(float x, float y, float w, float h) {
-    this->positionX = x;
-    this->positionY = y;
-    this->width = w;
-    this->height = h;
+void UISlider::setBounds(float positionX, float positionY, float width, float height) {
+    this->positionX = positionX;
+    this->positionY = positionY;
+    this->width = width;
+    this->height = height;
     updateBackgroundMesh();
     updateSlideMesh();
     updateDragMesh();
+}
+
+void UISlider::setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight) {
+    dragMesh.setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
+    slideMesh.setRadii(radii, upperLeft, lowerLeft, false, false);
+    bgMesh.setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
 }
 
 void UISlider::mousePositionInput(double x, double y) {
@@ -148,12 +154,16 @@ void UISlider::mousePositionInput(double x, double y) {
         drag(x - positionX - sizes[0] / 2);
 }
 
-void UISlider::mouseButtonInput(int button, int action) {
-    if (button == MOUSE_BUTTON_PRESSED && action == INPUT_PRESSED) {
+void UISlider::mouseButtonInput(int action) {
+    bool previous = hovered;
+    if (action == INPUT_PRESSED) {
         if (hovered)
             dragging = true;
-    } else if (button == MOUSE_BUTTON_PRESSED && action == INPUT_RELEASED)
+    } else if (action == INPUT_RELEASED)
         dragging = false;
+    if (previous && !hovered || !previous && hovered)
+        if (callback != nullptr)
+            (*callback)(dragging, hovered, value);
 }
 
 void UISlider::drag(float rx) {
@@ -167,6 +177,8 @@ void UISlider::drag(float rx) {
     renderX = getInc(renderWidth * (value - min) / (max - min));
     updateSlideMesh();
     updateDragMesh();
+    if (callback != nullptr)
+            (*callback)(dragging, hovered, value);
 }
 
 float UISlider::getInc(float val) const {

@@ -29,7 +29,7 @@ UITextField::UITextField(const char *defaultText, Font *font, int fontSize, floa
     updateCursor();
 }
 
-void UITextField::setBackgroundColor(const UIColor& standardColor, const UIColor& hoverColor, const UIColor& pressedColor) {
+void UITextField::setBackgroundColor(const UIColor &standardColor, const UIColor &hoverColor, const UIColor &pressedColor) {
     this->bgColor.standard = standardColor;
     this->bgColor.hover = hoverColor;
     this->bgColor.pressed = pressedColor;
@@ -38,6 +38,15 @@ void UITextField::setBackgroundColor(const UIColor& standardColor, const UIColor
     else if (mode == 2)
         mode = 3;
     mesh.loadPosition(positionX, positionY, width, height, mode);
+}
+
+void UITextField::setBackgroundTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight) {
+    this->texture = texture;
+    if (mode == 0)
+        mode = 2;
+    else if (mode == 1)
+        mode = 3;
+    mesh.load(positionX, positionY, width, height, mode, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight);
 }
 
 void UITextField::setBackgroundTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight) {
@@ -75,6 +84,13 @@ void UITextField::setBounds(float x, float y, float w, float h) {
     updateCursor();
 }
 
+void UITextField::setText(const char *string) {
+    text.setText(string);
+    content = string;
+    cursorContent = content;
+    updateCursor();
+}
+
 void UITextField::setFont(Font *font) {
     text.setFont(font);
     fontType = DataManager::getFontType(&text);
@@ -99,6 +115,25 @@ void UITextField::setCursorPadding(float cursorPadding) {
 void UITextField::setOffset(float offset) {
     this->offset = offset;
     updateCursor();
+}
+
+void UITextField::setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight) {
+    mesh.setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
+}
+
+void UITextField::setPasswordVisible(bool visible) {
+    if (visible) {
+        setText(passwordContent.c_str());
+        isPasswordField = false;
+    } else {
+        isPasswordField = true;
+        passwordContent = content;
+        content.clear();
+        for (int i = 0; i < passwordContent.size(); i++) {
+            content += PASSWORD_CHARACTER;
+        }
+        setText(content.c_str());
+    }
 }
 
 void UITextField::keyInput(int key, int action, int mods) {
@@ -170,7 +205,7 @@ void UITextField::keyInput(int key, int action, int mods) {
 void UITextField::charInput(unsigned int key) {
     if (pressed) {
         if (content.size() < maxCharacter) {
-            if (fontType->getTextWidth((content + char(key)).c_str()) < width - offset * 2 - cursorWidth) {
+            if (fontType->getTextWidth((content + char(key)).c_str()) < width - offset * 2 - cursorWidth && fontType->getTextWidth((passwordContent + char(key)).c_str()) < width - offset * 2 - cursorWidth) {
                 char *end = content.substr(cursorContent.size(), content.size()).data();
                 if (isPasswordField) {
                     char *passwordEnd = content.substr(cursorContent.size(), content.size()).data();
@@ -201,9 +236,9 @@ void UITextField::mousePositionInput(double x, double y) {
             (*callback)(pressed, hovered);
 }
 
-void UITextField::mouseButtonInput(int button, int action) {
+void UITextField::mouseButtonInput(int action) {
     bool previous = pressed;
-    if (button == MOUSE_BUTTON_PRESSED && action == INPUT_PRESSED) {
+    if (action == INPUT_PRESSED) {
         if (hovered) {
             pressed = true;
             if (content == defaultText) {
@@ -211,20 +246,26 @@ void UITextField::mouseButtonInput(int button, int action) {
                 passwordContent.clear();
                 text.setText(content.c_str());
             } else {
-                float textAdvance = 0;
-                int i;
-                for (i = 0; i < content.size(); i++) {
-                    if (textAdvance > mouseAdvance)
-                        break;
-                    textAdvance += fontType->getCharacterWidth(content.at(i));
+                if(!content.empty()) {
+                    float textAdvance = 0;
+                    int i;
+                    for (i = 0; i < content.size(); i++) {
+                        if (textAdvance >= mouseAdvance)
+                            break;
+                        textAdvance += fontType->getCharacterWidth(content.at(i));
+                    }
+                    if (i < content.size()) {
+                        float w = fontType->getCharacterWidth(content.at(i)) / 2;
+                        if (textAdvance - w > mouseAdvance)
+                            i--;
+                    } else {
+                        float w = fontType->getCharacterWidth(content.back()) / 2;
+                        if (textAdvance - w > mouseAdvance)
+                            i--;
+                    }
+                    cursorContent = content.substr(0, i);
+                    updateCursor();
                 }
-                if (content.size() > i) {
-                    float w = fontType->getCharacterWidth(content.at(i)) / 2;
-                    if (textAdvance - w > mouseAdvance)
-                        i--;
-                }
-                cursorContent = content.substr(0, i);
-                updateCursor();
             }
         } else {
             pressed = false;

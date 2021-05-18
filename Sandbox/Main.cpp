@@ -1,6 +1,5 @@
 #include "../UI/UIManager.h"
 #include "Window/Window.h"
-#include <thread>
 #include <iostream>
 
 UIManager manager;
@@ -26,16 +25,14 @@ static void mouseButtonCallback(GLFWwindow *window, int button, int action, int 
     manager.mouseButtonInput(button, action);
 }
 
-static void callback(bool pressed, bool hovered) {
-    std::cout << "Pressed: " << pressed << " Hovered: " << hovered << "\n";
-}
-
 int main() {
     auto windowSettings = new WindowSettings;
     windowSettings->setWidth(1600);
     windowSettings->setHeight(800);
     windowSettings->setCentered(true);
     windowSettings->setTransparent(false);
+    windowSettings->setShouldMultiSample(true);
+    windowSettings->setSampleSize(2);
 
     Window window(windowSettings);
 
@@ -49,8 +46,11 @@ int main() {
 
     Font font("C:/Windows/Fonts/Arial.ttf");
     const char *string = "Crocs, Inc. is an American company based in Niwot, Colorado that manufactures and markets the Crocs brand of foam clogs.\nThe company has since established a considerable following with American middle school and high school students, with many opting for Crocs to use as school shoes for the school day.";
-    UIText text(string, &font, 15, 0, 0, 1600, 800, UITextMode::RIGHT);
-    manager.add(&text, 4);
+
+    Font farCry("../Assets/Fonts/FarCry.ttf");
+    const char *farCryString = "g";
+    UIText farCryText(farCryString, &farCry, 200, 0, 0, 1600, 800, LEFT);
+    manager.add(&farCryText, 6);
 
     UITexture texture("../Assets/Textures/Button.png");
     UIButton test(500, 100, 198 * 4, 18 * 4);
@@ -60,11 +60,11 @@ int main() {
 
     UITextField textField("Default", 700, 500, 198 * 4, 18 * 4, 10);
     UITexture fieldTex("../Assets/Textures/TextField.png");
-    textField.setCallback(callback);
     textField.setBackgroundTexture(&fieldTex, 0, 0, 108, 19, 0, 19, 108, 19, 0, 19 * 2, 108, 19);
     manager.add(&textField, 5);
 
     UISlider slider(1000, 300, 500, 50, 5, -10, 10);
+    slider.setRadii(20);
     UITexture sliderTex("../Assets/Textures/Slider.png");
     slider.setTexture(&sliderTex);
     slider.setBackgroundCoords(0, 0, 300, 35, 0, 35, 300, 35, 0, 35, 300, 35);
@@ -96,11 +96,21 @@ int main() {
     UIButton btn1;
     btn1.bgColor = COLOR_YELLOW;
     btn1.setSize(400, 1200);
+    UIButton btn2;
+    btn1.bgColor = COLOR_YELLOW;
+    btn1.setSize(400, 1200);
 
+   /* UISplitPane splitPane(0, 0, 1600, 800, &btn1, &test, Orientation::HORIZONTAL);
+    UITexture splitPaneTexture("../Assets/Textures/SplitPane.png");
+    splitPane.setDividerTexture(&splitPaneTexture, 0, 0, 10, 800);
+    splitPane.setDividerColor({0, 0, 0, 1}, {0.1, 0.1, 0.1, 1}, {0.3, 0.3, 0.3, 1});
+    manager.add(&splitPane, 10);
+*/
 	UIText text1(string, &font, 20, 0, 0, 1600, 800, UITextMode::CENTERED_HORIZONTAL);
 	text1.fontSize = 40;
 
 	UIScrollbar scrollbar(&text1, 40, 300, 400, 400, Orientation::VERTICAL);
+	scrollbar.setRadii(5);
 
 	manager.add(&scrollbar);
 

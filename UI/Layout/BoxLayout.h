@@ -4,20 +4,17 @@
 
 class BoxLayout : public Layout {
 public:
-    LayoutDirection direction;
 
     BoxLayout(float, float, LayoutDirection dir = LayoutDirection::ROW);
 
     void adjust() override;
 
-    void setGap(float);
+    void setGap(float gap);
+    void setDirection(LayoutDirection direction);
 
-    float getGap() const;
+    inline float getGap() { return gap; }
+    inline LayoutDirection getDirection() { return direction; }
 
-    void setDirection(LayoutDirection);
-
-    LayoutDirection getDirection() const;
-
-private:
-	float gap;
+    float gap;
+    LayoutDirection direction;
 };

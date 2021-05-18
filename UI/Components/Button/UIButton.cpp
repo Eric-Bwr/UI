@@ -29,6 +29,15 @@ void UIButton::setBackgroundColor(const UIColor& standardColor, const UIColor& h
     mesh.loadPosition(positionX, positionY, width, height, mode);
 }
 
+void UIButton::setBackgroundTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight) {
+    this->texture = texture;
+    if (mode == 0)
+        mode = 2;
+    else if (mode == 1)
+        mode = 3;
+    mesh.load(positionX, positionY, width, height, mode, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight);
+}
+
 void UIButton::setBackgroundTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight) {
     this->texture = texture;
     if (mode == 0)
@@ -85,6 +94,10 @@ void UIButton::setTextColor(const UIColor& color) {
     this->fgColor = color;
 }
 
+void UIButton::setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight) {
+    mesh.setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
+}
+
 void UIButton::mousePositionInput(double x, double y) {
     bool previous = hovered;
     hovered = COMPONENT_HOVERED(x, y);
@@ -93,12 +106,12 @@ void UIButton::mousePositionInput(double x, double y) {
             (*callback)(pressed, hovered);
 }
 
-void UIButton::mouseButtonInput(int button, int action) {
+void UIButton::mouseButtonInput(int action) {
     bool previous = pressed;
-    if (button == MOUSE_BUTTON_PRESSED && action == INPUT_PRESSED) {
+    if (action == INPUT_PRESSED) {
         if (hovered)
             pressed = true;
-    } else if (button == MOUSE_BUTTON_PRESSED && action == INPUT_RELEASED)
+    } else if (action == INPUT_RELEASED)
         pressed = false;
     if (callback != nullptr)
         if (previous || pressed)
