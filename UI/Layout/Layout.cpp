@@ -7,7 +7,6 @@ Layout::Layout(float _width, float _height) : UIComponent() {
 	height = _height;
 }
 
-/* optimize, not adjusting all components */
 void Layout::add(UIComponent *c) {
 	components.emplace_back(c);
 	adjust();

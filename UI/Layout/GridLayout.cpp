@@ -1,9 +1,11 @@
+#include <iostream>
+
 #include "GridLayout.h"
 
 GridLayout::GridLayout(float _width, float _height) : Layout(_width, _height) {
 	gapX = 10;
 	gapY = 10;
-	rows = 0;
+	rows = 1;
 	cols = 0;
 }
 
@@ -12,8 +14,12 @@ GridLayout::GridLayout(int _rows, int _cols, float _width, float _height) : Layo
 	gapY = 10;
 	rows = _rows;
 	cols = _cols;
-	if (rows != 0 && cols != 0) /* either rows or cols has to be 0 */
-		; /* TODO: Error */
+	if (rows != 0)
+		cols = 0;
+	else if (cols != 0)
+		rows = 0;
+	else if (rows == 0 || cols == 0)
+		rows = 1;
 }
 
 void GridLayout::adjust() {
@@ -78,11 +84,13 @@ float GridLayout::getGapY() const {
 
 void GridLayout::setRows(int r) {
 	rows = r;
+	cols = 0;
 	adjust();
 }
 
 void GridLayout::setColumns(int c) {
 	cols = c;
+	rows = 0;
 	adjust();
 }
 
