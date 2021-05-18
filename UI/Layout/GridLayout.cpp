@@ -1,19 +1,23 @@
 #include "GridLayout.h"
 
-GridLayout::GridLayout(float width, float height) : Layout(width, height) {
+GridLayout::GridLayout(float _width, float _height) : Layout(_width, _height) {
 	gapX = 10;
 	gapY = 10;
 	rows = 0;
 	cols = 0;
 }
 
-GridLayout::GridLayout(int rows, int cols, float width, float height) : Layout(width, height) {
-	this->gapX = 10;
-	this->gapY = 10;
-	this->rows = rows;
-	this->cols = cols;
-	if (rows != 0 && cols != 0) /* either rows or cols has to be 0 */
-		; /* TODO: Error */
+GridLayout::GridLayout(int _rows, int _cols, float _width, float _height) : Layout(_width, _height) {
+	gapX = 10;
+	gapY = 10;
+	rows = _rows;
+	cols = _cols;
+	if (rows != 0)
+		cols = 0;
+	else if (cols != 0)
+		rows = 0;
+	else if (rows == 0 || cols == 0)
+		rows = 1;
 }
 
 void GridLayout::adjust() {
@@ -63,8 +67,8 @@ void GridLayout::setGapX(float gapX) {
 	adjust();
 }
 
-void GridLayout::setGapY(float gapY) {
-    this->gapY = gapY;
+void GridLayout::setGapY(float m) {
+	gapY = m;
 	adjust();
 }
 

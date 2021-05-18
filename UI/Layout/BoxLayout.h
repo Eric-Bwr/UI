@@ -12,8 +12,8 @@ public:
     void setGap(float gap);
     void setDirection(LayoutDirection direction);
 
-    inline float getGap() { return gap; }
-    inline LayoutDirection getDirection() { return direction; }
+    float getGap() { return gap; }
+    LayoutDirection getDirection() { return direction; }
 
     float gap;
     LayoutDirection direction;
