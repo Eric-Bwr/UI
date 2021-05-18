@@ -6,42 +6,37 @@
 #include "../../UIColor.h"
 #include "../Text/UIText.h"
 
-class UITextField : public UIComponent {
+class UITextArea : public UIComponent {
 public:
-    explicit UITextField(const char* defaultText, Font* font = DataManager::defaultFont, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, float offset = 0);
-    UITextField(const char* defaultText, float positionX, float positionY, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, float offset = 0);
-    UITextField(const char* defaultText, Font* font, int fontSize, float positionX, float positionY, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, float offset = 0);
+    UITextArea(float positionX, float positionY, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, float offset = 0);
+    UITextArea(Font* font, int fontSize, float positionX, float positionY, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, float offset = 0, int mode = UITextMode::LEFT);
 
     void setBackgroundColor(const UIColor& standardColor, const UIColor& hoverColor, const UIColor& pressedColor);
     void setBackgroundTexture(Texture* texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight);
     void setBackgroundTexture(Texture* texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight);
     void setPosition(float positionX, float positionY) override;
     void setSize(float width, float height);
-	void setBounds(float positionX, float positionY, float width, float height) override;
-	void setText(const char* text);
+    void setBounds(float positionX, float positionY, float width, float height) override;
+    void setText(const char* text);
     void setFont(Font *font);
-	void setFontSize(int fontSize);
-	void setMaxCharacter(int maxCharacter);
-	void setCursorPadding(float cursorPadding);
-	void setOffset(float offset);
+    void setFontSize(int fontSize);
+    void setMaxCharacter(int maxCharacter);
+    void setCursorPadding(float cursorPadding);
+    void setOffset(float offset);
     void setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight);
-	void setPasswordVisible(bool visible);
-	inline void setPasswordField(bool isPasswordField){ this->isPasswordField = isPasswordField; }
     inline void setCallback(void(*callback)(bool pressed, bool hovered)){ this->callback = callback; }
-    inline void setContentCallback(void(*contentCallback)(std::string content, std::string passwordContent)){ this->contentCallback = contentCallback; }
+    inline void setContentCallback(void(*contentCallback)(std::string content)){ this->contentCallback = contentCallback; }
 
-    inline std::string getContent() const { return content; }
-	inline std::string getPasswordContent() const { return passwordContent; }
+//    inline std::string getContent() const { return content; }
 
-    void keyInput(int key, int action, int mods) override;
+  //  void keyInput(int key, int action, int mods) override;
     void charInput(unsigned int key) override;
     void mousePositionInput(double x, double y) override;
     void mouseButtonInput(int action) override;
 
     bool hovered = false, pressed = false;
     float cursorWidth = CURSOR_WIDTH, cursorPadding = CURSOR_PADDING, offset = 0;
-    const char* defaultText;
-    std::string content, cursorContent, passwordContent;
+    std::string cursorContent, currentLineContent;
     QuadMeshTriplet mesh;
     QuadMesh cursorMesh;
     Texture* texture;
@@ -50,10 +45,10 @@ public:
     UIColor cursorColor;
     UIText text;
 private:
-    int maxCharacter, mode = 0;
-    bool isPasswordField = false;
+    int maxCharacter, mode = 0, currentLine = 0;
     double mouseAdvance = 0;
+    void lineToString(int line);
     void updateCursor();
     void (*callback)(bool pressed, bool hovered) = nullptr;
-    void (*contentCallback)(std::string content, std::string passwordContent) = nullptr;
+    void (*contentCallback)(std::string content) = nullptr;
 };

@@ -21,11 +21,10 @@ UITextField::UITextField(const char *defaultText, Font *font, int fontSize, floa
     this->bgColor.hover = COLOR_RED.darker();
     this->bgColor.pressed = COLOR_RED.darker().darker();
     this->fgColor = this->cursorColor = COLOR_WHITE;
-    this->fontType = DataManager::getFontType(&text);
     this->maxCharacter = INT_MAX;
     this->offset = offset;
     mesh.load(positionX, positionY, width, height, 0);
-    cursorMesh.load(positionX + offset + fontType->getTextWidth(cursorContent.c_str()), positionY + cursorPadding, cursorWidth, height - cursorPadding * 2, 0);
+    cursorMesh.load(positionX + offset + text.fontType->getTextWidth(cursorContent.c_str()), positionY + cursorPadding, cursorWidth, height - cursorPadding * 2, 0);
     updateCursor();
 }
 
@@ -93,13 +92,11 @@ void UITextField::setText(const char *string) {
 
 void UITextField::setFont(Font *font) {
     text.setFont(font);
-    fontType = DataManager::getFontType(&text);
     updateCursor();
 }
 
 void UITextField::setFontSize(int fontSize) {
     text.setFontSize(fontSize);
-    fontType = DataManager::getFontType(&text);
     updateCursor();
 }
 
@@ -205,7 +202,7 @@ void UITextField::keyInput(int key, int action, int mods) {
 void UITextField::charInput(unsigned int key) {
     if (pressed) {
         if (content.size() < maxCharacter) {
-            if (fontType->getTextWidth((content + char(key)).c_str()) < width - offset * 2 - cursorWidth && fontType->getTextWidth((passwordContent + char(key)).c_str()) < width - offset * 2 - cursorWidth) {
+            if (text.fontType->getTextWidth((content + char(key)).c_str()) < width - offset * 2 - cursorWidth && text.fontType->getTextWidth((passwordContent + char(key)).c_str()) < width - offset * 2 - cursorWidth) {
                 char *end = content.substr(cursorContent.size(), content.size()).data();
                 if (isPasswordField) {
                     char *passwordEnd = content.substr(cursorContent.size(), content.size()).data();
@@ -252,14 +249,14 @@ void UITextField::mouseButtonInput(int action) {
                     for (i = 0; i < content.size(); i++) {
                         if (textAdvance >= mouseAdvance)
                             break;
-                        textAdvance += fontType->getCharacterWidth(content.at(i));
+                        textAdvance += text.fontType->getCharacterWidth(content.at(i));
                     }
                     if (i < content.size()) {
-                        float w = fontType->getCharacterWidth(content.at(i)) / 2;
+                        float w = text.fontType->getCharacterWidth(content.at(i)) / 2;
                         if (textAdvance - w > mouseAdvance)
                             i--;
                     } else {
-                        float w = fontType->getCharacterWidth(content.back()) / 2;
+                        float w = text.fontType->getCharacterWidth(content.back()) / 2;
                         if (textAdvance - w > mouseAdvance)
                             i--;
                     }
@@ -283,5 +280,5 @@ void UITextField::mouseButtonInput(int action) {
 }
 
 void UITextField::updateCursor() {
-    cursorMesh.loadPosition(positionX + offset + fontType->getTextWidth(cursorContent.c_str()) - cursorWidth / 2, positionY + cursorPadding, cursorWidth, height - cursorPadding * 2);
+    cursorMesh.loadPosition(positionX + offset + text.fontType->getTextWidth(cursorContent.c_str()) - cursorWidth / 2, positionY + cursorPadding, cursorWidth, height - cursorPadding * 2);
 }

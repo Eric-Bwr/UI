@@ -63,6 +63,11 @@ int main() {
     textField.setBackgroundTexture(&fieldTex, 0, 0, 108, 19, 0, 19, 108, 19, 0, 19 * 2, 108, 19);
     manager.add(&textField, 5);
 
+    UITextArea textArea(100, 100, 1400, 600);
+    textArea.setFontSize(50);
+    textArea.setText(string);
+    manager.add(&textArea, 11);
+
     UISlider slider(1000, 300, 500, 50, 5, -10, 10);
     slider.setRadii(20);
     UITexture sliderTex("../Assets/Textures/Slider.png");
@@ -106,8 +111,7 @@ int main() {
     splitPane.setDividerColor({0, 0, 0, 1}, {0.1, 0.1, 0.1, 1}, {0.3, 0.3, 0.3, 1});
     manager.add(&splitPane, 10);
 */
-	UIText text1(string, &font, 20, 0, 0, 1600, 800, UITextMode::CENTERED_HORIZONTAL);
-	text1.fontSize = 40;
+	UIText text1(string, &font, 40, 0, 0, 1600, 800, UITextMode::CENTERED_HORIZONTAL);
 
 	UIScrollbar scrollbar(&text1, 40, 300, 400, 400, Orientation::VERTICAL);
 	scrollbar.setRadii(5);

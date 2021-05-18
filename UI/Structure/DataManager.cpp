@@ -57,7 +57,8 @@ FontType *DataManager::getFontType(Font *font, int fontSize) {
 }
 
 void DataManager::loadText(UIText *uiText) {
-    uiText->textMesh.loadText(uiText, getFontType(uiText));
+    uiText->textMesh.loadTextStructure();
+    uiText->textMesh.loadText();
 }
 
 DataManager::~DataManager() {

@@ -9,6 +9,7 @@
 #include "Components/Text/UIText.h"
 #include "Components/Text/Font.h"
 #include "Components/TextField/UITextField.h"
+#include "Components/TextArea/UITextArea.h"
 #include "Components/Button/UIButton.h"
 #include "Components/Slider/UISlider.h"
 #include "Components/SplitPane/UISplitPane.h"

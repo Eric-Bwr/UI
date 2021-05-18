@@ -37,5 +37,6 @@ public:
     const char* text;
     int fontSize, mode;
     Font* font;
+    FontType* fontType;
     TextMesh textMesh;
 };

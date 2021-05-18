@@ -22,7 +22,7 @@ include_directories(${PROJECT_NAME} "Dependencies/FreeType/include")
 
 include_directories(${PROJECT_NAME})
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES} UI/Structure/Defines.h UI/UITexture.cpp UI/UITexture.h)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES} UI/Structure/Defines.h UI/UITexture.cpp UI/UITexture.h UI/Components/TextArea/UITextArea.cpp UI/Components/TextArea/UITextArea.h)
 
 target_link_libraries(${PROJECT_NAME}
         ${CMAKE_CURRENT_LIST_DIR}/Dependencies/FreeType/freetype.a
