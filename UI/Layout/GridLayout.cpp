@@ -81,11 +81,3 @@ void GridLayout::setColumns(int cols) {
 	this->cols = cols;
 	adjust();
 }
-
-int GridLayout::getRows() {
-	return rows;
-}
-
-int GridLayout::getColumns() {
-	return cols;
-}

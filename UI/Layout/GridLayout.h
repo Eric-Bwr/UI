@@ -14,10 +14,10 @@ public:
 	void setRows(int rows);
 	void setColumns(int cols);
 
-    inline float getGapX() { return gapX; }
-    inline float getGapY() { return gapY; }
-    inline float getRows() { return rows; }
-    inline float getColumns() { return cols; }
+    float getGapX() { return gapX; }
+    float getGapY() { return gapY; }
+    float getRows() { return rows; }
+    float getColumns() { return cols; }
 
     float gapX;
     float gapY;
