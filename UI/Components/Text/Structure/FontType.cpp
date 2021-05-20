@@ -50,16 +50,20 @@ void FontType::loadGlyph(int ascii) {
         height = ch.height;
 }
 
-float FontType::getTextWidth(const char *text) {
+float FontType::getTextWidth(char *text) {
     float result = 0.0f;
     for (int i = 0; i < strlen(text); i++) {
-        result += characters.at(text[i]).advance;
+        if(characters.count(text[i]))
+            result += characters.at(text[i]).advance;
     }
     return result;
 }
 
 float FontType::getCharacterWidth(unsigned int ascii) {
-    return characters.at(ascii).advance;
+    if(characters.count(ascii))
+        return characters.at(ascii).advance;
+    else
+        return 0.0f;
 }
 
 float FontType::getOffset() {

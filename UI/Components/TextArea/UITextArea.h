@@ -17,10 +17,9 @@ public:
     void setPosition(float positionX, float positionY) override;
     void setSize(float width, float height);
     void setBounds(float positionX, float positionY, float width, float height) override;
-    void setText(const char* text);
+    void setText(char* text);
     void setFont(Font *font);
     void setFontSize(int fontSize);
-    void setMaxCharacter(int maxCharacter);
     void setCursorPadding(float cursorPadding);
     void setOffset(float offset);
     void setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight);
@@ -29,14 +28,14 @@ public:
 
 //    inline std::string getContent() const { return content; }
 
-  //  void keyInput(int key, int action, int mods) override;
+    void keyInput(int key, int action, int mods) override;
     void charInput(unsigned int key) override;
     void mousePositionInput(double x, double y) override;
     void mouseButtonInput(int action) override;
 
     bool hovered = false, pressed = false;
     float cursorWidth = CURSOR_WIDTH, cursorPadding = CURSOR_PADDING, offset = 0;
-    std::string cursorContent, currentLineContent;
+    std::string cursorContent, currentLineContent, currentContentUntilLine;
     QuadMeshTriplet mesh;
     QuadMesh cursorMesh;
     Texture* texture;
@@ -45,8 +44,9 @@ public:
     UIColor cursorColor;
     UIText text;
 private:
-    int maxCharacter, mode = 0, currentLine = 0;
-    double mouseAdvance = 0;
+    int mode = 0, currentLine = 0;
+    double mouseAdvanceX = 0, mouseAdvanceY = 0;
+    void getTextUntilLine(int line);
     void lineToString(int line);
     void updateCursor();
     void (*callback)(bool pressed, bool hovered) = nullptr;

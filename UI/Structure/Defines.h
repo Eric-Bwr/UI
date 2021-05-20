@@ -59,6 +59,12 @@
 #ifndef KEY_LEFT
 #define KEY_LEFT 263
 #endif
+#ifndef KEY_UP
+#define KEY_UP 265
+#endif
+#ifndef KEY_DOWN
+#define KEY_DOWN 264
+#endif
 #ifndef KEY_MOD_CONTROL
 #define KEY_MOD_CONTROL 0x0002
 #endif

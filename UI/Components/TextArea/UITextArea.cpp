@@ -5,7 +5,7 @@ UITextArea::UITextArea(float positionX, float positionY, float width, float heig
         : UITextArea(DataManager::defaultFont, 20, positionX, positionY, width, height, offset) {}
 
 UITextArea::UITextArea(Font *font, int fontSize, float positionX, float positionY, float width, float height, float offset, int mode)
-        : text("", font, fontSize, positionX + offset, positionY, width - offset * 2, height, mode) {
+        : text("", font, fontSize, positionX + offset, positionY + offset, width - offset * 2, height, mode) {
     type = UIComponentType::UITEXTAREA;
     texture = nullptr;
     this->positionX = positionX;
@@ -16,10 +16,9 @@ UITextArea::UITextArea(Font *font, int fontSize, float positionX, float position
     this->bgColor.hover = COLOR_RED.darker();
     this->bgColor.pressed = COLOR_RED.darker().darker();
     this->fgColor = this->cursorColor = COLOR_WHITE;
-    this->maxCharacter = INT_MAX;
     this->offset = offset;
     mesh.load(positionX, positionY, width, height, 0);
-    cursorMesh.load(positionX + offset + text.fontType->getTextWidth(cursorContent.c_str()), positionY + cursorPadding, cursorWidth, height - cursorPadding * 2, 0);
+    cursorMesh.load(positionX + offset + text.fontType->getTextWidth(cursorContent.data()), positionY + cursorPadding, cursorWidth, height - cursorPadding * 2, 0);
     updateCursor();
 }
 
@@ -78,13 +77,14 @@ void UITextArea::setBounds(float x, float y, float w, float h) {
     updateCursor();
 }
 
-void UITextArea::setText(const char *string) {
+void UITextArea::setText(char *string) {
     text.text = string;
     text.textMesh.loadTextStructure();
     text.textMesh.loadText();
-    lineToString(text.textMesh.lines.size() - 1);
+    currentLine = text.textMesh.lines.size() - 1;
+    lineToString(currentLine);
+    getTextUntilLine(currentLine);
     cursorContent = currentLineContent;
-    currentLINE
     updateCursor();
 }
 
@@ -96,10 +96,6 @@ void UITextArea::setFont(Font *font) {
 void UITextArea::setFontSize(int fontSize) {
     text.setFontSize(fontSize);
     updateCursor();
-}
-
-void UITextArea::setMaxCharacter(int maxCharacter) {
-    this->maxCharacter = maxCharacter;
 }
 
 void UITextArea::setCursorPadding(float cursorPadding) {
@@ -116,38 +112,43 @@ void UITextArea::setRadii(float radii, bool upperLeft, bool lowerLeft, bool uppe
     mesh.setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
 }
 
-/*
 void UITextArea::keyInput(int key, int action, int mods) {
     if (pressed) {
         if (action == INPUT_PRESSED || action == INPUT_REPEATED) {
             if (key == KEY_BACKSPACE) {
-                if (mods == KEY_MOD_CONTROL) {
-                    content = content.substr(cursorContent.size(), content.size());
-                    cursorContent.clear();
-                    text.setText(content.c_str());
-                    updateCursor();
-                } else {
-                    if (!cursorContent.empty()) {
-                        char *end = content.substr(cursorContent.size(), content.size()).data();
-                        content = content.substr(0, cursorContent.size() - 1) + end;
-                        text.setText(content.c_str());
+                if (!cursorContent.empty()) {
+                    lineToString(currentLine);
+                    getTextUntilLine(currentLine);
+                    if (mods == KEY_MOD_CONTROL) {
+                    } else {
                         cursorContent.pop_back();
+                        auto end = text.text.substr(currentContentUntilLine.size() + cursorContent.size());
+                        text.text = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size() - 1) + end;
+                        text.textMesh.loadTextStructure();
+                        text.textMesh.loadText();
+                        lineToString(currentLine);
+                        getTextUntilLine(currentLine);
                         updateCursor();
                     }
                 }
             } else if (key == KEY_DELETE) {
+                getTextUntilLine(currentLine);
                 if (mods == KEY_MOD_CONTROL) {
-                    content = content.substr(0, cursorContent.size());
-                    text.setText(content.c_str());
+                    text.text = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size() + 1);
+                    text.textMesh.loadTextStructure();
+                    text.textMesh.loadText();
                     updateCursor();
                 } else {
-                    if (cursorContent.size() < content.size()) {
-                        char *start = content.substr(0, cursorContent.size()).data();
-                        content = start + content.substr(cursorContent.size() + 1, content.size());
-                        text.setText(content.c_str());
+                    if (cursorContent.size() < currentLineContent.size() - 1) {
+                        auto start = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size() + 1);
+                        text.text = start + text.text.substr(currentContentUntilLine.size() + cursorContent.size() + 2, text.text.size());
+                        lineToString(currentLine);
+                        text.textMesh.loadTextStructure();
+                        text.textMesh.loadText();
                         updateCursor();
                     }
                 }
+                getTextUntilLine(currentLine);
             } else if (key == KEY_LEFT) {
                 if (!cursorContent.empty()) {
                     if (mods == KEY_MOD_CONTROL)
@@ -157,57 +158,143 @@ void UITextArea::keyInput(int key, int action, int mods) {
                     updateCursor();
                 }
             } else if (key == KEY_RIGHT) {
-                if (cursorContent.size() < content.size()) {
+                if (cursorContent.size() < currentLineContent.size()) {
                     if (mods == KEY_MOD_CONTROL)
-                        cursorContent = content;
+                        if (currentLineContent.back() == ' ')
+                            cursorContent = currentLineContent.substr(0, currentLineContent.size() - 1);
+                        else
+                            cursorContent = currentLineContent;
                     else
-                        cursorContent += content.substr(cursorContent.size(), 1);
+                        if (!(cursorContent.size() == currentLineContent.size() - 1 && currentLineContent.back() == ' '))
+                            cursorContent += currentLineContent.substr(cursorContent.size(), 1);
+                    updateCursor();
+                }
+            } else if (key == KEY_UP) {
+                if (currentLine > 0) {
+                    float previousLength = text.fontType->getTextWidth(cursorContent.data());
+                    currentLine--;
+                    lineToString(currentLine);
+                    getTextUntilLine(currentLine);
+                    float textAdvance = 0;
+                    int i;
+                    for (i = 0; i < currentLineContent.size(); i++) {
+                        if (textAdvance >= previousLength || (currentLineContent.at(i) == ' ' && i == currentLineContent.size() - 1))
+                            break;
+                        textAdvance += text.fontType->getCharacterWidth(currentLineContent.at(i));
+                    }
+                    if (i < currentLineContent.size()) {
+                        float w = text.fontType->getCharacterWidth(currentLineContent.at(i)) / 2;
+                        if (textAdvance - w > previousLength)
+                            i--;
+                    } else {
+                        float w = text.fontType->getCharacterWidth(currentLineContent.back()) / 2;
+                        if (textAdvance - w > previousLength)
+                            i--;
+                    }
+                    cursorContent = currentLineContent.substr(0, i);
+                    updateCursor();
+                }
+            } else if (key == KEY_DOWN) {
+                if (currentLine < text.textMesh.lines.size() - 1) {
+                    float previousLength = text.fontType->getTextWidth(cursorContent.data());
+                    currentLine++;
+                    lineToString(currentLine);
+                    getTextUntilLine(currentLine);
+                    float textAdvance = 0;
+                    int i;
+                    for (i = 0; i < currentLineContent.size(); i++) {
+                        if (textAdvance >= previousLength)
+                            break;
+                        textAdvance += text.fontType->getCharacterWidth(currentLineContent.at(i));
+                    }
+                    if (i < currentLineContent.size()) {
+                        float w = text.fontType->getCharacterWidth(currentLineContent.at(i)) / 2;
+                        if (textAdvance - w > previousLength)
+                            i--;
+                    } else {
+                        float w = text.fontType->getCharacterWidth(currentLineContent.back()) / 2;
+                        if (textAdvance - w > previousLength)
+                            i--;
+                    }
+                    cursorContent = currentLineContent.substr(0, i);
                     updateCursor();
                 }
             }
-            if (contentCallback != nullptr)
-                (*contentCallback)(content);
+            //if (contentCallback != nullptr)
+            //    (*contentCallback)(content);
         }
     }
 }
-*/
 
-void UITextArea::lineToString(int line){
+#include "iostream"
+
+void UITextArea::getTextUntilLine(int line) {
+    currentContentUntilLine.clear();
+    for (int i = 0; i < line; i++) {
+        for (const auto &word : text.textMesh.lines.at(i).words) {
+            if (word.characters.empty())
+                currentContentUntilLine += " ";
+            else
+                for (auto character : word.characters)
+                    currentContentUntilLine += character;
+        }
+    }
+}
+
+void UITextArea::lineToString(int line) {
     currentLineContent.clear();
-    for(auto words : text.textMesh.lines.at(line).words){
-        currentLineContent += words.characters.data();
+    for (const auto &word : text.textMesh.lines.at(line).words) {
+        if (word.characters.empty())
+            currentLineContent += " ";
+        else
+            for (auto character : word.characters)
+                currentLineContent += character;
     }
 }
 
 void UITextArea::charInput(unsigned int key) {
     if (pressed) {
-        /*if (lines[currentLine].size() < maxCharacter) {
-            if (fontType->getTextWidth((lines[currentLine] + char(key)).c_str()) < width - offset * 2 - cursorWidth) {
-                char *end = lines[currentLine].substr(cursorContent.size(), lines[currentLine].size()).data();
-                cursorContent += char(key);
-                lines[currentLine] = lines[currentLine].substr(0, cursorContent.size() - 1) + char(key) + end;
-                updateText();
-                //if (contentCallback != nullptr)
-                //    (*contentCallback)(content);
-            }else{
-               // cursorContent = char(key);
-               // content += "\n";
-               // content += char(key);
-               // text.setText(totalContent.c_str());
-               // updateCursor();
-                //if (contentCallback != nullptr)
-                //    (*contentCallback)(content);
-            }
+        if (text.textMesh.lines.at(currentLine).lineWidth + text.fontType->getCharacterWidth(key) < width - offset * 2 - cursorWidth) {
+            getTextUntilLine(currentLine);
+            lineToString(currentLine);
+            std::cout << currentLine << "\n";
+            cursorContent += char(key);
+            auto end = text.text.substr(currentContentUntilLine.size() + cursorContent.size(), text.text.size());
+            text.text = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size()) + char(key) + end;
+            text.textMesh.loadTextStructure();
+            text.textMesh.loadText();
+            lineToString(currentLine);
+            getTextUntilLine(currentLine);
+            updateCursor();
+        } else {
+         //  getTextUntilLine(currentLine);
+         //  currentLineContent += char(key);
+         //  cursorContent += char(key);
+         //  auto end = text.text.substr(currentContentUntilLine.size() + cursorContent.size(), text.text.size() - 1);
+         //  text.text = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size()) + "\n" + char(key) + end;
+         //  text.textMesh.loadTextStructure();
+         //  text.textMesh.loadText();
+         //  lineToString(currentLine);
+         //  getTextUntilLine(currentLine);
+         //  updateCursor();
+            // cursorContent = char(key);
+            // content += "\n";
+            // content += char(key);
+            // text.setText(totalContent.c_str());
+            // updateCursor();
         }
-         */
+        //if (contentCallback != nullptr)
+        //    (*contentCallback)(content);
     }
 }
 
 void UITextArea::mousePositionInput(double x, double y) {
     bool previous = hovered;
     hovered = COMPONENT_HOVERED(x, y);
-    if (hovered)
-        this->mouseAdvance = x - positionX - offset;
+    if (hovered) {
+        this->mouseAdvanceX = x - positionX - offset;
+        this->mouseAdvanceY = y - positionY - offset;
+    }
     if (previous && !hovered || !previous && hovered)
         if (callback != nullptr)
             (*callback)(pressed, hovered);
@@ -218,28 +305,33 @@ void UITextArea::mouseButtonInput(int action) {
     if (action == INPUT_PRESSED) {
         if (hovered) {
             pressed = true;
-            /*if (!content.empty()) {
+            if (!text.text.empty()) {
+                currentLine = 0;
+                for (currentLine = 0; currentLine < text.textMesh.lines.size(); currentLine++) {
+                    if (currentLine * text.fontSize > mouseAdvanceY)
+                        break;
+                }
+                currentLine--;
+                lineToString(currentLine);
                 float textAdvance = 0;
                 int i;
-                for (i = 0; i < content.size(); i++) {
-                    if (textAdvance >= mouseAdvance)
+                for (i = 0; i < currentLineContent.size(); i++) {
+                    if (textAdvance >= mouseAdvanceX)
                         break;
-                    textAdvance += fontType->getCharacterWidth(content.at(i));
+                    textAdvance += text.fontType->getCharacterWidth(currentLineContent.at(i));
                 }
-                if (i < content.size()) {
-                    float w = fontType->getCharacterWidth(content.at(i)) / 2;
-                    if (textAdvance - w > mouseAdvance)
+                if (i < currentLineContent.size()) {
+                    float w = text.fontType->getCharacterWidth(currentLineContent.at(i)) / 2;
+                    if (textAdvance - w > mouseAdvanceX)
                         i--;
                 } else {
-                    float w = fontType->getCharacterWidth(content.back()) / 2;
-                    if (textAdvance - w > mouseAdvance)
+                    float w = text.fontType->getCharacterWidth(currentLineContent.back()) / 2;
+                    if (textAdvance - w > mouseAdvanceX)
                         i--;
                 }
-                cursorContent = content.substr(0, i);
+                cursorContent = currentLineContent.substr(0, i);
                 updateCursor();
             }
-                */
-
         } else
             pressed = false;
     }
@@ -249,5 +341,5 @@ void UITextArea::mouseButtonInput(int action) {
 }
 
 void UITextArea::updateCursor() {
-    cursorMesh.loadPosition(positionX + offset + text.fontType->getTextWidth(cursorContent.c_str()) - cursorWidth / 2, positionY + cursorPadding + text.fontType->height * currentLine, cursorWidth, text.fontType->height - cursorPadding * 2);
+    cursorMesh.loadPosition(positionX + offset + text.fontType->getTextWidth(cursorContent.data()) - cursorWidth / 2, positionY + cursorPadding + text.fontSize * currentLine, cursorWidth, text.fontSize - cursorPadding * 2);
 }

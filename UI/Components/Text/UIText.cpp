@@ -1,16 +1,16 @@
 #include "UIText.h"
 #include "Font.h"
 
-UIText::UIText(const char *text, int fontSize, int mode)
+UIText::UIText(char *text, int fontSize, int mode)
         : UIText(text, DataManager::defaultFont, fontSize, 0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT, mode) {}
 
-UIText::UIText(const char *text, int fontSize, float width, float height, int mode)
+UIText::UIText(char *text, int fontSize, float width, float height, int mode)
         : UIText(text, DataManager::defaultFont, fontSize, 0, 0, width, height, mode) {}
 
-UIText::UIText(const char *text, int fontSize, float positionX, float positionY, float width, float height, int mode)
+UIText::UIText(char *text, int fontSize, float positionX, float positionY, float width, float height, int mode)
         : UIText(text, DataManager::defaultFont, fontSize, positionX, positionY, width, height, mode) {}
 
-UIText::UIText(const char *text, Font *font, int fontSize, float positionX, float positionY, float width, float height, int mode) {
+UIText::UIText(char *text, Font *font, int fontSize, float positionX, float positionY, float width, float height, int mode) {
     this->type = UIComponentType::UITEXT;
     this->textMesh.init(this);
     this->text = text;
@@ -47,7 +47,7 @@ void UIText::setBounds(float x, float y, float w, float h) {
     DataManager::loadText(this);
 }
 
-void UIText::setText(const char *text) {
+void UIText::setText(char *text) {
     this->text = text;
     DataManager::loadText(this);
 }

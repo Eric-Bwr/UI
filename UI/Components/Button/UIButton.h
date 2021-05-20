@@ -16,8 +16,8 @@ public:
     void setPosition(float positionX, float positionY) override;
 	void setBounds(float positionX, float positionY, float width, float height) override;
     void setSize(float width, float height);
-    void setText(const char *string, Font* font, int fontSize);
-    void setText(const char* text);
+    void setText(char *string, Font* font, int fontSize);
+    void setText(char* text);
     void setFont(Font* font);
     void setFontSize(int fontSize);
     void setTextColor(const UIColor& color);

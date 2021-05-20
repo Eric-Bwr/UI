@@ -9,7 +9,7 @@ void TextMesh::init(UIText* uiText) {
 }
 
 void TextMesh::loadTextStructure(){
-    auto length = strlen(uiText->text);
+    auto length = uiText->text.size();
     Word currentWord;
     auto spaceWidth = uiText->fontType->characters[' '].advance;
     std::vector<Word> words;

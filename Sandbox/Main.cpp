@@ -45,10 +45,10 @@ int main() {
     manager.init(windowSettings->getWidth(), windowSettings->getHeight(), true);
 
     Font font("C:/Windows/Fonts/Arial.ttf");
-    const char *string = "Crocs, Inc. is an American company based in Niwot, Colorado that manufactures and markets the Crocs brand of foam clogs.\nThe company has since established a considerable following with American middle school and high school students, with many opting for Crocs to use as school shoes for the school day.";
+    char *string = "Crocs, Inc. is an American company based in Niwot, Colorado that manufactures and markets the Crocs brand of foam clogs.\nThe company has since established a considerable following with American middle school and high school students, with many opting for Crocs to use as school shoes for the school day.";
 
     Font farCry("../Assets/Fonts/FarCry.ttf");
-    const char *farCryString = "g";
+    char *farCryString = "g";
     UIText farCryText(farCryString, &farCry, 200, 0, 0, 1600, 800, LEFT);
     manager.add(&farCryText, 6);
 
@@ -123,7 +123,7 @@ int main() {
     while (window.windowIsAlive()) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         manager.render();
-        sliderText.setText((sliderString + std::to_string(slider.getValue())).c_str());
+        sliderText.setText((sliderString + std::to_string(slider.getValue())).data());
         if (glfwGetKey(window.getWindow(), GLFW_KEY_ESCAPE))
             window.setWindowIsAlive(false);
         window.updateWindow();

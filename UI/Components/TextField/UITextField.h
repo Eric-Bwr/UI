@@ -8,9 +8,9 @@
 
 class UITextField : public UIComponent {
 public:
-    explicit UITextField(const char* defaultText, Font* font = DataManager::defaultFont, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, float offset = 0);
-    UITextField(const char* defaultText, float positionX, float positionY, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, float offset = 0);
-    UITextField(const char* defaultText, Font* font, int fontSize, float positionX, float positionY, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, float offset = 0);
+    explicit UITextField(char* defaultText, Font* font = DataManager::defaultFont, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, float offset = 0);
+    UITextField(char* defaultText, float positionX, float positionY, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, float offset = 0);
+    UITextField(char* defaultText, Font* font, int fontSize, float positionX, float positionY, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, float offset = 0);
 
     void setBackgroundColor(const UIColor& standardColor, const UIColor& hoverColor, const UIColor& pressedColor);
     void setBackgroundTexture(Texture* texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight);
@@ -18,7 +18,7 @@ public:
     void setPosition(float positionX, float positionY) override;
     void setSize(float width, float height);
 	void setBounds(float positionX, float positionY, float width, float height) override;
-	void setText(const char* text);
+	void setText(char* text);
     void setFont(Font *font);
 	void setFontSize(int fontSize);
 	void setMaxCharacter(int maxCharacter);
