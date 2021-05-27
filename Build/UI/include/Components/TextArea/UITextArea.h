@@ -28,7 +28,7 @@ public:
 
 //    inline std::string getContent() const { return content; }
 
-    //void keyInput(int key, int action, int mods) override;
+    void keyInput(int key, int action, int mods) override;
     void charInput(unsigned int key) override;
     void mousePositionInput(double x, double y) override;
     void mouseButtonInput(int action) override;

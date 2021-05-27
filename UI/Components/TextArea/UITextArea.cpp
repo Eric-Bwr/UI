@@ -77,6 +77,8 @@ void UITextArea::setBounds(float x, float y, float w, float h) {
     updateCursor();
 }
 
+#include "iostream"
+
 void UITextArea::setText(char *string) {
     text.text = string;
     text.textMesh.loadTextStructure();
@@ -112,6 +114,9 @@ void UITextArea::setRadii(float radii, bool upperLeft, bool lowerLeft, bool uppe
     mesh.setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
 }
 
+#include "iostream"
+
+/*
 void UITextArea::keyInput(int key, int action, int mods) {
     if (pressed) {
         if (action == INPUT_PRESSED || action == INPUT_REPEATED) {
@@ -120,15 +125,23 @@ void UITextArea::keyInput(int key, int action, int mods) {
                     lineToString(currentLine);
                     getTextUntilLine(currentLine);
                     if (mods == KEY_MOD_CONTROL) {
+                        int i;
+                        for(i = cursorContent.size() -1; i > 0; i--){
+                            if(cursorContent.at(i) == ' ' || cursorContent.at(i) == '\t')
+                                break;
+                        }
+                        i--;
+                        
+                       // auto end = text.text.substr(currentContentUntilLine.size() + cursorContent.size());
+                       // std::cout << cursorContent <<"\n";
+                       // text.text = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size()) + end;
+                       // cursorContent = text.text.substr(currentContentUntilLine.size(), cursorContent.size());
+                       // text.textMesh.loadTextStructure();
+                       // text.textMesh.loadText();
+                       // lineToString(currentLine);
+                       // getTextUntilLine(currentLine);
+                       // updateCursor();
                     } else {
-                        cursorContent.pop_back();
-                        auto end = text.text.substr(currentContentUntilLine.size() + cursorContent.size());
-                        text.text = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size() - 1) + end;
-                        text.textMesh.loadTextStructure();
-                        text.textMesh.loadText();
-                        lineToString(currentLine);
-                        getTextUntilLine(currentLine);
-                        updateCursor();
                     }
                 }
             } else if (key == KEY_DELETE) {
@@ -225,8 +238,7 @@ void UITextArea::keyInput(int key, int action, int mods) {
         }
     }
 }
-
-#include "iostream"
+*/
 
 void UITextArea::getTextUntilLine(int line) {
     currentContentUntilLine.clear();
@@ -254,35 +266,28 @@ void UITextArea::lineToString(int line) {
 
 void UITextArea::charInput(unsigned int key) {
     if (pressed) {
-        if (text.textMesh.lines.at(currentLine).lineWidth + text.fontType->getCharacterWidth(key) < width - offset * 2 - cursorWidth) {
+        if (text.textMesh.lines.at(currentLine).lineWidth + text.fontType->getCharacterWidth(char(key)) < width - offset * 2 - cursorWidth) {
             getTextUntilLine(currentLine);
             lineToString(currentLine);
-            std::cout << currentLine << "\n";
             cursorContent += char(key);
             auto end = text.text.substr(currentContentUntilLine.size() + cursorContent.size(), text.text.size());
             text.text = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size()) + char(key) + end;
             text.textMesh.loadTextStructure();
-            text.textMesh.loadText();
+            lineToString(currentLine);
+        } else {
+            getTextUntilLine(currentLine);
+            lineToString(currentLine);
+            auto end = text.text.substr(currentContentUntilLine.size() + cursorContent.size(), text.text.size());
+            text.text = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size()) + char(key) + end;
+            text.textMesh.loadTextStructure();
+            cursorContent.clear();
+            currentLine++;
             lineToString(currentLine);
             getTextUntilLine(currentLine);
-            updateCursor();
-        } else {
-         //  getTextUntilLine(currentLine);
-         //  currentLineContent += char(key);
-         //  cursorContent += char(key);
-         //  auto end = text.text.substr(currentContentUntilLine.size() + cursorContent.size(), text.text.size() - 1);
-         //  text.text = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size()) + "\n" + char(key) + end;
-         //  text.textMesh.loadTextStructure();
-         //  text.textMesh.loadText();
-         //  lineToString(currentLine);
-         //  getTextUntilLine(currentLine);
-         //  updateCursor();
-            // cursorContent = char(key);
-            // content += "\n";
-            // content += char(key);
-            // text.setText(totalContent.c_str());
-            // updateCursor();
+            cursorContent = currentLineContent;
         }
+        updateCursor();
+        text.textMesh.loadText();
         //if (contentCallback != nullptr)
         //    (*contentCallback)(content);
     }

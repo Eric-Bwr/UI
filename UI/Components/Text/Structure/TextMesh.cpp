@@ -41,8 +41,16 @@ void TextMesh::loadTextStructure(){
     lines.clear();
     for (auto &word : words) {
         if (word.characters.empty()) {
-            currentLine.lineWidth += word.width + word.spaceWidth;
-            currentLine.words.emplace_back(word);
+            if(currentLine.lineWidth + word.width + word.spaceWidth > uiText->width){
+                lines.emplace_back(currentLine);
+                currentLine.words.clear();
+                currentLine.words.emplace_back(word);
+                currentLine.lineWidth = 0.0f;
+                currentLine.lineWidth += word.width + word.spaceWidth;
+            }else {
+                currentLine.lineWidth += word.width + word.spaceWidth;
+                currentLine.words.emplace_back(word);
+            }
         } else {
             if (word.characters.back() == '\n') {
                 word.characters.pop_back();
