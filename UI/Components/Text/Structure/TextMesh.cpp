@@ -31,8 +31,16 @@ void TextMesh::loadTextStructure(){
             currentWord.spaceWidth = 0.0f;
             currentWord.characters.clear();
         } else {
-            currentWord.width += uiText->fontType->characters[currentChar].advance;
-            currentWord.characters.emplace_back(currentChar);
+            if(currentWord.width + uiText->fontType->characters[currentChar].advance > uiText->width){
+                words.emplace_back(currentWord);
+                currentWord.characters.clear();
+                currentWord.width = uiText->fontType->characters[currentChar].advance;
+                currentWord.spaceWidth = 0.0f;
+                currentWord.characters.emplace_back(currentChar);
+            }else {
+                currentWord.width += uiText->fontType->characters[currentChar].advance;
+                currentWord.characters.emplace_back(currentChar);
+            }
             if (i == length - 1)
                 words.emplace_back(currentWord);
         }
