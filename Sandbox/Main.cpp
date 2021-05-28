@@ -48,7 +48,7 @@ int main() {
     const char *string = "Crocs, Inc. is an American company based in Niwot, Colorado that manufactures and markets the Crocs brand of foam clogs.\nThe company has since established a considerable following with American middle school and high school students, with many opting for Crocs to use as school shoes for the school day.";
 
     Font farCry("../Assets/Fonts/FarCry.ttf");
-    const char *farCryString = "g";
+    const char *farCryString = "g";/*
     UIText farCryText(farCryString, &farCry, 200, 0, 0, 1600, 800, LEFT);
     manager.add(&farCryText, 6);
 
@@ -75,7 +75,7 @@ int main() {
     UIText sliderText("Slider Value: ", 50, 1000, 400, 1000, 100, UITextMode::LEFT);
     manager.add(&sliderText, 6);
     std::string sliderString("Slider Value: ");
-/*
+
     UIButton button;
     UIButton button1;
     UIButton button2;
@@ -91,35 +91,50 @@ int main() {
     layout.add(&button3);
 
     manager.add(&layout);
-*/
+
 
     UIButton btn1;
     btn1.bgColor = COLOR_YELLOW;
     btn1.setSize(400, 1200);
     UIButton btn2;
     btn1.bgColor = COLOR_YELLOW;
-    btn1.setSize(400, 1200);
+    btn1.setSize(400, 1200);*/
 
    /* UISplitPane splitPane(0, 0, 1600, 800, &btn1, &test, Orientation::HORIZONTAL);
     UITexture splitPaneTexture("../Assets/Textures/SplitPane.png");
     splitPane.setDividerTexture(&splitPaneTexture, 0, 0, 10, 800);
     splitPane.setDividerColor({0, 0, 0, 1}, {0.1, 0.1, 0.1, 1}, {0.3, 0.3, 0.3, 1});
     manager.add(&splitPane, 10);
-*/
+
 	UIText text1(string, &font, 20, 0, 0, 1600, 800, UITextMode::CENTERED_HORIZONTAL);
 	text1.fontSize = 40;
 
 	UIScrollbar scrollbar(&text1, 40, 300, 400, 400, Orientation::VERTICAL);
 	scrollbar.setRadii(5);
 
-	manager.add(&scrollbar);
+	manager.add(&scrollbar);*/
+
+	UISwitch sw(100, 100, 60, 30);
+	sw.setCircular(true);
+
+	UISwitch sw2(100, 150, 90, 25);
+	sw2.setCircular(true);
+	sw2.setSwitchSize(1.6);
+
+	UISwitch sw3(100, 200, 50, 20);
+	sw3.setCircular(true);
+	sw3.setSwitchSize(0.7);
+
+	manager.add(&sw);
+	manager.add(&sw2);
+	manager.add(&sw3);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     while (window.windowIsAlive()) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         manager.render();
-        sliderText.setText((sliderString + std::to_string(slider.getValue())).c_str());
+     //   sliderText.setText((sliderString + std::to_string(slider.getValue())).c_str());
         if (glfwGetKey(window.getWindow(), GLFW_KEY_ESCAPE))
             window.setWindowIsAlive(false);
         window.updateWindow();

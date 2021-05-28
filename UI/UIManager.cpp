@@ -1,5 +1,9 @@
 #include "UIManager.h"
 
+#define LERP(a,b,c) (a+(b-a)*c)
+#define MIN(a,b) (a<b?a:b)
+#define MAX(a,b) (a>b?a:b)
+
 void UIManager::init(int width, int height, bool scaleOnResize) {
     DataManager::init();
     ortho = orthographicMatrix(0.0f, width, height, 0.0, -1.0, 1.0);
@@ -180,24 +184,39 @@ void UIManager::renderComponent(UIComponent *component) {
             ui->dragMesh.render(0);
         }
     } else if (component->type == UIComponentType::UISPLITPANE) {
-        auto ui = (UISplitPane *) component;
-        if (ui->texture != nullptr)
-            ui->texture->bind();
-        auto bgc = ui->dividerColor.standard;
-        if(ui->dragging){
-            bgc = ui->dividerColor.pressed;
-            quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
-            ui->mesh.render(2);
-        }else if(ui->hovered){
-            bgc = ui->dividerColor.hover;
-            quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
-            ui->mesh.render(1);
-        }else{
-            quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
-            ui->mesh.render(0);
-        }
-        renderComponent(ui->getLeft());
-        renderComponent(ui->getRight());
+	    auto ui = (UISplitPane *) component;
+	    if (ui->texture != nullptr)
+		    ui->texture->bind();
+	    auto bgc = ui->dividerColor.standard;
+	    if (ui->dragging) {
+		    bgc = ui->dividerColor.pressed;
+		    quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+		    ui->mesh.render(2);
+	    } else if (ui->hovered) {
+		    bgc = ui->dividerColor.hover;
+		    quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+		    ui->mesh.render(1);
+	    } else {
+		    quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+		    ui->mesh.render(0);
+	    }
+	    renderComponent(ui->getLeft());
+	    renderComponent(ui->getRight());
+    } else if (component->type == UIComponentType::UISWITCH) {
+    	auto sw = (UISwitch *) component;
+	    auto bgc = sw->bgColor;
+	    auto sc = sw->switchColor;
+
+	    float ass = sw->getSwitchSize() * sw->height;
+	    float targetSwitchX = sw->isEnabled() ? sw->width - ass : 0;
+	    float oldSwitchX = sw->getSwitchX();
+	    sw->setSwitchX(LERP(oldSwitchX, targetSwitchX, 0.05));
+
+	    quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+	    sw->bgMesh.render();
+	    quadShader->setUniform4f(SHADER_COLOR_NAME, sc.r, sc.g, sc.b, sc.a);
+	    sw->switchMesh.render();
+
     } else if (component->type == UIComponentType::UISCROLLBAR) {
         auto ui = (UIScrollbar*) component;
         auto bgc = ui->barBgColor;
