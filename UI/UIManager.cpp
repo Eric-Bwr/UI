@@ -1,5 +1,7 @@
 #include "UIManager.h"
 
+#define LERP(a,b,c) (a+(b-a)*c)
+
 void UIManager::init(int width, int height, bool scaleOnResize) {
     DataManager::init();
     ortho = orthographicMatrix(0.0f, width, height, 0.0, -1.0, 1.0);
@@ -206,6 +208,20 @@ void UIManager::renderComponent(UIComponent *component) {
             quadShader->setUniform4f(SHADER_COLOR_NAME, dc.standard.r, dc.standard.g, dc.standard.b, dc.standard.a);
             ui->dragMesh.render(0);
         }
+    } else if (component->type == UIComponentType::UISWITCH) {
+	    auto sw = (UISwitch *) component;
+	    auto bgc = sw->bgColor;
+	    auto sc = sw->switchColor;
+
+	    float ass = sw->getSwitchSize() * sw->height;
+	    float targetSwitchX = sw->isEnabled() ? sw->width - ass : 0;
+	    float oldSwitchX = sw->getSwitchX();
+	    sw->setSwitchX(LERP(oldSwitchX, targetSwitchX, 0.05));
+
+	    quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+	    sw->bgMesh.render();
+	    quadShader->setUniform4f(SHADER_COLOR_NAME, sc.r, sc.g, sc.b, sc.a);
+	    sw->switchMesh.render();
     } else if (component->type == UIComponentType::UISPLITPANE) {
         auto ui = (UISplitPane *) component;
         if (ui->texture != nullptr)
