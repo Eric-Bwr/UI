@@ -2,31 +2,16 @@
 #include "FontType.h"
 #include "../UIText.h"
 
-TextMesh::TextMesh() {
+void TextMesh::init(UIText* uiText) {
+    this->uiText = uiText;
     vbo.init(nullptr, 0, GL_DYNAMIC_DRAW);
     vao.addBuffer(vbo, DataManager::textLayout);
 }
 
-struct Word {
-    std::vector<char> characters;
-    float width = 0.0f;
-    float spaceWidth = 0.0f;
-};
-
-struct Line {
-    std::vector<Word> words;
-    float lineWidth = 0.0f;
-};
-
-void TextMesh::loadText(UIText *uiText, FontType *fontType) {
-    texture = fontType->texture;
-    vertices.clear();
-    auto length = strlen(uiText->text);
-    auto spaceWidth = fontType->characters[' '].advance;
-    auto bearing = fontType->bearing + 2;
-    auto height = fontType->height;
-    auto cutoff = height - (bearing - 2);
+void TextMesh::loadTextStructure(){
+    auto length = uiText->text.size();
     Word currentWord;
+    auto spaceWidth = uiText->fontType->characters[' '].advance;
     std::vector<Word> words;
     for (int i = 0; i < length; i++) {
         char currentChar = uiText->text[i];
@@ -46,18 +31,34 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
             currentWord.spaceWidth = 0.0f;
             currentWord.characters.clear();
         } else {
-            currentWord.width += fontType->characters[currentChar].advance;
-            currentWord.characters.emplace_back(currentChar);
+            if(currentWord.width + uiText->fontType->characters[currentChar].advance > uiText->width){
+                words.emplace_back(currentWord);
+                currentWord.characters.clear();
+                currentWord.width = uiText->fontType->characters[currentChar].advance;
+                currentWord.spaceWidth = 0.0f;
+                currentWord.characters.emplace_back(currentChar);
+            }else {
+                currentWord.width += uiText->fontType->characters[currentChar].advance;
+                currentWord.characters.emplace_back(currentChar);
+            }
             if (i == length - 1)
                 words.emplace_back(currentWord);
         }
     }
     Line currentLine;
-    std::vector<Line> lines;
+    lines.clear();
     for (auto &word : words) {
         if (word.characters.empty()) {
-            currentLine.lineWidth += word.width + word.spaceWidth;
-            currentLine.words.emplace_back(word);
+            if(currentLine.lineWidth + word.width + word.spaceWidth > uiText->width){
+                lines.emplace_back(currentLine);
+                currentLine.words.clear();
+                currentLine.words.emplace_back(word);
+                currentLine.lineWidth = 0.0f;
+                currentLine.lineWidth += word.width + word.spaceWidth;
+            }else {
+                currentLine.lineWidth += word.width + word.spaceWidth;
+                currentLine.words.emplace_back(word);
+            }
         } else {
             if (word.characters.back() == '\n') {
                 word.characters.pop_back();
@@ -87,6 +88,15 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
         }
     }
     lines.emplace_back(currentLine);
+}
+
+void TextMesh::loadText() {
+    texture = uiText->fontType->texture;
+    vertices.clear();
+    auto spaceWidth = uiText->fontType->characters[' '].advance;
+    auto bearing = uiText->fontType->bearing + 2;
+    auto height = uiText->fontType->height;
+    auto cutoff = height - (bearing - 2);
     float cursorX, cursorY;
     if (uiText->mode == UITextMode::CENTERED_VERTICAL_RIGHT || uiText->mode == UITextMode::CENTERED_VERTICAL_LEFT || uiText->mode == UITextMode::CENTERED)
         if (lines.size() * uiText->fontSize >= uiText->height)
@@ -115,7 +125,7 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
         for (const auto &word : line.words) {
             cursorX += word.spaceWidth;
             for (auto character : word.characters) {
-                Character c = fontType->characters[character];
+                Character c = uiText->fontType->characters[character];
                 auto x = cursorX + c.bearingX;
                 auto y = cursorY - c.bearingY;
 
@@ -157,7 +167,7 @@ void TextMesh::loadText(UIText *uiText, FontType *fontType) {
                 cursorX += c.advance;
             }
         }
-        cursorY += fontType->fontSize;
+        cursorY += uiText->fontType->fontSize;
     }
     vertexCount = vertices.size() / 5;
     vbo.subData(vertices.data(), vertexCount * DataManager::textLayout.getStride(), 0, GL_DYNAMIC_DRAW);

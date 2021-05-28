@@ -1,9 +1,5 @@
 #include "UIManager.h"
 
-#define LERP(a,b,c) (a+(b-a)*c)
-#define MIN(a,b) (a<b?a:b)
-#define MAX(a,b) (a>b?a:b)
-
 void UIManager::init(int width, int height, bool scaleOnResize) {
     DataManager::init();
     ortho = orthographicMatrix(0.0f, width, height, 0.0, -1.0, 1.0);
@@ -49,7 +45,8 @@ void UIManager::setSize(int width, int height) {
         float factorY = (float) height / (float) this->height;
         for (auto const &componentList : components)
             for (auto component : *componentList.second)
-                component->setBounds(component->positionX * factorX, component->positionY * factorY, component->width * factorX, component->height * factorY);
+                component->setBounds(component->positionX * factorX, component->positionY * factorY,
+                                     component->width * factorX, component->height * factorY);
     }
     this->width = width;
     this->height = height;
@@ -76,7 +73,7 @@ void UIManager::mousePositionInput(double x, double y) {
 }
 
 void UIManager::mouseButtonInput(int button, int action) {
-    if(button == MOUSE_BUTTON_PRESSED) {
+    if (button == MOUSE_BUTTON_PRESSED) {
         for (auto const &componentList : components) {
             for (auto component : *componentList.second) {
                 component->mouseButtonInput(action);
@@ -105,6 +102,32 @@ void UIManager::renderComponent(UIComponent *component) {
         quadShader->bind();
     } else if (component->type == UIComponentType::UITEXTFIELD) {
         auto ui = ((UITextField *) component);
+        auto bgc = ui->bgColor.standard;
+        if (ui->pressed)
+            bgc = ui->bgColor.pressed;
+        else if (ui->hovered)
+            bgc = ui->bgColor.hover;
+        quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+        if (ui->texture != nullptr)
+            ui->texture->bind();
+        if (ui->pressed)
+            ui->mesh.render(2);
+        else if (ui->hovered)
+            ui->mesh.render(1);
+        else
+            ui->mesh.render(0);
+        if (ui->pressed && cursor) {
+            auto cc = ui->cursorColor;
+            quadShader->setUniform4f(SHADER_COLOR_NAME, cc.r, cc.g, cc.b, cc.a);
+            ui->cursorMesh.render();
+        }
+        auto fgc = ui->fgColor;
+        textShader->bind();
+        textShader->setUniform4f(SHADER_COLOR_NAME, fgc.r, fgc.g, fgc.b, fgc.a);
+        ui->text.textMesh.render();
+        quadShader->bind();
+    } else if (component->type == UIComponentType::UITEXTAREA) {
+        auto ui = ((UITextArea *) component);
         auto bgc = ui->bgColor.standard;
         if (ui->pressed)
             bgc = ui->bgColor.pressed;
@@ -184,41 +207,26 @@ void UIManager::renderComponent(UIComponent *component) {
             ui->dragMesh.render(0);
         }
     } else if (component->type == UIComponentType::UISPLITPANE) {
-	    auto ui = (UISplitPane *) component;
-	    if (ui->texture != nullptr)
-		    ui->texture->bind();
-	    auto bgc = ui->dividerColor.standard;
-	    if (ui->dragging) {
-		    bgc = ui->dividerColor.pressed;
-		    quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
-		    ui->mesh.render(2);
-	    } else if (ui->hovered) {
-		    bgc = ui->dividerColor.hover;
-		    quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
-		    ui->mesh.render(1);
-	    } else {
-		    quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
-		    ui->mesh.render(0);
-	    }
-	    renderComponent(ui->getLeft());
-	    renderComponent(ui->getRight());
-    } else if (component->type == UIComponentType::UISWITCH) {
-    	auto sw = (UISwitch *) component;
-	    auto bgc = sw->bgColor;
-	    auto sc = sw->switchColor;
-
-	    float ass = sw->getSwitchSize() * sw->height;
-	    float targetSwitchX = sw->isEnabled() ? sw->width - ass : 0;
-	    float oldSwitchX = sw->getSwitchX();
-	    sw->setSwitchX(LERP(oldSwitchX, targetSwitchX, 0.05));
-
-	    quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
-	    sw->bgMesh.render();
-	    quadShader->setUniform4f(SHADER_COLOR_NAME, sc.r, sc.g, sc.b, sc.a);
-	    sw->switchMesh.render();
-
+        auto ui = (UISplitPane *) component;
+        if (ui->texture != nullptr)
+            ui->texture->bind();
+        auto bgc = ui->dividerColor.standard;
+        if (ui->dragging) {
+            bgc = ui->dividerColor.pressed;
+            quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+            ui->mesh.render(2);
+        } else if (ui->hovered) {
+            bgc = ui->dividerColor.hover;
+            quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+            ui->mesh.render(1);
+        } else {
+            quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+            ui->mesh.render(0);
+        }
+        renderComponent(ui->getLeft());
+        renderComponent(ui->getRight());
     } else if (component->type == UIComponentType::UISCROLLBAR) {
-        auto ui = (UIScrollbar*) component;
+        auto ui = (UIScrollbar *) component;
         auto bgc = ui->barBgColor;
         quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
         ui->barBgMesh.render();
@@ -229,7 +237,8 @@ void UIManager::renderComponent(UIComponent *component) {
         if (ui->orientation == Orientation::VERTICAL)
             glScissor(ui->positionX, height - (ui->positionY + ui->height), ui->width - ui->barWidth, ui->height);
         else
-            glScissor(ui->positionX, height - (ui->positionY + ui->height - ui->barWidth), ui->width, ui->height - ui->barWidth);
+            glScissor(ui->positionX, height - (ui->positionY + ui->height - ui->barWidth), ui->width,
+                      ui->height - ui->barWidth);
         renderComponent(ui->target);
         glDisable(GL_SCISSOR_TEST);
     }

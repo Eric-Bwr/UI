@@ -70,7 +70,7 @@ void UIButton::setBounds(float x, float y, float w, float h) {
     mesh.loadPosition(positionX, positionY, width, height);
 }
 
-void UIButton::setText(const char *string, Font *font, int fontSize) {
+void UIButton::setText(char *string, Font *font, int fontSize) {
     text.text = string;
     text.font = font;
     text.positionX = positionX;
@@ -78,7 +78,7 @@ void UIButton::setText(const char *string, Font *font, int fontSize) {
     text.setFontSize(fontSize);
 }
 
-void UIButton::setText(const char *string) {
+void UIButton::setText(char *string) {
     text.setText(string);
 }
 

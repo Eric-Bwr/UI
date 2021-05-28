@@ -14,7 +14,6 @@
 #include "Components/Slider/UISlider.h"
 #include "Components/SplitPane/UISplitPane.h"
 #include "Components/Scrollbar/UIScrollbar.h"
-#include "Components/Switch/UISwitch.h"
 #include "Layout/Layout.h"
 #include "Layout/FlowLayout.h"
 #include "Layout/BoxLayout.h"

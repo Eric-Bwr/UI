@@ -9,7 +9,8 @@ SET(CMAKE_EXE_LINKER_FLAGS "-v")
 
 set(CMAKE_CXX_STANDARD 20)
 
-file(GLOB_RECURSE SOURCE_FILES "UI/*.cpp" "UI/*.h" "Sandbox/*.cpp" "Sandbox/*.h")
+file(GLOB_RECURSE SOURCE_FILES "UI/*.cpp" "UI/*.h")
+file(GLOB_RECURSE EXEC_FILES "Sandbox/*.cpp" "Sandbox/*.h")
 
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -22,7 +23,8 @@ include_directories(${PROJECT_NAME} "Dependencies/FreeType/include")
 
 include_directories(${PROJECT_NAME})
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES} UI/Structure/Defines.h UI/UITexture.cpp UI/UITexture.h UI/Components/Switch/UISwitch.cpp UI/Components/Switch/UISwitch.h)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${EXEC_FILES} UI/Components/Image/UIImage.cpp UI/Components/Image/UIImage.h)
+#add_library(${PROJECT_NAME} ${SOURCE_FILES})
 
 target_link_libraries(${PROJECT_NAME}
         ${CMAKE_CURRENT_LIST_DIR}/Dependencies/FreeType/freetype.a
