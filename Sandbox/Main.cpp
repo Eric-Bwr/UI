@@ -49,7 +49,7 @@ int main() {
 
     Font farCry("../Assets/Fonts/FarCry.ttf");
     char *farCryString = "g";
-	/*UIText farCryText(farCryString, &farCry, 200, 0, 0, 1600, 800, LEFT);
+    UIText farCryText(farCryString, &farCry, 200, 0, 0, 1600, 800, LEFT);
 	manager.add(&farCryText, 6);
 
 	UITexture texture("../Assets/Textures/Button.png");
@@ -57,6 +57,11 @@ int main() {
 	test.setBackgroundTexture(&texture, 0, 18 * 2, 198, 18, 0, 18, 198, 18, 0, 0, 198, 18);
 	test.setText("Test Button", &font, 50);
 	manager.add(&test, 5);
+
+	UIImage image(500, 500, 200, 200);
+	image.setTexture(&texture);
+	image.setColor(COLOR_CYAN);
+	manager.add(&image, 5);
 
 	UITextField textField("Default", 700, 500, 198 * 4, 18 * 4, 10);
 	UITexture fieldTex("../Assets/Textures/TextField.png");
@@ -103,20 +108,20 @@ int main() {
 	btn1.setSize(400, 1200);
 	UIButton btn2;
 	btn1.bgColor = COLOR_YELLOW;
-	btn1.setSize(400, 1200);*/
+	btn1.setSize(400, 1200);
 
    /* UISplitPane splitPane(0, 0, 1600, 800, &btn1, &test, Orientation::HORIZONTAL);
     UITexture splitPaneTexture("../Assets/Textures/SplitPane.png");
     splitPane.setDividerTexture(&splitPaneTexture, 0, 0, 10, 800);
     splitPane.setDividerColor({0, 0, 0, 1}, {0.1, 0.1, 0.1, 1}, {0.3, 0.3, 0.3, 1});
     manager.add(&splitPane, 10);
-
+*/
 	UIText text1(string, &font, 40, 0, 0, 1600, 800, UITextMode::CENTERED_HORIZONTAL);
 
 	UIScrollbar scrollbar(&text1, 40, 300, 400, 400, Orientation::VERTICAL);
 	scrollbar.setRadii(5);
 
-	manager.add(&scrollbar);*/
+	manager.add(&scrollbar);
 
 	UISwitch sw(100, 100, 60, 30);
 	sw.setCircular(true);

@@ -1,6 +1,6 @@
 #include "UIManager.h"
 
-#define LERP(a,b,c) (a+(b-a)*c)
+#define LERP(a, b, c) (a+(b-a)*c)
 
 void UIManager::init(int width, int height, bool scaleOnResize) {
     DataManager::init();
@@ -175,6 +175,13 @@ void UIManager::renderComponent(UIComponent *component) {
         textShader->setUniform4f(SHADER_COLOR_NAME, fgc.r, fgc.g, fgc.b, fgc.a);
         ui->text.textMesh.render();
         quadShader->bind();
+    } else if (component->type == UIComponentType::UIIMAGE) {
+        auto ui = (UIImage*) component;
+        auto bgc = ui->color;
+        quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+        if (ui->texture != nullptr)
+            ui->texture->bind();
+        ui->mesh.render();
     } else if (component->type == UIComponentType::UILAYOUT) {
         auto layout = (Layout *) component;
         for (auto ui : layout->components)
@@ -209,19 +216,19 @@ void UIManager::renderComponent(UIComponent *component) {
             ui->dragMesh.render(0);
         }
     } else if (component->type == UIComponentType::UISWITCH) {
-	    auto sw = (UISwitch *) component;
-	    auto bgc = sw->bgColor;
-	    auto sc = sw->switchColor;
+        auto sw = (UISwitch *) component;
+        auto bgc = sw->bgColor;
+        auto sc = sw->switchColor;
 
-	    float ass = sw->getSwitchSize() * sw->height;
-	    float targetSwitchX = sw->isEnabled() ? sw->width - ass : 0;
-	    float oldSwitchX = sw->getSwitchX();
-	    sw->setSwitchX(LERP(oldSwitchX, targetSwitchX, 0.05));
+        float ass = sw->getSwitchSize() * sw->height;
+        float targetSwitchX = sw->isEnabled() ? sw->width - ass : 0;
+        float oldSwitchX = sw->getSwitchX();
+        sw->setSwitchX(LERP(oldSwitchX, targetSwitchX, 0.05));
 
-	    quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
-	    sw->bgMesh.render();
-	    quadShader->setUniform4f(SHADER_COLOR_NAME, sc.r, sc.g, sc.b, sc.a);
-	    sw->switchMesh.render();
+        quadShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+        sw->bgMesh.render();
+        quadShader->setUniform4f(SHADER_COLOR_NAME, sc.r, sc.g, sc.b, sc.a);
+        sw->switchMesh.render();
     } else if (component->type == UIComponentType::UISPLITPANE) {
         auto ui = (UISplitPane *) component;
         if (ui->texture != nullptr)
