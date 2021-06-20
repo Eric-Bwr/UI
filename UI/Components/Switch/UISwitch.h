@@ -11,8 +11,8 @@ public:
 	UISwitch(float positionX, float positionY, float width, float height);
 
 	void setPosition(float positionX, float positionY) override;
-	void setBounds(float positionX, float positionY, float width, float height) override;
 	void setSize(float width, float height);
+    void setBounds(float positionX, float positionY, float width, float height) override;
 
 	void mousePositionInput(double x, double y) override;
 	void mouseButtonInput(int action) override;

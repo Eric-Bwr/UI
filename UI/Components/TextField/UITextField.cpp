@@ -205,7 +205,7 @@ void UITextField::charInput(unsigned int key) {
             if (text.fontType->getTextWidth((content + char(key)).data()) < width - offset * 2 - cursorWidth && text.fontType->getTextWidth((passwordContent + char(key)).data()) < width - offset * 2 - cursorWidth) {
                 char *end = content.substr(cursorContent.size(), content.size()).data();
                 if (isPasswordField) {
-                    char *passwordEnd = content.substr(cursorContent.size(), content.size()).data();
+                    char *passwordEnd = passwordContent.substr(cursorContent.size(), passwordContent.size()).data();
                     cursorContent += PASSWORD_CHARACTER;
                     passwordContent += char(key);
                     content = content.substr(0, cursorContent.size() - 1) + PASSWORD_CHARACTER + end;

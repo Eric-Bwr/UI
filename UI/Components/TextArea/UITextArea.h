@@ -28,7 +28,7 @@ public:
 
 //    inline std::string getContent() const { return content; }
 
-    //void keyInput(int key, int action, int mods) override;
+    void keyInput(int key, int action, int mods) override;
     void charInput(unsigned int key) override;
     void mousePositionInput(double x, double y) override;
     void mouseButtonInput(int action) override;
@@ -46,8 +46,8 @@ public:
 private:
     int mode = 0, currentLine = 0;
     double mouseAdvanceX = 0, mouseAdvanceY = 0;
-    void getTextUntilLine(int line);
-    void lineToString(int line);
+    void updateUntilLine();
+    void updateLine();
     void updateCursor();
     void (*callback)(bool pressed, bool hovered) = nullptr;
     void (*contentCallback)(std::string content) = nullptr;

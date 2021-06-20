@@ -47,6 +47,9 @@
 #ifndef INPUT_RELEASED
 #define INPUT_RELEASED 0
 #endif
+#ifndef KEY_TAB
+#define KEY_TAB 258
+#endif
 #ifndef KEY_BACKSPACE
 #define KEY_BACKSPACE 259
 #endif

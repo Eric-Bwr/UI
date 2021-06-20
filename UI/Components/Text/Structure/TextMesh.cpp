@@ -10,84 +10,83 @@ void TextMesh::init(UIText* uiText) {
 
 void TextMesh::loadTextStructure(){
     auto length = uiText->text.size();
-    Word currentWord;
+    Word word;
     auto spaceWidth = uiText->fontType->characters[' '].advance;
     std::vector<Word> words;
     for (int i = 0; i < length; i++) {
         char currentChar = uiText->text[i];
         if (currentChar == ' ') {
-            if (!currentWord.characters.empty())
-                words.emplace_back(currentWord);
-            currentWord.characters.clear();
-            currentWord.width = 0.0f;
-            currentWord.spaceWidth = spaceWidth;
-            words.emplace_back(currentWord);
-            currentWord.width = 0.0f;
-            currentWord.spaceWidth = 0.0f;
+            if (!word.characters.empty())
+                words.emplace_back(word);
+            word.characters.clear();
+            word.width = 0.0f;
+            word.spaceWidth = spaceWidth;
+            words.emplace_back(word);
+            word.width = 0.0f;
+            word.spaceWidth = 0.0f;
         } else if (currentChar == '\n') {
-            currentWord.characters.emplace_back(currentChar);
-            words.emplace_back(currentWord);
-            currentWord.width = 0.0f;
-            currentWord.spaceWidth = 0.0f;
-            currentWord.characters.clear();
+            word.characters.emplace_back(currentChar);
+            words.emplace_back(word);
+            word.width = 0.0f;
+            word.spaceWidth = 0.0f;
+            word.characters.clear();
         } else {
-            if(currentWord.width + uiText->fontType->characters[currentChar].advance > uiText->width){
-                words.emplace_back(currentWord);
-                currentWord.characters.clear();
-                currentWord.width = uiText->fontType->characters[currentChar].advance;
-                currentWord.spaceWidth = 0.0f;
-                currentWord.characters.emplace_back(currentChar);
+            if(word.width + uiText->fontType->characters[currentChar].advance > uiText->width){
+                words.emplace_back(word);
+                word.characters.clear();
+                word.width = uiText->fontType->characters[currentChar].advance;
+                word.spaceWidth = 0.0f;
+                word.characters.emplace_back(currentChar);
             }else {
-                currentWord.width += uiText->fontType->characters[currentChar].advance;
-                currentWord.characters.emplace_back(currentChar);
+                word.width += uiText->fontType->characters[currentChar].advance;
+                word.characters.emplace_back(currentChar);
             }
             if (i == length - 1)
-                words.emplace_back(currentWord);
+                words.emplace_back(word);
         }
     }
-    Line currentLine;
+    Line line;
     lines.clear();
     for (auto &word : words) {
         if (word.characters.empty()) {
-            if(currentLine.lineWidth + word.width + word.spaceWidth > uiText->width){
-                lines.emplace_back(currentLine);
-                currentLine.words.clear();
-                currentLine.words.emplace_back(word);
-                currentLine.lineWidth = 0.0f;
-                currentLine.lineWidth += word.width + word.spaceWidth;
+            if(line.lineWidth + word.width + word.spaceWidth > uiText->width){
+                lines.emplace_back(line);
+                line.words.clear();
+                line.words.emplace_back(word);
+                line.lineWidth = 0.0f;
+                line.lineWidth += word.width + word.spaceWidth;
             }else {
-                currentLine.lineWidth += word.width + word.spaceWidth;
-                currentLine.words.emplace_back(word);
+                line.lineWidth += word.width + word.spaceWidth;
+                line.words.emplace_back(word);
             }
         } else {
             if (word.characters.back() == '\n') {
-                word.characters.pop_back();
-                if (currentLine.lineWidth + word.width + word.spaceWidth <= uiText->width) {
-                    currentLine.words.emplace_back(word);
-                    currentLine.lineWidth += word.width + word.spaceWidth;
+                if (line.lineWidth + word.width + word.spaceWidth <= uiText->width) {
+                    line.words.emplace_back(word);
+                    line.lineWidth += word.width + word.spaceWidth;
                 } else {
-                    lines.emplace_back(currentLine);
-                    currentLine.words.clear();
-                    currentLine.words.emplace_back(word);
-                    currentLine.lineWidth = 0.0f;
-                    currentLine.lineWidth += word.width + word.spaceWidth;
+                    lines.emplace_back(line);
+                    line.words.clear();
+                    line.words.emplace_back(word);
+                    line.lineWidth = 0.0f;
+                    line.lineWidth += word.width + word.spaceWidth;
                 }
-                lines.emplace_back(currentLine);
-                currentLine.words.clear();
-                currentLine.lineWidth = 0.0f;
-            } else if (currentLine.lineWidth + word.width + word.spaceWidth <= uiText->width) {
-                currentLine.words.emplace_back(word);
-                currentLine.lineWidth += word.width + word.spaceWidth;
+                lines.emplace_back(line);
+                line.words.clear();
+                line.lineWidth = 0.0f;
+            } else if (line.lineWidth + word.width + word.spaceWidth <= uiText->width) {
+                line.words.emplace_back(word);
+                line.lineWidth += word.width + word.spaceWidth;
             } else {
-                lines.emplace_back(currentLine);
-                currentLine.words.clear();
-                currentLine.words.emplace_back(word);
-                currentLine.lineWidth = 0.0f;
-                currentLine.lineWidth += word.width + word.spaceWidth;
+                lines.emplace_back(line);
+                line.words.clear();
+                line.words.emplace_back(word);
+                line.lineWidth = 0.0f;
+                line.lineWidth += word.width + word.spaceWidth;
             }
         }
     }
-    lines.emplace_back(currentLine);
+    lines.emplace_back(line);
 }
 
 void TextMesh::loadText() {
@@ -125,46 +124,48 @@ void TextMesh::loadText() {
         for (const auto &word : line.words) {
             cursorX += word.spaceWidth;
             for (auto character : word.characters) {
-                Character c = uiText->fontType->characters[character];
-                auto x = cursorX + c.bearingX;
-                auto y = cursorY - c.bearingY;
+                if(character != '\n') {
+                    Character c = uiText->fontType->characters[character];
+                    auto x = cursorX + c.bearingX;
+                    auto y = cursorY - c.bearingY;
 
-                vertices.emplace_back(x);
-                vertices.emplace_back(y + c.height);
-                vertices.emplace_back(0);
-                vertices.emplace_back(c.textureY);
-                vertices.emplace_back(c.ascii);
+                    vertices.emplace_back(x);
+                    vertices.emplace_back(y + c.height);
+                    vertices.emplace_back(0);
+                    vertices.emplace_back(c.textureY);
+                    vertices.emplace_back(c.ascii);
 
-                vertices.emplace_back(x);
-                vertices.emplace_back(y);
-                vertices.emplace_back(0);
-                vertices.emplace_back(0);
-                vertices.emplace_back(c.ascii);
+                    vertices.emplace_back(x);
+                    vertices.emplace_back(y);
+                    vertices.emplace_back(0);
+                    vertices.emplace_back(0);
+                    vertices.emplace_back(c.ascii);
 
-                vertices.emplace_back(x + c.width);
-                vertices.emplace_back(y);
-                vertices.emplace_back(c.textureX);
-                vertices.emplace_back(0);
-                vertices.emplace_back(c.ascii);
+                    vertices.emplace_back(x + c.width);
+                    vertices.emplace_back(y);
+                    vertices.emplace_back(c.textureX);
+                    vertices.emplace_back(0);
+                    vertices.emplace_back(c.ascii);
 
-                vertices.emplace_back(x);
-                vertices.emplace_back(y + c.height);
-                vertices.emplace_back(0);
-                vertices.emplace_back(c.textureY);
-                vertices.emplace_back(c.ascii);
+                    vertices.emplace_back(x);
+                    vertices.emplace_back(y + c.height);
+                    vertices.emplace_back(0);
+                    vertices.emplace_back(c.textureY);
+                    vertices.emplace_back(c.ascii);
 
-                vertices.emplace_back(x + c.width);
-                vertices.emplace_back(y);
-                vertices.emplace_back(c.textureX);
-                vertices.emplace_back(0);
-                vertices.emplace_back(c.ascii);
+                    vertices.emplace_back(x + c.width);
+                    vertices.emplace_back(y);
+                    vertices.emplace_back(c.textureX);
+                    vertices.emplace_back(0);
+                    vertices.emplace_back(c.ascii);
 
-                vertices.emplace_back(x + c.width);
-                vertices.emplace_back(y + c.height);
-                vertices.emplace_back(c.textureX);
-                vertices.emplace_back(c.textureY);
-                vertices.emplace_back(c.ascii);
-                cursorX += c.advance;
+                    vertices.emplace_back(x + c.width);
+                    vertices.emplace_back(y + c.height);
+                    vertices.emplace_back(c.textureX);
+                    vertices.emplace_back(c.textureY);
+                    vertices.emplace_back(c.ascii);
+                    cursorX += c.advance;
+                }
             }
         }
         cursorY += uiText->fontType->fontSize;
