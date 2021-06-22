@@ -45,6 +45,7 @@ public:
     UIText text;
 private:
     int mode = 0, currentLine = 0;
+    float fieldWidth = 0;
     double mouseAdvanceX = 0, mouseAdvanceY = 0;
     void updateUntilLine();
     void updateLine();

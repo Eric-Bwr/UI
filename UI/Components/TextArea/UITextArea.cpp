@@ -4,10 +4,8 @@
 UITextArea::UITextArea(float positionX, float positionY, float width, float height, float offset)
         : UITextArea(DataManager::defaultFont, 20, positionX, positionY, width, height, offset) {}
 
-UITextArea::UITextArea(Font *font, int fontSize, float positionX, float positionY, float width, float height,
-                       float offset, int mode)
-        : text("", font, fontSize, positionX + offset, positionY + offset, width - offset * 2 - cursorWidth, height,
-               mode) {
+UITextArea::UITextArea(Font *font, int fontSize, float positionX, float positionY, float width, float height, float offset, int mode)
+        : text("", font, fontSize, positionX + offset, positionY + offset, width - offset * 2 - cursorWidth, height, mode) {
     type = UIComponentType::UITEXTAREA;
     texture = nullptr;
     this->positionX = positionX;
@@ -19,14 +17,13 @@ UITextArea::UITextArea(Font *font, int fontSize, float positionX, float position
     this->bgColor.pressed = COLOR_RED.darker().darker();
     this->fgColor = this->cursorColor = COLOR_WHITE;
     this->offset = offset;
+    this->fieldWidth = width - offset * 2 - cursorWidth;
     mesh.load(positionX, positionY, width, height, 0);
-    cursorMesh.load(positionX + offset + text.fontType->getTextWidth(cursorContent.data()), positionY + cursorPadding,
-                    cursorWidth, height - cursorPadding * 2, 0);
+    cursorMesh.load(positionX + offset + text.fontType->getTextWidth(cursorContent.data()), positionY + cursorPadding, cursorWidth, height - cursorPadding * 2, 0);
     updateCursor();
 }
 
-void
-UITextArea::setBackgroundColor(const UIColor &standardColor, const UIColor &hoverColor, const UIColor &pressedColor) {
+void UITextArea::setBackgroundColor(const UIColor &standardColor, const UIColor &hoverColor, const UIColor &pressedColor) {
     this->bgColor.standard = standardColor;
     this->bgColor.hover = hoverColor;
     this->bgColor.pressed = pressedColor;
@@ -37,30 +34,22 @@ UITextArea::setBackgroundColor(const UIColor &standardColor, const UIColor &hove
     mesh.loadPosition(positionX, positionY, width, height, mode);
 }
 
-void UITextArea::setBackgroundTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth,
-                                      float buttonHeight) {
+void UITextArea::setBackgroundTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight) {
     this->texture = texture;
     if (mode == 0)
         mode = 2;
     else if (mode == 1)
         mode = 3;
-    mesh.load(positionX, positionY, width, height, mode, texture->getWidth(), texture->getHeight(), buttonX, buttonY,
-              buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth,
-              buttonHeight);
+    mesh.load(positionX, positionY, width, height, mode, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight);
 }
 
-void
-UITextArea::setBackgroundTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight,
-                                 float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX,
-                                 float pressedY, float pressedWidth, float pressedHeight) {
+void UITextArea::setBackgroundTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight) {
     this->texture = texture;
     if (mode == 0)
         mode = 2;
     else if (mode == 1)
         mode = 3;
-    mesh.load(positionX, positionY, width, height, mode, texture->getWidth(), texture->getHeight(), buttonX, buttonY,
-              buttonWidth, buttonHeight, hoverX, hoverY, hoverWidth, hoverHeight, pressedX, pressedY, pressedWidth,
-              pressedHeight);
+    mesh.load(positionX, positionY, width, height, mode, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, hoverX, hoverY, hoverWidth, hoverHeight, pressedX, pressedY, pressedWidth, pressedHeight);
 }
 
 void UITextArea::setPosition(float positionX, float positionY) {
@@ -74,7 +63,8 @@ void UITextArea::setPosition(float positionX, float positionY) {
 void UITextArea::setSize(float width, float height) {
     this->width = width;
     this->height = height;
-    text.setSize(width - offset * 2 - cursorWidth, height);
+    this->fieldWidth = width - offset * 2 - cursorWidth;
+    text.setSize(fieldWidth, height);
     mesh.loadPosition(positionX, positionY, width, height);
     updateCursor();
 }
@@ -84,7 +74,8 @@ void UITextArea::setBounds(float positionX, float positionY, float width, float 
     this->positionY = positionY;
     this->width = width;
     this->height = height;
-    text.setBounds(positionX + offset, positionY, width - offset * 2 - cursorWidth, height);
+    this->fieldWidth = width - offset * 2 - cursorWidth;
+    text.setBounds(positionX + offset, positionY, fieldWidth, height);
     mesh.loadPosition(positionX, positionY, width, height);
     updateCursor();
 }
@@ -119,7 +110,8 @@ void UITextArea::setCursorPadding(float cursorPadding) {
 
 void UITextArea::setOffset(float offset) {
     this->offset = offset;
-    text.setBounds(positionX + offset, positionY, width - offset * 2 - cursorWidth, height);
+    this->fieldWidth = width - offset * 2 - cursorWidth;
+    text.setBounds(positionX + offset, positionY, fieldWidth, height);
     updateCursor();
 }
 
@@ -127,7 +119,9 @@ void UITextArea::setRadii(float radii, bool upperLeft, bool lowerLeft, bool uppe
     mesh.setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
 }
 
-#include "iostream"
+static bool shouldStop(char input){
+    return input == ' ' || input == '.' || input == ',' || input == ':' || input == ';' || input == '!' || input == '?' || input == '-' || input == '_' || input == '+' || input == '#' || input == '~' || input == '*' || input == '/' || input == '\n' || input == '\r';
+}
 
 void UITextArea::keyInput(int key, int action, int mods) {
     if (pressed) {
@@ -136,22 +130,23 @@ void UITextArea::keyInput(int key, int action, int mods) {
             if (key == KEY_TAB)
                 charInput(char('\t'));
             else if (key == KEY_BACKSPACE) {
-                if(cursorContent.empty() && currentLine > 0) {
+                if (cursorContent.empty() && currentLine > 0) {
                     currentLine--;
                     updateLine();
                     updateUntilLine();
                     cursorContent = currentLineContent;
-                }else if(cursorContent.empty() && currentLine == 0)
+                } else if (cursorContent.empty() && currentLine == 0)
                     return;
                 if (mods == KEY_MOD_CONTROL) {
                     int dstToLastSpace;
                     for (dstToLastSpace = cursorContent.size() - 1; dstToLastSpace > 0; dstToLastSpace--) {
-                        if (cursorContent.at(dstToLastSpace) == '\n' || cursorContent.at(dstToLastSpace) == '\t' ||
-                            cursorContent.at(dstToLastSpace) == ' ')
+                        if (shouldStop(cursorContent.at(dstToLastSpace)))
                             break;
                     }
                     if (text.text.size() > 1)
-                        text.text = text.text.substr(0, currentContentUntilLine.size() + dstToLastSpace) + text.text.substr(currentContentUntilLine.size() + cursorContent.size(), text.text.size());
+                        text.text = text.text.substr(0, currentContentUntilLine.size() + dstToLastSpace) +
+                                    text.text.substr(currentContentUntilLine.size() + cursorContent.size(),
+                                                     text.text.size());
                     else
                         text.text = text.text.substr(0, currentContentUntilLine.size() + dstToLastSpace);
                     cursorContent = cursorContent.substr(0, dstToLastSpace);
@@ -161,7 +156,9 @@ void UITextArea::keyInput(int key, int action, int mods) {
                     cursorContent.pop_back();
                     updateUntilLine();
                     if (text.text.size() > 1)
-                        text.text = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size()) + text.text.substr(currentContentUntilLine.size() + cursorContent.size() + 1, text.text.size());
+                        text.text = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size()) +
+                                    text.text.substr(currentContentUntilLine.size() + cursorContent.size() + 1,
+                                                     text.text.size());
                     else
                         text.text = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size());
                     text.textMesh.loadTextStructure();
@@ -171,10 +168,8 @@ void UITextArea::keyInput(int key, int action, int mods) {
                 if (mods == KEY_MOD_CONTROL) {
                     int dstToNextSpace;
                     for (dstToNextSpace = cursorContent.size();
-                         dstToNextSpace < currentLineContent.size(); dstToNextSpace++) {
-                         if (currentLineContent.at(dstToNextSpace) == '\n' ||
-                            currentLineContent.at(dstToNextSpace) == '\t' ||
-                            currentLineContent.at(dstToNextSpace) == ' ')
+                        dstToNextSpace < currentLineContent.size(); dstToNextSpace++) {
+                        if(shouldStop(currentLineContent.at(dstToNextSpace)))
                             break;
                     }
                     dstToNextSpace -= cursorContent.size();
@@ -222,8 +217,7 @@ void UITextArea::keyInput(int key, int action, int mods) {
                     float textAdvance = 0;
                     int i;
                     for (i = 0; i < currentLineContent.size(); i++) {
-                        if (textAdvance >= previousLength ||
-                            (currentLineContent.at(i) == ' ' && i == currentLineContent.size() - 1))
+                        if (textAdvance >= previousLength || (currentLineContent.at(i) == ' ' && i == currentLineContent.size() - 1))
                             break;
                         textAdvance += text.fontType->getCharacterWidth(currentLineContent.at(i));
                     }
@@ -298,21 +292,22 @@ void UITextArea::charInput(unsigned int key) {
     updateUntilLine();
     updateLine();
     if (pressed) {
+        if(cursorContent.back() == '\n')
+            cursorContent.pop_back();
         auto end = text.text.substr(currentContentUntilLine.size() + cursorContent.size(), text.text.size());
         text.text = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size()) + char(key) + end;
         int dstToNextSpace;
         for (dstToNextSpace = cursorContent.size(); dstToNextSpace < currentLineContent.size(); dstToNextSpace++) {
-            if (currentLineContent.at(dstToNextSpace) == '\n' || currentLineContent.at(dstToNextSpace) == '\t' ||
-                currentLineContent.at(dstToNextSpace) == ' ')
+            if (shouldStop(currentLineContent.at(dstToNextSpace)))
                 break;
         }
         dstToNextSpace -= cursorContent.size();
         auto part = currentLineContent.substr(cursorContent.size(), dstToNextSpace);
-        if (text.fontType->getTextWidth((cursorContent + char(key) + part).data()) > width - offset * 2 - cursorWidth) {
+        //FIXME: If a word is above the size of the textFieldWidth we got a lil bit of an oopsie
+        if (text.fontType->getTextWidth((cursorContent + char(key) + part).data()) > fieldWidth) {
             int dstToLastSpace;
             for (dstToLastSpace = cursorContent.size() - 1; dstToLastSpace > 0; dstToLastSpace--) {
-                if (cursorContent.at(dstToLastSpace) == '\n' || cursorContent.at(dstToLastSpace) == '\t' ||
-                    cursorContent.at(dstToLastSpace) == ' ')
+                if (shouldStop(cursorContent.at(dstToLastSpace)))
                     break;
             }
             cursorContent = cursorContent.substr(dstToLastSpace, cursorContent.size()) + char(key);
@@ -384,7 +379,5 @@ void UITextArea::mouseButtonInput(int action) {
 }
 
 void UITextArea::updateCursor() {
-    cursorMesh.loadPosition(positionX + offset + text.fontType->getTextWidth(cursorContent.data()) - cursorWidth / 2,
-                            positionY + cursorPadding + text.fontSize * currentLine, cursorWidth,
-                            text.fontSize - cursorPadding * 2);
+    cursorMesh.loadPosition(positionX + offset + text.fontType->getTextWidth(cursorContent.data()) - cursorWidth / 2, positionY + cursorPadding + text.fontSize * currentLine, cursorWidth, text.fontSize - cursorPadding * 2);
 }
