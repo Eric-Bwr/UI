@@ -60,7 +60,7 @@ int main() {
     UITextArea textArea(100, 100, 1400, 600);
     textArea.setFontSize(50);
     textArea.setText(string);
-   // manager.add(&textArea, 11);
+    manager.add(&textArea, 11);
 
     UISlider slider(1000, 300, 500, 50, 5, -10, 10);
     slider.setRadii(20);
