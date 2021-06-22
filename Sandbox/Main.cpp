@@ -48,7 +48,7 @@ int main() {
     char *string = "Crocs, Inc. is an American \t \t\t\tcompany based in Niwot, Colorado that manufactures and markets the Crocs brand of foam clogs.\nThe company has since established a considerable following with American middle school and high school students, with many opting for Crocs to use as school shoes for the school day.";
     Font farCry("../Assets/Fonts/FarCry.ttf");
 
-    char *farCryString = "g";
+    char *farCryString = "f";
     UIText farCryText(farCryString, &farCry, 200, 0, 0, 1600, 800, LEFT);
     manager.add(&farCryText, 6);
 
@@ -56,12 +56,11 @@ int main() {
     UITexture fieldTex("../Assets/Textures/TextField.png");
     textField.setBackgroundTexture(&fieldTex, 0, 0, 108, 19, 0, 19, 108, 19, 0, 19 * 2, 108, 19);
     manager.add(&textField, 5);
-    textField.setPasswordField(true);
 
     UITextArea textArea(100, 100, 1400, 600);
     textArea.setFontSize(50);
     textArea.setText(string);
-    manager.add(&textArea, 11);
+   // manager.add(&textArea, 11);
 
     UISlider slider(1000, 300, 500, 50, 5, -10, 10);
     slider.setRadii(20);

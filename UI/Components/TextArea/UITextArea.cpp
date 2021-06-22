@@ -120,7 +120,7 @@ void UITextArea::setRadii(float radii, bool upperLeft, bool lowerLeft, bool uppe
 }
 
 static bool shouldStop(char input){
-    return input == ' ' || input == '.' || input == ',' || input == ':' || input == ';' || input == '!' || input == '?' || input == '-' || input == '_' || input == '+' || input == '#' || input == '~' || input == '*' || input == '/' || input == '\n' || input == '\r';
+    return input == ' ' || input == '.' || input == ',' || input == ':' || input == ';' || input == '!' || input == '?' || input == '-' || input == '_' || input == '+' || input == '#' || input == '~' || input == '*' || input == '/' || input == '\n' || input == '\r' || input == '\t';
 }
 
 void UITextArea::keyInput(int key, int action, int mods) {
