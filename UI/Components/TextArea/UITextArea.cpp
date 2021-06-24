@@ -155,7 +155,6 @@ void UITextArea::keyInput(int key, int action, int mods) {
                     text.textMesh.loadText();
                 } else {
                     cursorContent.pop_back();
-                    updateUntilLine();
                     if (text.text.size() > 1)
                         text.text = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size()) + text.text.substr(currentContentUntilLine.size() + cursorContent.size() + 1, text.text.size());
                     else
@@ -175,6 +174,7 @@ void UITextArea::keyInput(int key, int action, int mods) {
                     if(cursorContent.size() > 1 && cursorContent.at(cursorContent.size() - 1) == '\n'){
                         auto start = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size() - 1);
                         text.text = start + text.text.substr(currentContentUntilLine.size() + cursorContent.size(), text.text.size());
+                        cursorContent.pop_back();
                     }else if (currentLineContent.size() - cursorContent.size() > 0) {
                         if (shouldStop(currentLineContent.at(cursorContent.size()))) {
                             auto start = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size());
@@ -202,6 +202,7 @@ void UITextArea::keyInput(int key, int action, int mods) {
                     if(cursorContent.size() > 1 && cursorContent.at(cursorContent.size() - 1) == '\n'){
                         auto start = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size() - 1);
                         text.text = start + text.text.substr(currentContentUntilLine.size() + cursorContent.size(), text.text.size());
+                        cursorContent.pop_back();
                     }else if (currentLineContent.size() - cursorContent.size() > 0) {
                         auto start = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size());
                         text.text = start + text.text.substr(currentContentUntilLine.size() + cursorContent.size() + 1, text.text.size());
@@ -219,10 +220,27 @@ void UITextArea::keyInput(int key, int action, int mods) {
                 updateUntilLine();
             } else if (key == KEY_LEFT) {
                 if (!cursorContent.empty()) {
-                    if (mods == KEY_MOD_CONTROL)
-                        cursorContent.clear();
-                    else
+                    if (mods == KEY_MOD_CONTROL) {
+                        if(shouldStop(currentLineContent.at(cursorContent.size() - 1)))
+                            cursorContent.pop_back();
+                        else {
+                            for (int dstToLastSpace = cursorContent.size() - 1; dstToLastSpace >= 0; dstToLastSpace--) {
+                                if (shouldStop(cursorContent.at(dstToLastSpace)))
+                                    break;
+                                cursorContent.pop_back();
+                            }
+                        }
+                    }else
                         cursorContent.pop_back();
+                }else{
+                    if(currentLine > 0){
+                        currentLine--;
+                        updateLine();
+                        updateUntilLine();
+                        cursorContent = currentLineContent;
+                        if(!cursorContent.empty() && cursorContent.back() == ' ')
+                            cursorContent.pop_back();
+                    }
                 }
             } else if (key == KEY_RIGHT) {
                 if (cursorContent.size() < currentLineContent.size()) {
