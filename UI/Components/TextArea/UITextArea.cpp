@@ -120,7 +120,7 @@ void UITextArea::setRadii(float radii, bool upperLeft, bool lowerLeft, bool uppe
 }
 
 static bool shouldStop(char input){
-    return input == ' ' || input == '.' || input == ',' || input == ':' || input == ';' || input == '!' || input == '?' || input == '-' || input == '_' || input == '+' || input == '#' || input == '~' || input == '*' || input == '/' || input == '\n' || input == '\r' || input == '\t';
+    return input == ' ' || input == '.' || input == ',' || input == ':' || input == ';' || input == '!' || input == '?' || input == '-' || input == '_' || input == '+' || input == '#' || input == '~' || input == '*' || input == '/' || input == '\n' || input == '\t';
 }
 
 void UITextArea::keyInput(int key, int action, int mods) {
@@ -129,6 +129,8 @@ void UITextArea::keyInput(int key, int action, int mods) {
             updateUntilLine();
             if (key == KEY_TAB)
                 charInput(char('\t'));
+            else if(key == KEY_ENTER)
+                charInput(char('\n'));
             else if (key == KEY_BACKSPACE) {
                 if (cursorContent.empty() && currentLine > 0) {
                     currentLine--;
@@ -156,12 +158,16 @@ void UITextArea::keyInput(int key, int action, int mods) {
                     cursorContent.pop_back();
                     updateUntilLine();
                     if (text.text.size() > 1)
-                        text.text = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size()) +
-                                    text.text.substr(currentContentUntilLine.size() + cursorContent.size() + 1,
-                                                     text.text.size());
+                        text.text = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size()) + text.text.substr(currentContentUntilLine.size() + cursorContent.size() + 1, text.text.size());
                     else
-                        text.text = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size());
+                        text.text = "";
                     text.textMesh.loadTextStructure();
+                    if(text.textMesh.lines.size() < currentLine + 1){
+                        currentLine--;
+                        updateLine();
+                        cursorContent = currentLineContent;
+                        updateUntilLine();
+                    }
                     text.textMesh.loadText();
                 }
             } else if (key == KEY_DELETE) {
@@ -180,14 +186,22 @@ void UITextArea::keyInput(int key, int action, int mods) {
                     text.textMesh.loadTextStructure();
                     text.textMesh.loadText();
                 } else {
-                    if (cursorContent.size() < currentLineContent.size() - 1) {
-                        auto start = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size() + 1);
-                        text.text = start + text.text.substr(currentContentUntilLine.size() + cursorContent.size() + 2,
-                                                             text.text.size());
-                        updateLine();
-                        text.textMesh.loadTextStructure();
-                        text.textMesh.loadText();
+                    if(cursorContent.size() > 1 && cursorContent.at(cursorContent.size() - 1) == '\n'){
+                        auto start = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size() - 1);
+                        text.text = start + text.text.substr(currentContentUntilLine.size() + cursorContent.size(), text.text.size());
+                    }else if (currentLineContent.size() - cursorContent.size() > 0) {
+                        auto start = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size());
+                        text.text = start + text.text.substr(currentContentUntilLine.size() + cursorContent.size() + 1, text.text.size());
                     }
+                    text.textMesh.loadTextStructure();
+                    if(text.textMesh.lines.size() < currentLine + 1){
+                        currentLine--;
+                        updateLine();
+                        cursorContent = currentLineContent;
+                        updateUntilLine();
+                    }else
+                        updateLine();
+                    text.textMesh.loadText();
                 }
                 updateUntilLine();
             } else if (key == KEY_LEFT) {
@@ -292,6 +306,7 @@ void UITextArea::charInput(unsigned int key) {
     updateUntilLine();
     updateLine();
     if (pressed) {
+        //WHY THIS
         if(cursorContent.back() == '\n')
             cursorContent.pop_back();
         auto end = text.text.substr(currentContentUntilLine.size() + cursorContent.size(), text.text.size());

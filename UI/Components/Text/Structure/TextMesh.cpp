@@ -15,6 +15,8 @@ void TextMesh::loadTextStructure(){
     std::vector<Word> words;
     for (int i = 0; i < length; i++) {
         char currentChar = uiText->text[i];
+        if(currentChar == '\r')
+            currentChar = '\n';
         if (currentChar == ' ') {
             if (!word.characters.empty())
                 words.emplace_back(word);
