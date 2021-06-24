@@ -146,13 +146,12 @@ void UITextArea::keyInput(int key, int action, int mods) {
                             break;
                     }
                     if (text.text.size() > 1)
-                        text.text = text.text.substr(0, currentContentUntilLine.size() + dstToLastSpace) +
-                                    text.text.substr(currentContentUntilLine.size() + cursorContent.size(),
-                                                     text.text.size());
+                        text.text = text.text.substr(0, currentContentUntilLine.size() + dstToLastSpace) + text.text.substr(currentContentUntilLine.size() + cursorContent.size(),text.text.size());
                     else
                         text.text = text.text.substr(0, currentContentUntilLine.size() + dstToLastSpace);
                     cursorContent = cursorContent.substr(0, dstToLastSpace);
                     text.textMesh.loadTextStructure();
+                    updateLine();
                     text.textMesh.loadText();
                 } else {
                     cursorContent.pop_back();
@@ -167,23 +166,37 @@ void UITextArea::keyInput(int key, int action, int mods) {
                         updateLine();
                         cursorContent = currentLineContent;
                         updateUntilLine();
-                    }
+                    }else
+                        updateLine();
                     text.textMesh.loadText();
                 }
             } else if (key == KEY_DELETE) {
                 if (mods == KEY_MOD_CONTROL) {
-                    int dstToNextSpace;
-                    for (dstToNextSpace = cursorContent.size();
-                        dstToNextSpace < currentLineContent.size(); dstToNextSpace++) {
-                        if(shouldStop(currentLineContent.at(dstToNextSpace)))
-                            break;
+                    if(cursorContent.size() > 1 && cursorContent.at(cursorContent.size() - 1) == '\n'){
+                        auto start = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size() - 1);
+                        text.text = start + text.text.substr(currentContentUntilLine.size() + cursorContent.size(), text.text.size());
+                    }else if (currentLineContent.size() - cursorContent.size() > 0) {
+                        if (shouldStop(currentLineContent.at(cursorContent.size()))) {
+                            auto start = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size());
+                            text.text = start + text.text.substr(currentContentUntilLine.size() + cursorContent.size() + 1, text.text.size());
+                        } else {
+                            int dstToNextSpace;
+                            for (dstToNextSpace = cursorContent.size(); dstToNextSpace < currentLineContent.size(); dstToNextSpace++) {
+                                if (shouldStop(currentLineContent.at(dstToNextSpace)))
+                                    break;
+                            }
+                            auto start = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size());
+                            text.text = start + text.text.substr(currentContentUntilLine.size() + dstToNextSpace, text.text.size());
+                        }
                     }
-                    dstToNextSpace -= cursorContent.size();
-                    std::cout << dstToNextSpace << " <<\n";
-                    //text.text = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size()) +
-                    //            text.text.substr(currentContentUntilLine.size() + cursorContent.size() + dstToNextSpace,
-                    //                             text.text.size());
                     text.textMesh.loadTextStructure();
+                    if(text.textMesh.lines.size() < currentLine + 1){
+                        currentLine--;
+                        updateLine();
+                        cursorContent = currentLineContent;
+                        updateUntilLine();
+                    }else
+                        updateLine();
                     text.textMesh.loadText();
                 } else {
                     if(cursorContent.size() > 1 && cursorContent.at(cursorContent.size() - 1) == '\n'){
