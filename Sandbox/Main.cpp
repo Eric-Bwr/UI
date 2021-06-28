@@ -1,6 +1,5 @@
 #include "../UI/UIManager.h"
 #include "Window/Window.h"
-#include <iostream>
 
 UIManager manager;
 

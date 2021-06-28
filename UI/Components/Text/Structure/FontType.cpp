@@ -50,7 +50,7 @@ void FontType::loadGlyph(int ascii) {
         height = ch.height;
 }
 
-float FontType::getTextWidth(char *text) {
+float FontType::getTextWidth(const char *text) {
     float result = 0.0f;
     for (int i = 0; i < strlen(text); i++) {
         if(characters.count(text[i]))

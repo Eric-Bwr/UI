@@ -42,6 +42,8 @@ void UIManager::setSize(int width, int height) {
     textShader->setUniformMatrix4f("ortho", ortho.getBuffer());
     quadShader->bind();
     quadShader->setUniformMatrix4f("ortho", ortho.getBuffer());
+    if(width == 0 || height == 0)
+        return;
     if (scaleOnResize) {
         float factorX = (float) width / (float) this->width;
         float factorY = (float) height / (float) this->height;
