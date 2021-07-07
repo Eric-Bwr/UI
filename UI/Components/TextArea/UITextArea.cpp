@@ -392,25 +392,18 @@ void UITextArea::charInput(unsigned int key) {
         }
         dstToNextSpace -= cursorContent.size();
         auto part = currentLineContent.substr(cursorContent.size(), dstToNextSpace);
-        //FIXME: If a word is above the size of the textFieldWidth we got a lil bit of an oopsie
         if (text.fontType->getTextWidth((cursorContent + char(key) + part).data()) > fieldWidth) {
+            if (text.textMesh.lines.at(currentLine).words.size() == 1){
+                //PERFECT CHECK; ADD LINE BREAK (REMEMBER THE CURSOR POSITION)
+            }
             int dstToLastSpace;
             for (dstToLastSpace = cursorContent.size() - 1; dstToLastSpace > 0; dstToLastSpace--) {
                 if (shouldStop(cursorContent.at(dstToLastSpace)))
                     break;
             }
-            if (false) {
-                std::cout << "AI\n";
-
-                //auto end = text.text.substr(currentContentUntilLine.size() + cursorContent.size(), text.text.size())
-                // text.text = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size()) + char('\n') + end;
-
-                cursorContent.clear();
-            } else {
-                cursorContent = cursorContent.substr(dstToLastSpace, cursorContent.size()) + char(key);
-                if (cursorContent.front() == ' ')
-                    cursorContent = cursorContent.substr(1, cursorContent.size());
-            }
+            cursorContent = cursorContent.substr(dstToLastSpace, cursorContent.size()) + char(key);
+            if (cursorContent.front() == ' ')
+                cursorContent = cursorContent.substr(1, cursorContent.size());
             currentLine++;
             updateUntilLine();
         } else
