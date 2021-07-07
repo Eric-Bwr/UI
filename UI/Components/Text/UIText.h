@@ -29,6 +29,7 @@ public:
     void setFont(Font* font);
     void setFontSize(int fontSize);
     void setMode(int mode);
+    void setLineAdvance(float lineAdvance);
 
     inline int getFontSize() { return fontSize; }
     inline const char* getText() { return text.data(); }
@@ -37,6 +38,7 @@ public:
 
     std::string text;
     int fontSize, mode;
+    float lineAdvance;
     Font* font;
     FontType* fontType;
     TextMesh textMesh;

@@ -170,7 +170,7 @@ void TextMesh::loadText() {
                 }
             }
         }
-        cursorY += uiText->fontType->fontSize;
+        cursorY += uiText->fontType->fontSize + uiText->lineAdvance;
     }
     vertexCount = vertices.size() / 5;
     vbo.subData(vertices.data(), vertexCount * DataManager::textLayout.getStride(), 0, GL_DYNAMIC_DRAW);

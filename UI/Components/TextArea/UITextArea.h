@@ -20,13 +20,14 @@ public:
     void setText(char* text);
     void setFont(Font *font);
     void setFontSize(int fontSize);
+    void setLineAdvance(float lineAdvance);
     void setCursorPadding(float cursorPadding);
     void setOffset(float offset);
     void setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight);
     inline void setCallback(void(*callback)(bool pressed, bool hovered)){ this->callback = callback; }
     inline void setContentCallback(void(*contentCallback)(std::string content)){ this->contentCallback = contentCallback; }
 
-//    inline std::string getContent() const { return content; }
+    inline std::string getContent() const { return text.text; }
 
     void keyInput(int key, int action, int mods) override;
     void charInput(unsigned int key) override;
@@ -44,8 +45,8 @@ public:
     UIColor cursorColor;
     UIText text;
 private:
-    int mode = 0, currentLine = 0;
-    float fieldWidth = 0;
+    int mode = 0, currentLine = 0, maxLines = 0;
+    float fieldWidth = 0, fieldHeight = 0;
     double mouseAdvanceX = 0, mouseAdvanceY = 0;
     void updateUntilLine();
     void updateLine();

@@ -23,7 +23,7 @@ include_directories(${PROJECT_NAME} "Dependencies/FreeType/include")
 
 include_directories(${PROJECT_NAME})
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${EXEC_FILES} UI/Components/Image/UIImage.cpp UI/Components/Image/UIImage.h)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${EXEC_FILES})
 #add_library(${PROJECT_NAME} ${SOURCE_FILES})
 
 target_link_libraries(${PROJECT_NAME}

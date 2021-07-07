@@ -48,16 +48,15 @@ int main() {
     Font farCry("../Assets/Fonts/FarCry.ttf");
 
     char *farCryString = "f";
-    UIText farCryText(farCryString, &farCry, 200, 0, 0, 1600, 800, LEFT);
+    UIText farCryText(farCryString, &farCry, 20, 0, 0, 1600, 800, LEFT);
     manager.add(&farCryText, 6);
 
-    UITextField textField("Default", 700, 500, 198 * 4, 18 * 4, 10);
-    UITexture fieldTex("../Assets/Textures/TextField.png");
-    textField.setBackgroundTexture(&fieldTex, 0, 0, 108, 19, 0, 19, 108, 19, 0, 19 * 2, 108, 19);
-    manager.add(&textField, 5);
+   // UITextField textField("Default", 20, 700, 500, 198 * 4, 18 * 4, 10);
+   // UITexture fieldTex("../Assets/Textures/TextField.png");
+   // textField.setBackgroundTexture(&fieldTex, 0, 0, 108, 19, 0, 19, 108, 19, 0, 19 * 2, 108, 19);
+   // manager.add(&textField, 5);
 
-    UITextArea textArea(100, 100, 1400, 600);
-    textArea.setFontSize(50);
+    UITextArea textArea(DataManager::defaultFont, 50, 100, 100, 1400, 600);
     textArea.setText(string);
     manager.add(&textArea, 11);
 

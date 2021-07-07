@@ -23,7 +23,6 @@ Window::Window(WindowSettings *windowSettings) : windowSettings(windowSettings) 
     if(windowSettings->shouldMultiSample()){
         glEnable(GL_MULTISAMPLE);
     }
-
 }
 
 void Window::initHints() {
