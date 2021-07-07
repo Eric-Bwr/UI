@@ -130,7 +130,7 @@ int main() {
     while (window.windowIsAlive()) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         manager.render();
-        sliderText.setText((sliderString + std::to_string(slider.getValue())).data());
+        //sliderText.setText((sliderString + std::to_string(slider.getValue())).data());
         if (glfwGetKey(window.getWindow(), GLFW_KEY_ESCAPE))
             window.setWindowIsAlive(false);
         window.updateWindow();
