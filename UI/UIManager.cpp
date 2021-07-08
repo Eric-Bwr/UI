@@ -1,13 +1,16 @@
 #include "UIManager.h"
+#include "UIShader.h"
 
 #define LERP(a, b, c) (a+(b-a)*c)
 
 void UIManager::init(int width, int height, bool scaleOnResize) {
     DataManager::init();
     ortho = orthographicMatrix(0.0f, width, height, 0.0, -1.0, 1.0);
-    textShader = new Shader("../Assets/Shader/TextShader.glsl");
+    textShader = new Shader();
+    textShader->addFromFile(UITextShaderSource);
     textShader->setUniformMatrix4f("ortho", ortho.getBuffer());
-    quadShader = new Shader("../Assets/Shader/QuadShader.glsl");
+    quadShader = new Shader();
+    textShader->addFromFile(UIQuadShaderSource);
     quadShader->setUniformMatrix4f("ortho", ortho.getBuffer());
     quadShader->setUniform1f("smoothness", CORNER_SMOOTHNESS);
     start = std::chrono::system_clock::now();
