@@ -367,8 +367,6 @@ void UITextArea::updateLine() {
     }
 }
 
-#include "iostream"
-
 void UITextArea::charInput(unsigned int key) {
     updateUntilLine();
     updateLine();
@@ -394,7 +392,9 @@ void UITextArea::charInput(unsigned int key) {
         auto part = currentLineContent.substr(cursorContent.size(), dstToNextSpace);
         if (text.fontType->getTextWidth((cursorContent + char(key) + part).data()) > fieldWidth) {
             if (text.textMesh.lines.at(currentLine).words.size() == 1){
-                //PERFECT CHECK; ADD LINE BREAK (REMEMBER THE CURSOR POSITION)
+                text.text = backup;
+                text.textMesh.loadTextStructure();
+                return;
             }
             int dstToLastSpace;
             for (dstToLastSpace = cursorContent.size() - 1; dstToLastSpace > 0; dstToLastSpace--) {
