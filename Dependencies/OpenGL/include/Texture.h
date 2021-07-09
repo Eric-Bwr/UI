@@ -56,7 +56,7 @@ public:
     unsigned int getInternalFormat() const { return internalFormat; }
     unsigned int getTarget() const { return target; }
     unsigned int getID() const;
-    inline void setNumberOfRows(int numberOfRows) { this->numberOfRows = numberOfRows; factor = std::abs(1.0f / float(numberOfRows)); }
+    inline void setNumberOfRows(int numberOfRows) { this->numberOfRows = numberOfRows; factor = abs(1.0f / float(numberOfRows)); }
     inline int getNumberOfRows() const { return numberOfRows; }
     float getTextureXOffset(int index) const;
     float getTextureYOffset(int index) const;
