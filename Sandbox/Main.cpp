@@ -30,8 +30,8 @@ int main() {
     windowSettings->setHeight(800);
     windowSettings->setCentered(true);
     windowSettings->setTransparent(false);
-    windowSettings->setShouldMultiSample(true);
-    windowSettings->setSampleSize(2);
+ //   windowSettings->setShouldMultiSample(true);
+   // windowSettings->setSampleSize(2);
 
     Window window(windowSettings);
 

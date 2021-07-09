@@ -7,10 +7,14 @@ void UIManager::init(int width, int height, bool scaleOnResize) {
     DataManager::init();
     ortho = orthographicMatrix(0.0f, width, height, 0.0, -1.0, 1.0);
     textShader = new Shader();
-    textShader->addFromFile(UITextShaderSource);
+    textShader->addVertexShader(UITextShaderVertex);
+    textShader->addFragmentShader(UITextShaderFragment);
+    textShader->finish();
     textShader->setUniformMatrix4f("ortho", ortho.getBuffer());
     quadShader = new Shader();
-    textShader->addFromFile(UIQuadShaderSource);
+    quadShader->addVertexShader(UIQuadShaderVertex);
+    quadShader->addFragmentShader(UIQuadShaderFragment);
+    quadShader->finish();
     quadShader->setUniformMatrix4f("ortho", ortho.getBuffer());
     quadShader->setUniform1f("smoothness", CORNER_SMOOTHNESS);
     start = std::chrono::system_clock::now();
@@ -52,8 +56,7 @@ void UIManager::setSize(int width, int height) {
         float factorY = (float) height / (float) this->height;
         for (auto const &componentList : components)
             for (auto component : *componentList.second)
-                component->setBounds(component->positionX * factorX, component->positionY * factorY,
-                                     component->width * factorX, component->height * factorY);
+                component->setBounds(component->positionX * factorX, component->positionY * factorY,component->width * factorX, component->height * factorY);
     }
     this->width = width;
     this->height = height;
@@ -101,6 +104,7 @@ void UIManager::render() {
 }
 
 void UIManager::renderComponent(UIComponent *component) {
+    quadShader->bind();
     if (component->type == UIComponentType::UITEXT) {
         auto ui = (UIText *) component;
         textShader->bind();
