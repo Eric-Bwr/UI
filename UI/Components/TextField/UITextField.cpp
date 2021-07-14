@@ -203,9 +203,9 @@ void UITextField::charInput(unsigned int key) {
     if (pressed) {
         if (content.size() < maxCharacter) {
             if (text.fontType->getTextWidth((content + char(key)).data()) < width - offset * 2 - cursorWidth && text.fontType->getTextWidth((passwordContent + char(key)).data()) < width - offset * 2 - cursorWidth) {
-                auto end = content.substr(cursorContent.size(), content.size()).data();
+                auto end = content.substr(cursorContent.size(), content.size());
                 if (isPasswordField) {
-                    auto passwordEnd = passwordContent.substr(cursorContent.size(), passwordContent.size()).data();
+                    auto passwordEnd = passwordContent.substr(cursorContent.size(), passwordContent.size());
                     cursorContent += PASSWORD_CHARACTER;
                     passwordContent += char(key);
                     content = content.substr(0, cursorContent.size() - 1) + PASSWORD_CHARACTER + end;
@@ -214,7 +214,7 @@ void UITextField::charInput(unsigned int key) {
                     cursorContent += char(key);
                     content = content.substr(0, cursorContent.size() - 1) + char(key) + end;
                 }
-                text.setText(content.data());
+                text.setText(content.c_str());
                 updateCursor();
                 if (contentCallback != nullptr)
                     (*contentCallback)(content, passwordContent);
