@@ -1,5 +1,5 @@
 #include "UITexture.h"
-#include "Structure/STB.h"
+#include "UIStructure/STB.h"
 
 UITexture::UITexture(const char *path, int desiredChannels) : Texture() {
     int width, height, nrComponents;
