@@ -53,7 +53,7 @@ Vec4f UIColor::getDecimal() const {
     return {r * 255.0f, g * 255.0f, b * 255.0f, a * 255.0f};
 }
 
-std::string UIColor::getHexString(bool alpha, std::string heading) {
+std::string UIColor::getHexString(bool alpha, const std::string& heading) {
 	int hex = getHex(alpha);
 	std::stringstream ss;
 	ss << heading << std::hex << hex;
@@ -70,6 +70,13 @@ int UIColor::getHex(bool alpha) {
 		return aa << 24 | rr << 16 | gg << 8 | bb;
 
 	return rr << 16 | gg << 8 | bb;
+}
+
+void UIColor::setHex(int hex, float alpha) {
+    a = alpha;
+    r = ((hex >> 16) & 0xFF) / 255.0;
+    g = ((hex >> 8) & 0xFF) / 255.0;
+    b = ((hex) & 0xFF) / 255.0;
 }
 
 void UIColor::setRGBA(float red, float green, float blue, float alpha, int colorMode) {

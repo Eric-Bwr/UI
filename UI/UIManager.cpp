@@ -17,7 +17,6 @@ void UIManager::init(int width, int height, bool scaleOnResize) {
     quadShader->finish();
     quadShader->setUniformMatrix4f("ortho", ortho.getBuffer());
     quadShader->setUniform1f("smoothness", CORNER_SMOOTHNESS);
-    quadShader->setUniform2f("resizeFactor", 1, 1);
     start = std::chrono::system_clock::now();
     this->width = width;
     this->height = height;
@@ -55,12 +54,10 @@ void UIManager::setSize(int width, int height) {
     if (scaleOnResize) {
         float factorX = (float) width / (float) this->width;
         float factorY = (float) height / (float) this->height;
-        quadShader->setUniform2f("resizeFactor", factorX, factorY);
         for (auto const &componentList : components)
             for (auto component : *componentList.second)
                 component->setBounds(component->positionX * factorX, component->positionY * factorY,component->width * factorX, component->height * factorY);
-    }else
-        quadShader->setUniform2f("resizeFactor", 1, 1);
+    }
     this->width = width;
     this->height = height;
 }
