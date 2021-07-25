@@ -35,7 +35,7 @@ public:
 	void render();
     ~UIManager();
 private:
-    Mat4f ortho;
+    Mat4 ortho;
     Shader* textShader;
     Shader* quadShader;
     int width, height;

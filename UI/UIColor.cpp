@@ -45,11 +45,11 @@ UIColor::UIColor(const std::string& hex, float alpha) {
 	b = ((rgb) & 0xFF) / 255.0;
 }
 
-Vec4f UIColor::getNormalizedDecimal() const{
+Vec4 UIColor::getNormalizedDecimal() const{
     return {r, g, b, a};
 }
 
-Vec4f UIColor::getDecimal() const {
+Vec4 UIColor::getDecimal() const {
     return {r * 255.0f, g * 255.0f, b * 255.0f, a * 255.0f};
 }
 
