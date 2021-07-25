@@ -29,7 +29,7 @@ void UIImage::setTexture(Texture *texture, float textureX, float textureY, float
         mode = 2;
     else if (mode == 1)
         mode = 3;
-    mesh.load(positionX, positionY, width, height, mode, texture->getWidth(), texture->getHeight(), textureX, textureY, textureWidth, textureHeight);
+    mesh.load(positionX, positionY, width, height, texture->getWidth(), texture->getHeight(), textureX, textureY, textureWidth, textureHeight, mode);
 }
 
 void UIImage::setTexture(Texture *texture) {
