@@ -6,6 +6,7 @@ UIColorTriplet &UIColorTriplet::operator=(const UIColor &color) {
 }
 
 QuadMesh::QuadMesh() {
+    vao.init();
     vbo.init(nullptr, 0, GL_DYNAMIC_DRAW);
     vao.addBuffer(vbo, DataManager::quadLayout);
     vertices.resize(66);

@@ -4,6 +4,7 @@
 
 void TextMesh::init(UIText* uiText) {
     this->uiText = uiText;
+    vao.init();
     vbo.init(nullptr, 0, GL_DYNAMIC_DRAW);
     vao.addBuffer(vbo, DataManager::textLayout);
 }
