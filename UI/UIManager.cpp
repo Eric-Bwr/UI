@@ -10,11 +10,13 @@ void UIManager::init(int width, int height, bool scaleOnResize) {
     textShader->addVertexShader(UITextShaderVertex);
     textShader->addFragmentShader(UITextShaderFragment);
     textShader->finish();
+    textShader->addUniforms({"ortho", "textureCoords", "level", "image", "color"});
     textShader->setUniformMatrix4f("ortho", ortho.getBuffer());
     quadShader = new Shader();
     quadShader->addVertexShader(UIQuadShaderVertex);
     quadShader->addFragmentShader(UIQuadShaderFragment);
     quadShader->finish();
+    quadShader->addUniforms({"info", "textureCoords", "roundingCoords", "corners", "ortho", "smoothness", "color", "image"});
     quadShader->setUniformMatrix4f("ortho", ortho.getBuffer());
     quadShader->setUniform1f("smoothness", CORNER_SMOOTHNESS);
     start = std::chrono::system_clock::now();
