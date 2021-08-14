@@ -25,19 +25,33 @@ void UIImage::setColor(const UIColor& color) {
 
 void UIImage::setTexture(Texture *texture, float textureX, float textureY, float textureWidth, float textureHeight) {
     this->texture = texture;
-    if (mode == 0)
-        mode = 2;
-    else if (mode == 1)
-        mode = 3;
+    if(texture == nullptr) {
+        if (mode == 3)
+            mode = 1;
+        else if (mode == 2)
+            mode = 0;
+    }else {
+        if (mode == 0)
+            mode = 2;
+        else if (mode == 1)
+            mode = 3;
+    }
     mesh.load(positionX, positionY, width, height, texture->getWidth(), texture->getHeight(), textureX, textureY, textureWidth, textureHeight, mode);
 }
 
 void UIImage::setTexture(Texture *texture) {
     this->texture = texture;
-    if (mode == 0)
-        mode = 2;
-    else if (mode == 1)
-        mode = 3;
+    if(texture == nullptr) {
+        if (mode == 3)
+            mode = 1;
+        else if (mode == 2)
+            mode = 0;
+    }else {
+        if (mode == 0)
+            mode = 2;
+        else if (mode == 1)
+            mode = 3;
+    }
     mesh.load(positionX, positionY, width, height, mode);
 }
 

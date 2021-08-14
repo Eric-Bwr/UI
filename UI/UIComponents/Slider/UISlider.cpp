@@ -37,6 +37,19 @@ UISlider::UISlider(float positionX, float positionY, float width, float height, 
 
 void UISlider::setTexture(Texture *texture) {
     this->texture = texture;
+    for(int& mode : modes) {
+        if (texture == nullptr) {
+            if (mode == 3)
+                mode = 1;
+            else if (mode == 2)
+                mode = 0;
+        } else {
+            if (mode == 0)
+                mode = 2;
+            else if (mode == 1)
+                mode = 3;
+        }
+    }
 }
 
 void UISlider::setBackgroundColor(const UIColor& standardColor, const UIColor& hoverColor, const UIColor& pressedColor) {

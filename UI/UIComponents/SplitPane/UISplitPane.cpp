@@ -48,10 +48,17 @@ void UISplitPane::setDividerColor(const UIColor &standardColor, const UIColor &h
 
 void UISplitPane::setDividerTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight) {
     this->texture = texture;
-    if (mode == 0)
-        mode = 2;
-    else if (mode == 1)
-        mode = 3;
+    if(texture == nullptr) {
+        if (mode == 3)
+            mode = 1;
+        else if (mode == 2)
+            mode = 0;
+    }else {
+        if (mode == 0)
+            mode = 2;
+        else if (mode == 1)
+            mode = 3;
+    }
     if (orientation == Orientation::HORIZONTAL)
         mesh.load(positionX + divider * width - divWidth, positionY, 2 * divWidth, height, mode, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight);
     else
@@ -60,10 +67,17 @@ void UISplitPane::setDividerTexture(Texture *texture, float buttonX, float butto
 
 void UISplitPane::setDividerTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight) {
     this->texture = texture;
-    if (mode == 0)
-        mode = 2;
-    else if (mode == 1)
-        mode = 3;
+    if(texture == nullptr) {
+        if (mode == 3)
+            mode = 1;
+        else if (mode == 2)
+            mode = 0;
+    }else {
+        if (mode == 0)
+            mode = 2;
+        else if (mode == 1)
+            mode = 3;
+    }
     if (orientation == Orientation::HORIZONTAL)
         mesh.load(positionX + divider * width - divWidth, positionY, 2 * divWidth, height, mode, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight);
     else

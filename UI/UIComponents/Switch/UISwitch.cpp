@@ -12,7 +12,7 @@ UISwitch::UISwitch(float positionX, float positionY, float width, float height) 
 	this->bgColor = UIColor(0xff7b5f);
 	this->switchColor = UIColor(0xffe6dc);
 	this->switchX = 0;
-	switchSize = 1; /* 1 = same as height, > 1 more than height, < 1 less than height */
+	switchSize = 1;
 
 	bgMesh.load(positionX, positionY, width, height, 0);
 	float ass = switchSize * height;
