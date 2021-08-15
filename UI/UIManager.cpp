@@ -57,8 +57,8 @@ void UIManager::setSize(int width, int height) {
     if(width == 0 || height == 0)
         return;
     if (scaleOnResize) {
-        float factorX = (float) width / (float) this->width;
-        float factorY = (float) height / (float) this->height;
+        double factorX = (double) width / (double) this->width;
+        double factorY = (double) height / (double) this->height;
         for (auto const &componentList : components)
             for (auto component : *componentList.second)
                 component->setBounds(component->positionX * factorX, component->positionY * factorY,component->width * factorX, component->height * factorY);
