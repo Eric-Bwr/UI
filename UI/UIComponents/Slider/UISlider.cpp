@@ -117,28 +117,13 @@ void UISlider::setDragColor(const UIColor& standardColor, const UIColor& hoverCo
 void UISlider::setDragCoords(float dragWidth, float dragHeight, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight) {
     sizes[0] = dragWidth;
     sizes[1] = dragHeight;
-    sizes[2] = dragWidth;
-    sizes[3] = dragHeight;
-    sizes[4] = dragWidth;
-    sizes[5] = dragHeight;
     if (modes[2] == 0)
         modes[2] = 2;
     else if (modes[2] == 1)
         modes[2] = 3;
     renderWidth = width - dragWidth;
     updateSlideMesh();
-    dragMesh.load(positionX + renderX, positionY + height / 2 - sizes[1] / 2, sizes[0], sizes[1], positionX + renderX, positionY + height / 2 - sizes[3] / 2, sizes[2], sizes[3], positionX + renderX, positionY + height / 2 - sizes[5] / 2, sizes[4], sizes[5], modes[2], texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, hoverX, hoverY, hoverWidth, hoverHeight, pressedX, pressedY, pressedWidth, pressedHeight);
-}
-
-void UISlider::setDragSizes(float dragWidth, float dragHeight, float hoverWidth, float hoverHeight, float pressedWidth, float pressedHeight) {
-    sizes[0] = dragWidth;
-    sizes[1] = dragHeight;
-    sizes[2] = hoverWidth;
-    sizes[3] = hoverHeight;
-    sizes[4] = pressedWidth;
-    sizes[5] = pressedHeight;
-    updateSlideMesh();
-    dragMesh.loadPosition(positionX + renderX, positionY + height / 2 - sizes[1] / 2, sizes[0], sizes[1], positionX + renderX, positionY + height / 2 - sizes[3] / 2, sizes[2], sizes[3], positionX + renderX, positionY + height / 2 - sizes[5] / 2, sizes[4], sizes[5], modes[2]);
+    dragMesh.load(positionX + renderX, positionY + height / 2 - sizes[1] / 2, sizes[0], sizes[1], positionX + renderX, positionY + height / 2 - sizes[1] / 2, sizes[0], sizes[1], positionX + renderX, positionY + height / 2 - sizes[1] / 2, sizes[0], sizes[1], modes[2], texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, hoverX, hoverY, hoverWidth, hoverHeight, pressedX, pressedY, pressedWidth, pressedHeight);
 }
 
 void UISlider::setPosition(float positionX, float positionY) {
@@ -160,6 +145,9 @@ void UISlider::setSize(float width, float height) {
 void UISlider::setBounds(float positionX, float positionY, float width, float height) {
     this->positionX = positionX;
     this->positionY = positionY;
+    sizes[0] *= (width / this->width);
+    renderWidth = width - sizes[0];
+    sizes[1] *= (height / this->height);
     this->width = width;
     this->height = height;
     updateBackgroundMesh();
@@ -230,7 +218,7 @@ void UISlider::updateSlideMesh() {
 }
 
 void UISlider::updateDragMesh() {
-    dragMesh.loadPosition(positionX + renderX, positionY + height / 2 - sizes[1] / 2, sizes[0], sizes[1], positionX + renderX, positionY + height / 2 - sizes[3] / 2, sizes[2], sizes[3], positionX + renderX, positionY + height / 2 - sizes[5] / 2, sizes[4], sizes[5], modes[2]);
+    dragMesh.loadPosition(positionX + renderX, positionY + height / 2 - sizes[1] / 2, sizes[0], sizes[1], positionX + renderX, positionY + height / 2 - sizes[1] / 2, sizes[0], sizes[1], positionX + renderX, positionY + height / 2 - sizes[1] / 2, sizes[0], sizes[1], modes[2]);
 }
 
 void UISlider::setMin(float m) {
