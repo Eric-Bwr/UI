@@ -33,6 +33,9 @@ void UIManager::add(UIComponent *component, int order) {
     } else {
         componentBatch = components.find(order)->second;
     }
+    for(auto compare : *components.at(order))
+        if(compare == component)
+            return;
     componentBatch->emplace_back(component);
 }
 
