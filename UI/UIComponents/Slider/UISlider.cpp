@@ -100,6 +100,7 @@ void UISlider::setSlideCoords(float buttonX, float buttonY, float buttonWidth, f
         modes[1] = 2;
     else if (modes[1] == 1)
         modes[1] = 3;
+    update();
     updateSlideMesh();
 }
 
@@ -122,6 +123,7 @@ void UISlider::setDragCoords(float dragWidth, float dragHeight, float buttonX, f
     else if (modes[2] == 1)
         modes[2] = 3;
     renderWidth = width - dragWidth;
+    update();
     updateSlideMesh();
     dragMesh.load(positionX + renderX, positionY + height / 2 - sizes[1] / 2, sizes[0], sizes[1], positionX + renderX, positionY + height / 2 - sizes[1] / 2, sizes[0], sizes[1], positionX + renderX, positionY + height / 2 - sizes[1] / 2, sizes[0], sizes[1], modes[2], texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, hoverX, hoverY, hoverWidth, hoverHeight, pressedX, pressedY, pressedWidth, pressedHeight);
 }
@@ -129,6 +131,7 @@ void UISlider::setDragCoords(float dragWidth, float dragHeight, float buttonX, f
 void UISlider::setPosition(float positionX, float positionY) {
     this->positionX = positionX;
     this->positionY = positionY;
+    update();
     updateBackgroundMesh();
     updateSlideMesh();
     updateDragMesh();
@@ -137,6 +140,7 @@ void UISlider::setPosition(float positionX, float positionY) {
 void UISlider::setSize(float width, float height) {
     this->width = width;
     this->height = height;
+    update();
     updateBackgroundMesh();
     updateSlideMesh();
     updateDragMesh();
@@ -150,6 +154,7 @@ void UISlider::setBounds(float positionX, float positionY, float width, float he
     sizes[1] *= (height / this->height);
     this->width = width;
     this->height = height;
+    update();
     updateBackgroundMesh();
     updateSlideMesh();
     updateDragMesh();
@@ -180,8 +185,6 @@ void UISlider::mouseButtonInput(int action) {
 }
 
 void UISlider::drag(float rx) {
-    if (!hovered)
-        return;
     value = getInc(min + (max - min) * (rx / renderWidth));
     if (value > max)
         value = max;
