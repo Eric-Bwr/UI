@@ -39,6 +39,10 @@ void UIImage::setTexture(Texture *texture, float textureX, float textureY, float
     mesh.load(positionX, positionY, width, height, texture->getWidth(), texture->getHeight(), textureX, textureY, textureWidth, textureHeight, mode);
 }
 
+void UIImage::setTextureCoords(float textureX, float textureY, float textureWidth, float textureHeight) {
+    mesh.load(positionX, positionY, width, height, texture->getWidth(), texture->getHeight(), textureX, textureY, textureWidth, textureHeight, mode);
+}
+
 void UIImage::setTexture(Texture *texture) {
     this->texture = texture;
     if(texture == nullptr) {

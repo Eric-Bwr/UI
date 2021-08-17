@@ -87,12 +87,12 @@ void UITextField::setSize(float width, float height) {
     updateCursor();
 }
 
-void UITextField::setBounds(float x, float y, float w, float h) {
-    this->positionX = x;
-    this->positionY = y;
-    this->width = w;
-    this->height = h;
-    text.setBounds(x + offset, y, w, h);
+void UITextField::setBounds(float positionX, float y, float width, float height) {
+    this->positionX = positionX;
+    this->positionY = positionY;
+    this->width = width;
+    this->height = height;
+    text.setBounds(positionX + offset, positionY, width, height);
     mesh.loadPosition(positionX, positionY, width, height);
     updateCursor();
 }
