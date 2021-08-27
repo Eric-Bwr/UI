@@ -5,7 +5,7 @@
 
 void UIManager::init(int width, int height, bool scaleOnResize) {
     DataManager::init();
-    ortho = orthographicMatrix(0.0f, width, height, 0.0, -1.0, 1.0);
+    ortho = orthographicMatrix<float>(0.0f, width, height, 0.0, -1.0, 1.0);
     textShader = new Shader();
     textShader->addVertexShader(UITextShaderVertex);
     textShader->addFragmentShader(UITextShaderFragment);

@@ -7,7 +7,7 @@ UIColorTriplet &UIColorTriplet::operator=(const UIColor &color) {
 
 QuadMesh::QuadMesh() {
     vao.init();
-    vbo.init(nullptr, 0, GL_DYNAMIC_DRAW);
+    vbo.init(nullptr, 0, GL_STATIC_DRAW);
     vao.addBuffer(vbo, DataManager::quadLayout);
     vertices.resize(66);
 }
@@ -55,7 +55,7 @@ void QuadMesh::loadPosition(float positionX, float positionY, float width, float
     vertices.at(64) = width;
     vertices.at(65) = height;
 
-    vbo.subData(vertices.data(), 6 * DataManager::quadLayout.getStride(), 0, GL_DYNAMIC_DRAW);
+    vbo.subData(vertices.data(), 6 * DataManager::quadLayout.getStride(), 0, GL_STATIC_DRAW);
 }
 
 void QuadMesh::loadPosition(float positionX, float positionY, float width, float height, float info) {
@@ -107,7 +107,7 @@ void QuadMesh::loadPosition(float positionX, float positionY, float width, float
     vertices.at(64) = width;
     vertices.at(65) = height;
 
-    vbo.subData(vertices.data(), 6 * DataManager::quadLayout.getStride(), 0, GL_DYNAMIC_DRAW);
+    vbo.subData(vertices.data(), 6 * DataManager::quadLayout.getStride(), 0, GL_STATIC_DRAW);
 }
 
 void QuadMesh::load(float positionX, float positionY, float width, float height, float info) {
@@ -183,7 +183,7 @@ void QuadMesh::load(float positionX, float positionY, float width, float height,
     vertices.at(64) = width;
     vertices.at(65) = height;
 
-    vbo.subData(vertices.data(), 6 * DataManager::quadLayout.getStride(), 0, GL_DYNAMIC_DRAW);
+    vbo.subData(vertices.data(), 6 * DataManager::quadLayout.getStride(), 0, GL_STATIC_DRAW);
 }
 
 void QuadMesh::load(float positionX, float positionY, float width, float height, float textureWidth, float textureHeight, float textureX, float textureY, float textureRegionWidth, float textureRegionHeight, float info) {
@@ -259,7 +259,7 @@ void QuadMesh::load(float positionX, float positionY, float width, float height,
     vertices.at(64) = width;
     vertices.at(65) = height;
 
-    vbo.subData(vertices.data(), 6 * DataManager::quadLayout.getStride(), 0, GL_DYNAMIC_DRAW);
+    vbo.subData(vertices.data(), 6 * DataManager::quadLayout.getStride(), 0, GL_STATIC_DRAW);
 }
 
 void QuadMesh::render() {
@@ -283,7 +283,7 @@ void QuadMesh::setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperR
     vertices.at(61) = corners;
     vertices.at(63) = radii;
 
-    vbo.subData(vertices.data(), 6 * DataManager::quadLayout.getStride(), 0, GL_DYNAMIC_DRAW);
+    vbo.subData(vertices.data(), 6 * DataManager::quadLayout.getStride(), 0, GL_STATIC_DRAW);
 }
 
 QuadMesh::~QuadMesh() {
