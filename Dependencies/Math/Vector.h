@@ -20,64 +20,64 @@ public:
         this->x = x;
         this->y = y;
     }
-    Vec2(const Vec2 &v){
+    Vec2(const Vec2<T> &v){
         this->x = v.x;
         this->y = v.y;
     }
 
-    friend Vec2 operator+ (const Vec2 &a, const Vec2 &b){
+    friend Vec2<T> operator+ (const Vec2<T> &a, const Vec2<T> &b){
         return Vec2<T>(a.x + b.x, a.y + b.y);
     }
-    friend Vec2 operator+ (const Vec2 &a, T b){
+    friend Vec2<T> operator+ (const Vec2<T> &a, T b){
         return Vec2<T>(a.x + b, a.y + b);
     }
-    friend Vec2 operator- (const Vec2 &a, const Vec2 &b){
+    friend Vec2<T> operator- (const Vec2<T> &a, const Vec2<T> &b){
         return Vec2<T>(a.x - b.x, a.y - b.y);
     }
-    friend Vec2 operator- (const Vec2 &a, T b){
+    friend Vec2<T> operator- (const Vec2<T> &a, T b){
         return Vec2<T>(a.x - b, a.y - b);
     }
-    friend Vec2 operator* (const Vec2 &a, const Vec2 &b){
+    friend Vec2<T> operator* (const Vec2<T> &a, const Vec2<T> &b){
         return Vec2<T>(a.x * b.x, a.y * b.y);
     }
-    friend Vec2 operator* (const Vec2 &a, T b){
+    friend Vec2<T> operator* (const Vec2<T> &a, T b){
         return Vec2<T>(a.x * b, a.y * b);
     }
-    friend Vec2 operator/ (const Vec2 &a, const Vec2 &b){
+    friend Vec2<T> operator/ (const Vec2<T> &a, const Vec2<T> &b){
         return Vec2<T>(a.x / b.x, a.y / b.y);
     }
-    friend Vec2 operator/ (const Vec2 &a, T b){
+    friend Vec2<T> operator/ (const Vec2<T> &a, T b){
         return Vec2<T>(a.x / b, a.y / b);
     }
 
-    Vec2& operator+= (Vec2 const &a){
+    Vec2<T>& operator+= (Vec2<T> const &a){
         x += a.x;
         y += a.y;
         return *this;
     }
-    Vec2& operator-= (Vec2 const &a){
+    Vec2<T>& operator-= (Vec2<T> const &a){
         x -= a.x;
         y -= a.y;
         return *this;
     }
-    Vec2& operator*= (T v){
+    Vec2<T>& operator*= (T v){
         x *= v;
         y *= v;
         return *this;
     }
 
-    bool operator== (Vec2 &a) const{
+    bool operator== (Vec2<T> &a) const{
         return x == a.x && y == a.y;
     }
-    bool operator!= (Vec2 &a) const{
+    bool operator!= (Vec2<T> &a) const{
         return x != a.x || y != a.y;
     }
 
-    Vec2 norm() const{
+    Vec2<T> norm() const{
         T f = 1.0 / len();
         return Vec2<T>(f * x, f * y);
     }
-    T dot(Vec2 const &a) const{
+    T dot(Vec2<T> const &a) const{
         return x * a.x + y * a.y;
     }
     T len() const{
@@ -125,72 +125,71 @@ public:
         return Vec2<T>(y, z);
     }
 
-    friend Vec3 operator+ (const Vec3 &a, const Vec3 &b){
+    friend Vec3<T> operator+ (const Vec3<T> &a, const Vec3<T> &b){
         return Vec3<T>(a.x + b.x, a.y + b.y, a.z + b.z);
     }
-    friend Vec3 operator+ (const Vec3 &a, T b){
+    friend Vec3<T> operator+ (const Vec3<T> &a, T b){
         return Vec3<T>(a.x + b, a.y + b, a.z + b);
     }
-    friend Vec3 operator- (const Vec3 &a, const Vec3 &b){
+    friend Vec3<T> operator- (const Vec3<T> &a, const Vec3<T> &b){
         return Vec3<T>(a.x - b.x, a.y - b.y, a.z - b.z);
     }
-    friend Vec3 operator- (const Vec3 &a, T b){
+    friend Vec3<T> operator- (const Vec3<T> &a, T b){
         return Vec3<T>(a.x - b, a.y - b, a.z - b);
     }
-    friend Vec3 operator* (const Vec3 &a, const Vec3 &b){
+    friend Vec3<T> operator* (const Vec3<T> &a, const Vec3<T> &b){
         return Vec3<T>(a.x * b.x, a.y * b.y, a.z * b.z);
     }
-    friend Vec3 operator* (const Vec3 &a, T b){
+    friend Vec3<T> operator* (const Vec3<T> &a, T b){
         return Vec3<T>(a.x * b, a.y * b, a.z * b);
     }
-    friend Vec3 operator/ (const Vec3 &a, const Vec3 &b){
+    friend Vec3<T> operator/ (const Vec3<T> &a, const Vec3<T> &b){
         return Vec3<T>(a.x / b.x, a.y / b.y, a.z / b.z);
     }
-    friend Vec3 operator/ (const Vec3 &a, T b){
+    friend Vec3<T> operator/ (const Vec3<T> &a, T b){
         return Vec3<T>(a.x / b, a.y / b, a.z / b);
     }
 
-    Vec3 &operator+= (const Vec3 &a){
+    Vec3<T> &operator+= (const Vec3<T> &a){
         x += a.x;
         y += a.y;
         z += a.z;
         return *this;
     }
-    Vec3 &operator-= (const Vec3 &a){
+    Vec3<T> &operator-= (const Vec3<T> &a){
         x -= a.x;
         y -= a.y;
         z -= a.z;
         return *this;
     }
-    Vec3 &operator*= (T v){
-
+    Vec3<T> &operator*= (T v){
         x *= v;
         y *= v;
         z *= v;
         return *this;
     }
 
-    bool operator== (Vec3 &a) const{
+    bool operator== (Vec3<T> &a) const{
         return x == a.x && y == a.y && z == a.z;
     }
-    bool operator!= (Vec3 &a) const{
+    bool operator!= (Vec3<T> &a) const{
         return x != a.x || y != a.y || z != a.z;
     }
 
-    Vec3 cross(Vec3 const &a) const{
+    Vec3<T> cross(Vec3<T> const &a) const{
         T xx = y * a.z - a.y * z;
         T yy = z * a.x - a.z * x;
         T zz = x * a.y - a.x * y;
         return Vec3<T>(xx, yy, zz);
     }
-    Vec3 norm() const{
+    Vec3<T> norm() const{
         T lengthSquared = (x * x + y * y + z * z);
         if(lengthSquared == 0)
             return *this;
         T length = 1.0 / std::sqrt(lengthSquared);
         return Vec3<T>(x * length, y * length, z * length);
     }
-    T dot(Vec3 const &a) const{
+    T dot(Vec3<T> const &a) const{
         return x * a.x + y * a.y + z * a.z;
     }
     T len() const{
@@ -220,46 +219,46 @@ public:
         this->w = w;
     }
 
-    friend Vec4 operator+ (const Vec4 &a, const Vec4 &b){
+    friend Vec4<T> operator+ (const Vec4<T> &a, const Vec4<T> &b){
         return Vec4<T>(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
     }
-    friend Vec4 operator+ (const Vec4 &a, T b){
+    friend Vec4<T> operator+ (const Vec4<T> &a, T b){
         return Vec4<T>(a.x + b, a.y + b, a.z + b, a.w + b);
     }
-    friend Vec4 operator- (const Vec4 &a, const Vec4 &b){
+    friend Vec4<T> operator- (const Vec4<T> &a, const Vec4<T> &b){
         return Vec4<T>(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
     }
-    friend Vec4 operator- (const Vec4 &a, T b){
+    friend Vec4<T> operator- (const Vec4<T> &a, T b){
         return Vec4<T>(a.x - b, a.y - b, a.z - b, a.w - b);
     }
-    friend Vec4 operator* (const Vec4 &a, const Vec4 &b){
+    friend Vec4<T> operator* (const Vec4<T> &a, const Vec4<T> &b){
         return Vec4<T>(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w);
     }
-    friend Vec4 operator* (const Vec4 &a, T b){
+    friend Vec4<T> operator* (const Vec4<T> &a, T b){
         return Vec4<T>(a.x * b, a.y * b, a.z * b, a.w * b);
     }
-    friend Vec4 operator/ (const Vec4 &a, const Vec4 &b){
+    friend Vec4<T> operator/ (const Vec4<T> &a, const Vec4<T> &b){
         return Vec4<T>(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w);
     }
-    friend Vec4 operator/ (const Vec4 &a, T b){
+    friend Vec4<T> operator/ (const Vec4<T> &a, T b){
         return Vec4<T>(a.x / b, a.y / b, a.z / b, a.w / b);
     }
 
-    Vec4 &operator+= (const Vec4 &a){
+    Vec4<T> &operator+= (const Vec4<T> &a){
         x += a.x;
         y += a.y;
         z += a.z;
         w += a.w;
         return *this;
     }
-    Vec4 &operator-= (const Vec4 &a){
+    Vec4<T> &operator-= (const Vec4<T> &a){
         x -= a.x;
         y -= a.y;
         z -= a.z;
         w -= a.w;
         return *this;
     }
-    Vec4 &operator*= (T v){
+    Vec4<T> &operator*= (T v){
         x *= v;
         y *= v;
         z *= v;
@@ -267,10 +266,10 @@ public:
         return *this;
     }
 
-    bool operator== (Vec4 &a) const{
+    bool operator== (Vec4<T> &a) const{
         return x == a.x && y == a.y && z == a.z && w == a.w;
     }
-    bool operator!= (Vec4 &a) const{
+    bool operator!= (Vec4<T> &a) const{
         return x != a.x || y != a.y || z != a.z || w != a.w;
     }
 };
