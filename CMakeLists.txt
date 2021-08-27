@@ -17,18 +17,16 @@ set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(Dependencies)
 
 include_directories(${PROJECT_NAME} "Dependencies/OpenGL/include")
-include_directories(${PROJECT_NAME} "Dependencies/Math/include")
+include_directories(${PROJECT_NAME} "Dependencies/Math")
 include_directories(${PROJECT_NAME} "Dependencies/GLFW/include")
 include_directories(${PROJECT_NAME} "Dependencies/FreeType/include")
 
 include_directories(${PROJECT_NAME})
 
-#add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${EXEC_FILES})
 add_library(${PROJECT_NAME} ${SOURCE_FILES})
 
 target_link_libraries(${PROJECT_NAME}
         ${CMAKE_CURRENT_LIST_DIR}/Dependencies/FreeType/freetype.a
         ${CMAKE_CURRENT_LIST_DIR}/Dependencies/OpenGL/OpenGL.a
-        ${CMAKE_CURRENT_LIST_DIR}/Dependencies/Math/Math.a
         ${CMAKE_CURRENT_LIST_DIR}/Dependencies/GLFW/libglfw3.a
         )
