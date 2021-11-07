@@ -18,6 +18,6 @@ UITexture::UITexture(const char *path, int desiredChannels) : Texture() {
     setData(data);
     load();
     clampEdge();
-    minNear();
-    magNear();
+    minLinear();
+    magLinear();
 }

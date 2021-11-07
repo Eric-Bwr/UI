@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdio>
 #include <cmath>
 
 #ifndef RADIANS
@@ -50,17 +51,17 @@ public:
         return Vec2<T>(a.x / b, a.y / b);
     }
 
-    Vec2<T>& operator+= (Vec2<T> const &a){
+    Vec2<T> operator+= (Vec2<T> const &a){
         x += a.x;
         y += a.y;
         return *this;
     }
-    Vec2<T>& operator-= (Vec2<T> const &a){
+    Vec2<T> operator-= (Vec2<T> const &a){
         x -= a.x;
         y -= a.y;
         return *this;
     }
-    Vec2<T>& operator*= (T v){
+    Vec2<T> operator*= (T v){
         x *= v;
         y *= v;
         return *this;
@@ -85,6 +86,13 @@ public:
     }
     T len2() const{
         return x * x + y * y;
+    }
+
+    char *toString() {
+        const char *mt = "%+6.2f %+6.2f\n";
+        char *s = (char *) malloc(sizeof(char) * 16);
+        std::sprintf(s, mt, x, y);
+        return s;
     }
 };
 
@@ -150,19 +158,19 @@ public:
         return Vec3<T>(a.x / b, a.y / b, a.z / b);
     }
 
-    Vec3<T> &operator+= (const Vec3<T> &a){
+    Vec3<T> operator+= (const Vec3<T> &a){
         x += a.x;
         y += a.y;
         z += a.z;
         return *this;
     }
-    Vec3<T> &operator-= (const Vec3<T> &a){
+    Vec3<T> operator-= (const Vec3<T> &a){
         x -= a.x;
         y -= a.y;
         z -= a.z;
         return *this;
     }
-    Vec3<T> &operator*= (T v){
+    Vec3<T> operator*= (T v){
         x *= v;
         y *= v;
         z *= v;
@@ -176,6 +184,13 @@ public:
         return x != a.x || y != a.y || z != a.z;
     }
 
+    Vec3<T> lerp(Vec3<T> const &a, T t) const{
+        T oneMinusT = (1 - t);
+        T xx = x * oneMinusT + a.x * t;
+        T yy = y * oneMinusT + a.y * t;
+        T zz = z * oneMinusT + a.z * t;
+        return Vec3<T>(xx, yy, zz);
+    }
     Vec3<T> cross(Vec3<T> const &a) const{
         T xx = y * a.z - a.y * z;
         T yy = z * a.x - a.z * x;
@@ -197,6 +212,13 @@ public:
     }
     T len2() const{
         return x * x + y * y + z * z;
+    }
+
+    char *toString() {
+        const char *mt = "%+6.2f %+6.2f %+6.2f\n";
+        char *s = (char *) malloc(sizeof(char) * 24);
+        std::sprintf(s, mt, x, y, z);
+        return s;
     }
 };
 
@@ -244,21 +266,21 @@ public:
         return Vec4<T>(a.x / b, a.y / b, a.z / b, a.w / b);
     }
 
-    Vec4<T> &operator+= (const Vec4<T> &a){
+    Vec4<T> operator+= (const Vec4<T> &a){
         x += a.x;
         y += a.y;
         z += a.z;
         w += a.w;
         return *this;
     }
-    Vec4<T> &operator-= (const Vec4<T> &a){
+    Vec4<T> operator-= (const Vec4<T> &a){
         x -= a.x;
         y -= a.y;
         z -= a.z;
         w -= a.w;
         return *this;
     }
-    Vec4<T> &operator*= (T v){
+    Vec4<T> operator*= (T v){
         x *= v;
         y *= v;
         z *= v;
@@ -271,6 +293,13 @@ public:
     }
     bool operator!= (Vec4<T> &a) const{
         return x != a.x || y != a.y || z != a.z || w != a.w;
+    }
+
+    char *toString() {
+        const char *mt = "%+6.2f %+6.2f %+6.2f %+6.2f\n";
+        char *s = (char *) malloc(sizeof(char) * 32);
+        std::sprintf(s, mt, x, y, z, w);
+        return s;
     }
 };
 

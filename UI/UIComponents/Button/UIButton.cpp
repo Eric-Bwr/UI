@@ -29,6 +29,22 @@ void UIButton::setBackgroundColor(const UIColor& standardColor, const UIColor& h
     mesh.loadPosition(positionX, positionY, width, height, mode);
 }
 
+void UIButton::setBackgroundTexture(Texture *texture) {
+    this->texture = texture;
+    if(texture == nullptr) {
+        if (mode == 3)
+            mode = 1;
+        else if (mode == 2)
+            mode = 0;
+    }else {
+        if (mode == 0)
+            mode = 2;
+        else if (mode == 1)
+            mode = 3;
+    }
+    mesh.loadPosition(positionX, positionY, width, height, mode);
+}
+
 void UIButton::setBackgroundTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight) {
     this->texture = texture;
     if(texture == nullptr) {
