@@ -126,10 +126,10 @@ public:
             dot = -dot;
         }
         if(dot > 1.0f - std::numeric_limits<float>::epsilon()){
-            result.x = x * oneMinusBlend + result.x * blend;
-            result.y = y * oneMinusBlend + result.y * blend;
-            result.z = z * oneMinusBlend + result.z * blend;
-            result.w = w * oneMinusBlend + result.w * blend;
+           result.x = x * oneMinusBlend + result.x * blend;
+           result.y = y * oneMinusBlend + result.y * blend;
+           result.z = z * oneMinusBlend + result.z * blend;
+           result.w = w * oneMinusBlend + result.w * blend;
         }else{
             float angle = std::acos(dot);
             float angleSin = std::sin(angle);

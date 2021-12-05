@@ -48,6 +48,25 @@ public:
         m33 = 1.0;
         return *this;
     }
+    Mat4<T> resetIdentity(){
+        m00 = 1.0;
+        m01 = 0.0;
+        m02 = 0.0;
+        m03 = 0.0;
+        m10 = 0.0;
+        m11 = 1.0;
+        m12 = 0.0;
+        m13 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
+        m22 = 1.0;
+        m23 = 0.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = 0.0;
+        m33 = 1.0;
+        return *this;
+    }
     Mat4<T> translate(T x, T y, T z) {
         m30 = m00 * x + m10 * y + m20 * z;
         m31 = m01 * x + m11 * y + m21 * z;
@@ -272,7 +291,7 @@ public:
         const char *mt = "|%+6.2f %+6.2f %+6.2f %+6.2f|\n|%+6.2f %+6.2f %+6.2f %+6.2f|\n|%+6.2f %+6.2f %+6.2f %+6.2f|\n|%+6.2f %+6.2f %+6.2f %+6.2f|\n";
         char *s = (char *) malloc(sizeof(char) * 128);
         std::sprintf(s, mt,
-                     m00, m01, m02, m03
+                  m00, m01, m02, m03
                 , m10, m11, m12, m13
                 , m20, m21, m22, m23
                 , m30, m31, m32, m33);
