@@ -41,7 +41,7 @@ private:
     int width, height;
     double mouseX = 0, mouseY = 0;
 	std::map<int, std::vector<UIComponent *>*> components;
-	void renderComponent(UIComponent *);
+	void renderComponent(UIComponent *component);
 	bool cursor = false, scaleOnResize = false;
     std::chrono::time_point<std::chrono::system_clock> start;
 };
