@@ -8,15 +8,14 @@
 class Texture{
 private:
     struct Errors {
-        bool failedToLocate = false;
-        bool failedToAllocate = false;
         bool failedToReadData = false;
         bool failedToGetTextureType = false;
     };
 public:
     explicit Texture();
     explicit Texture(unsigned int target);
-    explicit Texture(const char* path, unsigned int target = GL_TEXTURE_2D, int components = -1);
+    explicit Texture(const char* path, unsigned int target = GL_TEXTURE_2D, int desiredChannels = 0);
+    explicit Texture(const char* path, const char* ending, int desiredChannels = 0);
     void load(bool simple);
     void load();
     void bind() const;
@@ -39,17 +38,18 @@ public:
     void mirroredRepeat() const;
     void clampEdgeMirrored() const;
     void minNear() const;
+    void magNear() const;
     void minLinear() const;
+    void magLinear() const;
     void minLinearMipLinear() const;
     void minLinearMipNear() const;
     void minNearMipLinear() const;
     void minNearMipNear() const;
     void setLodBias(float bias);
-    void magNear() const;
-    void magLinear() const;
     void clampEdge() const;
     void clampBorder() const;
     void nearest() const;
+    void linear() const;
     void generateMipMap() const;
     uint8_t* getData() { return data; }
     std::string getPath() { return path; }

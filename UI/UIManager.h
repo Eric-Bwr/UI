@@ -4,7 +4,6 @@
 #include <Math/Matrix.h>
 #include <chrono>
 
-#include "UITexture.h"
 #include "UIComponents/UIComponent.h"
 #include "UIComponents/Text/UIText.h"
 #include "UIComponents/Text/Font.h"
@@ -34,12 +33,12 @@ public:
 	void mouseButtonInput(int button, int action);
 	void render();
     ~UIManager();
+    double mouseX = 0, mouseY = 0;
 private:
     Mat4f ortho;
     Shader* textShader;
     Shader* quadShader;
     int width, height;
-    double mouseX = 0, mouseY = 0;
 	std::map<int, std::vector<UIComponent *>*> components;
 	void renderComponent(UIComponent *component);
 	bool cursor = false, scaleOnResize = false;
