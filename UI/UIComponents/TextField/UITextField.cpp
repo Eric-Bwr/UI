@@ -325,8 +325,8 @@ void UITextField::mousePositionInput(double x, double y) {
     hovered = COMPONENT_HOVERED(x, y);
     if (hovered)
         this->mouseAdvance = x - positionX - offset;
-    if (previous && !hovered || !previous && hovered)
-        if (callback != nullptr)
+    if (callback != nullptr)
+        if (previous && !hovered || !previous && hovered)
             (*callback)(pressed, hovered);
 }
 

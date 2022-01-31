@@ -144,6 +144,6 @@ void UIButton::mouseButtonInput(int action) {
     } else if (action == INPUT_RELEASED)
         pressed = false;
     if (callback != nullptr)
-        if (previous || pressed)
+        if (previous && !pressed || !previous && pressed)
             (*callback)(pressed, hovered);
 }

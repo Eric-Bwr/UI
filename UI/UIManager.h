@@ -34,11 +34,11 @@ public:
 	void render();
     ~UIManager();
     double mouseX = 0, mouseY = 0;
+    int width, height;
 private:
     Mat4f ortho;
     Shader* textShader;
     Shader* quadShader;
-    int width, height;
 	std::map<int, std::vector<UIComponent *>*> components;
 	void renderComponent(UIComponent *component);
 	bool cursor = false, scaleOnResize = false;

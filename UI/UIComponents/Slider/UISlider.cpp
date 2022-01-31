@@ -167,20 +167,24 @@ void UISlider::setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperR
 }
 
 void UISlider::mousePositionInput(double x, double y) {
+    bool previous = hovered;
     hovered = COMPONENT_HOVERED(x, y);
     if (dragging)
         drag(x - positionX - sizes[0] / 2);
+    if (callback != nullptr)
+        if (previous && !hovered || !previous && hovered)
+            (*callback)(dragging, hovered, value);
 }
 
 void UISlider::mouseButtonInput(int action) {
-    bool previous = hovered;
+    bool previous = dragging;
     if (action == INPUT_PRESSED) {
         if (hovered)
             dragging = true;
     } else if (action == INPUT_RELEASED)
         dragging = false;
-    if (previous && !hovered || !previous && hovered)
-        if (callback != nullptr)
+    if (callback != nullptr)
+        if (previous && !dragging || !previous && dragging)
             (*callback)(dragging, hovered, value);
 }
 
@@ -193,8 +197,6 @@ void UISlider::drag(float rx) {
     renderX = getInc(renderWidth * (value - min) / (max - min));
     updateSlideMesh();
     updateDragMesh();
-    if (callback != nullptr)
-            (*callback)(dragging, hovered, value);
 }
 
 float UISlider::getInc(float val) const {

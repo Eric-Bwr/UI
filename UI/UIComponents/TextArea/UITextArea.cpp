@@ -422,8 +422,8 @@ void UITextArea::mousePositionInput(double x, double y) {
         this->mouseAdvanceX = x - positionX - offset;
         this->mouseAdvanceY = y - positionY - offset;
     }
-    if (previous && !hovered || !previous && hovered)
-        if (callback != nullptr)
+    if (callback != nullptr)
+        if (previous && !hovered || !previous && hovered)
             (*callback)(pressed, hovered);
 }
 
