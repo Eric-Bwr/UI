@@ -197,6 +197,8 @@ void UISlider::drag(float rx) {
     renderX = getInc(renderWidth * (value - min) / (max - min));
     updateSlideMesh();
     updateDragMesh();
+    if (callback != nullptr)
+        (*callback)(dragging, hovered, value);
 }
 
 float UISlider::getInc(float val) const {
