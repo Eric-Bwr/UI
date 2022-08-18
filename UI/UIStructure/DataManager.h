@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Buffer.h>
+#include <OpenGL/Buffer.h>
 #include <map>
 #include <vector>
 #include <ft2build.h>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "UIComponents/UIComponent.h"
+#include "../UIComponent.h"
 #include "Structure/TextMesh.h"
 #include "../../UIColor.h"
 

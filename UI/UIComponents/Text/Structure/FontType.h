@@ -1,8 +1,8 @@
 #pragma once
 
 #include <map>
-#include <Texture.h>
-#include "UIComponents/Text/Font.h"
+#include <OpenGL/Texture.h>
+#include "UI/UIComponents/Text/Font.h"
 
 const int FONT_CHAR_START = 32;
 const int FONT_CHAR_END = 126;

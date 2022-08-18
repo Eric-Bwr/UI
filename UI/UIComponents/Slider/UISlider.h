@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Texture.h>
+#include <OpenGL/Texture.h>
 #include "../UIComponent.h"
 #include "../../UIStructure/QuadMesh.h"
 #include "../../UIColor.h"

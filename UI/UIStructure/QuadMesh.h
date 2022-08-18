@@ -1,7 +1,7 @@
 #pragma once
 
 #include "DataManager.h"
-#include "UIColor.h"
+#include "UI/UIColor.h"
 
 struct UIColorTriplet {
     UIColorTriplet& operator=(const UIColor& color);

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Buffer.h>
+#include <OpenGL/Buffer.h>
 
 class UIText;
 class FontType;

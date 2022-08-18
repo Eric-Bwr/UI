@@ -1,7 +1,7 @@
 #include "DataManager.h"
-#include "UIComponents/Text/Font.h"
-#include "UIComponents/Text/Structure/FontType.h"
-#include "UIComponents/Text/UIText.h"
+#include "UI/UIComponents/Text/Font.h"
+#include "UI/UIComponents/Text/Structure/FontType.h"
+#include "UI/UIComponents/Text/UIText.h"
 
 FT_Library DataManager::library;
 Font *DataManager::defaultFont;
