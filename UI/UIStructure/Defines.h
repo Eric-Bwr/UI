@@ -1,8 +1,11 @@
 #pragma once
 
 #ifndef DEFAULT_FONT_PATH
-#define DEFAULT_FONT_PATH "/usr/share/fonts/truetype/Nakula/nakula.ttf"
-//#define DEFAULT_FONT_PATH "C:/Windows/Fonts/Arial.ttf"
+#ifdef WIN32
+    #define DEFAULT_FONT_PATH "C:/Windows/Fonts/Arial.ttf"
+#else
+    #define DEFAULT_FONT_PATH "/usr/share/fonts/truetype/Nakula/nakula.ttf"
+#endif
 #endif
 
 //SHADER
