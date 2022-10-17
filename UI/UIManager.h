@@ -15,6 +15,7 @@
 #include "UIComponents/SplitPane/UISplitPane.h"
 #include "UIComponents/Scrollbar/UIScrollbar.h"
 #include "UIComponents/Switch/UISwitch.h"
+#include "UIComponents/CircularBar/UICircularBar.h"
 #include "UILayout/Layout.h"
 #include "UILayout/FlowLayout.h"
 #include "UILayout/BoxLayout.h"
@@ -39,6 +40,7 @@ private:
     Mat4f ortho;
     Shader* textShader;
     Shader* quadShader;
+    Shader* circularShader;
 	std::map<int, std::vector<UIComponent *>*> components;
 	void renderComponent(UIComponent *component);
 	bool cursor = false, scaleOnResize = false;

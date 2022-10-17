@@ -2,7 +2,7 @@
 #include "UIShader.h"
 
 #define LERP(a, b, c) (a+(b-a)*c)
-
+#include <iostream>
 void UIManager::init(int width, int height, bool scaleOnResize) {
     DataManager::init();
     ortho = orthographicMatrix<float>(0.0f, width, height, 0.0, -1.0, 1.0);
@@ -12,6 +12,7 @@ void UIManager::init(int width, int height, bool scaleOnResize) {
     textShader->finish();
     textShader->addUniforms({"ortho", "textureCoords", "level", "image", "color"});
     textShader->setUniformMatrix4f("ortho", ortho.getBuffer());
+
     quadShader = new Shader();
     quadShader->addVertexShader(UIQuadShaderVertex);
     quadShader->addFragmentShader(UIQuadShaderFragment);
@@ -19,6 +20,13 @@ void UIManager::init(int width, int height, bool scaleOnResize) {
     quadShader->addUniforms({"info", "textureCoords", "roundingCoords", "corners", "ortho", "smoothness", "color", "image"});
     quadShader->setUniformMatrix4f("ortho", ortho.getBuffer());
     quadShader->setUniform1f("smoothness", CORNER_SMOOTHNESS);
+
+    circularShader = new Shader("../Dependencies/UI/Circular.glsl");
+    circularShader->addUniforms({"info", "textureCoords", "roundingCoords", "corners", "ortho", "smoothness", "color", "image"});
+    circularShader->setUniformMatrix4f("ortho", ortho.getBuffer());
+    circularShader->setUniform1f("smoothness", CORNER_SMOOTHNESS);
+
+    std::cout << (circularShader->getErrorMessage());
     start = std::chrono::system_clock::now();
     this->width = width;
     this->height = height;
@@ -294,6 +302,28 @@ void UIManager::renderComponent(UIComponent *component) {
                       ui->height - ui->barWidth);
         renderComponent(ui->target);
         glDisable(GL_SCISSOR_TEST);
+    }else if(component->type == UIComponentType::UICIRCULARBAR){
+        circularShader->bind();
+        auto ui = (UICircularBar *) component;
+        auto bgc = ui->bgColor.standard;
+        if (ui->pressed)
+            bgc = ui->bgColor.pressed;
+        else if (ui->hovered)
+            bgc = ui->bgColor.hover;
+        circularShader->setUniform4f(SHADER_COLOR_NAME, bgc.r, bgc.g, bgc.b, bgc.a);
+        if (ui->texture != nullptr)
+            ui->texture->bind();
+        if (ui->pressed)
+            ui->mesh.render(2);
+        else if (ui->hovered)
+            ui->mesh.render(1);
+        else
+            ui->mesh.render(0);
+        auto fgc = ui->fgColor;
+        textShader->bind();
+        textShader->setUniform4f(SHADER_COLOR_NAME, fgc.r, fgc.g, fgc.b, fgc.a);
+        ui->text.textMesh.render();
+        quadShader->bind();
     }
 }
 
