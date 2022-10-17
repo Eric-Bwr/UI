@@ -23,9 +23,6 @@ UIColor::UIColor(float red, float green, float blue, float alpha, int colorMode)
     }
 }
 
-UIColor::UIColor(std::initializer_list<float> colors, int colorMode)
-: UIColor(data(colors)[0], data(colors)[1], data(colors)[2], data(colors)[3], colorMode){}
-
 UIColor::UIColor(int hex, float alpha) {
     a = alpha;
 	r = ((hex >> 16) & 0xFF) / 255.0;
