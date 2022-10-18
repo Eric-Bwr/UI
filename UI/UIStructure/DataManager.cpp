@@ -21,7 +21,7 @@ int DataManager::init() {
         textLayout.pushFloat(1);
         quadLayout.pushFloat(2);
         quadLayout.pushFloat(2);
-        quadLayout.pushFloat(3);
+        quadLayout.pushFloat(1);
         quadLayout.pushFloat(4);
         return errorCode;
     } else

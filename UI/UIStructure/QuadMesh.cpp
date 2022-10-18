@@ -9,281 +9,167 @@ QuadMesh::QuadMesh() {
     vao.init();
     vbo.init(nullptr, 0, GL_STATIC_DRAW);
     vao.addBuffer(vbo, DataManager::quadLayout);
-    vertices.resize(66);
+    vertices.resize(36);
 }
 
 void QuadMesh::loadPosition(float positionX, float positionY, float width, float height) {
     vertices.at(0) = positionX;
-    vertices.at(1) = positionY + height;
-    vertices.at(6) = corners;
-    vertices.at(8) = radii;
-    vertices.at(9) = width;
-    vertices.at(10) = height;
+    vertices.at(1) = positionY;
+    vertices.at(7) = width;
+    vertices.at(8) = height;
 
-    vertices.at(11) = positionX;
-    vertices.at(12) = positionY;
-    vertices.at(17) = corners;
-    vertices.at(19) = radii;
-    vertices.at(20) = width;
-    vertices.at(21) = height;
+    vertices.at(9) = positionX + width;
+    vertices.at(10) = positionY;
+    vertices.at(16) = width;
+    vertices.at(17) = height;
 
-    vertices.at(22) = positionX + width;
-    vertices.at(23) = positionY;
-    vertices.at(28) = corners;
-    vertices.at(30) = radii;
-    vertices.at(31) = width;
-    vertices.at(32) = height;
+    vertices.at(18) = positionX;
+    vertices.at(19) = positionY + height;
+    vertices.at(25) = width;
+    vertices.at(26) = height;
 
-    vertices.at(33) = positionX;
-    vertices.at(34) = positionY + height;
-    vertices.at(39) = corners;
-    vertices.at(41) = radii;
-    vertices.at(42) = width;
-    vertices.at(43) = height;
+    vertices.at(27) = positionX + width;
+    vertices.at(28) = positionY + height;
+    vertices.at(34) = width;
+    vertices.at(35) = height;
 
-    vertices.at(44) = positionX + width;
-    vertices.at(45) = positionY;
-    vertices.at(50) = corners;
-    vertices.at(52) = radii;
-    vertices.at(53) = width;
-    vertices.at(54) = height;
-
-    vertices.at(55) = positionX + width;
-    vertices.at(56) = positionY + height;
-    vertices.at(61) = corners;
-    vertices.at(63) = radii;
-    vertices.at(64) = width;
-    vertices.at(65) = height;
-
-    vbo.subData(vertices.data(), 6 * DataManager::quadLayout.getStride(), 0, GL_STATIC_DRAW);
+    vbo.subData(vertices.data(), 4 * DataManager::quadLayout.getStride(), 0, GL_STATIC_DRAW);
 }
 
 void QuadMesh::loadPosition(float positionX, float positionY, float width, float height, float info) {
     vertices.at(0) = positionX;
-    vertices.at(1) = positionY + height;
-    vertices.at(6) = corners;
-    vertices.at(7) = info;
-    vertices.at(8) = radii;
-    vertices.at(9) = width;
-    vertices.at(10) = height;
+    vertices.at(1) = positionY;
+    vertices.at(5) = info;
+    vertices.at(7) = width;
+    vertices.at(8) = height;
 
-    vertices.at(11) = positionX;
-    vertices.at(12) = positionY;
-    vertices.at(17) = corners;
-    vertices.at(18) = info;
-    vertices.at(19) = radii;
-    vertices.at(20) = width;
-    vertices.at(21) = height;
+    vertices.at(9) = positionX + width;
+    vertices.at(10) = positionY;
+    vertices.at(14) = info;
+    vertices.at(16) = width;
+    vertices.at(17) = height;
 
-    vertices.at(22) = positionX + width;
-    vertices.at(23) = positionY;
-    vertices.at(28) = corners;
-    vertices.at(29) = info;
-    vertices.at(30) = radii;
-    vertices.at(31) = width;
-    vertices.at(32) = height;
+    vertices.at(18) = positionX;
+    vertices.at(19) = positionY + height;
+    vertices.at(23) = info;
+    vertices.at(25) = width;
+    vertices.at(26) = height;
 
-    vertices.at(33) = positionX;
-    vertices.at(34) = positionY + height;
-    vertices.at(39) = corners;
-    vertices.at(40) = info;
-    vertices.at(41) = radii;
-    vertices.at(42) = width;
-    vertices.at(43) = height;
+    vertices.at(27) = positionX + width;
+    vertices.at(28) = positionY + height;
+    vertices.at(32) = info;
+    vertices.at(34) = width;
+    vertices.at(35) = height;
 
-    vertices.at(44) = positionX + width;
-    vertices.at(45) = positionY;
-    vertices.at(50) = corners;
-    vertices.at(51) = info;
-    vertices.at(52) = radii;
-    vertices.at(53) = width;
-    vertices.at(54) = height;
-
-    vertices.at(55) = positionX + width;
-    vertices.at(56) = positionY + height;
-    vertices.at(61) = corners;
-    vertices.at(62) = info;
-    vertices.at(63) = radii;
-    vertices.at(64) = width;
-    vertices.at(65) = height;
-
-    vbo.subData(vertices.data(), 6 * DataManager::quadLayout.getStride(), 0, GL_STATIC_DRAW);
+    vbo.subData(vertices.data(), 4 * DataManager::quadLayout.getStride(), 0, GL_STATIC_DRAW);
 }
 
 void QuadMesh::load(float positionX, float positionY, float width, float height, float info) {
     vertices.at(0) = positionX;
-    vertices.at(1) = positionY + height;
+    vertices.at(1) = positionY;
     vertices.at(2) = 0;
-    vertices.at(3) = 1;
-    vertices.at(4) = 0;
-    vertices.at(5) = 1;
-    vertices.at(6) = corners;
-    vertices.at(7) = info;
-    vertices.at(8) = radii;
-    vertices.at(9) = width;
-    vertices.at(10) = height;
+    vertices.at(3) = 0;
+    vertices.at(4) = corners;
+    vertices.at(5) = info;
+    vertices.at(6) = radii;
+    vertices.at(7) = width;
+    vertices.at(8) = height;
 
-    vertices.at(11) = positionX;
-    vertices.at(12) = positionY;
-    vertices.at(13) = 0;
-    vertices.at(14) = 0;
-    vertices.at(15) = 0;
-    vertices.at(16) = 0;
-    vertices.at(17) = corners;
-    vertices.at(18) = info;
-    vertices.at(19) = radii;
-    vertices.at(20) = width;
-    vertices.at(21) = height;
+    vertices.at(9) = positionX + width;
+    vertices.at(10) = positionY;
+    vertices.at(11) = 1;
+    vertices.at(12) = 0;
+    vertices.at(13) = corners;
+    vertices.at(14) = info;
+    vertices.at(15) = radii;
+    vertices.at(16) = width;
+    vertices.at(17) = height;
 
-    vertices.at(22) = positionX + width;
-    vertices.at(23) = positionY;
-    vertices.at(24) = 1;
-    vertices.at(25) = 0;
-    vertices.at(26) = 1;
-    vertices.at(27) = 0;
-    vertices.at(28) = corners;
-    vertices.at(29) = info;
-    vertices.at(30) = radii;
-    vertices.at(31) = width;
-    vertices.at(32) = height;
+    vertices.at(18) = positionX;
+    vertices.at(19) = positionY + height;
+    vertices.at(20) = 0;
+    vertices.at(21) = 1;
+    vertices.at(22) = corners;
+    vertices.at(23) = info;
+    vertices.at(24) = radii;
+    vertices.at(25) = width;
+    vertices.at(26) = height;
 
-    vertices.at(33) = positionX;
-    vertices.at(34) = positionY + height;
-    vertices.at(35) = 0;
-    vertices.at(36) = 1;
-    vertices.at(37) = 0;
-    vertices.at(38) = 1;
-    vertices.at(39) = corners;
-    vertices.at(40) = info;
-    vertices.at(41) = radii;
-    vertices.at(42) = width;
-    vertices.at(43) = height;
+    vertices.at(27) = positionX + width;
+    vertices.at(28) = positionY + height;
+    vertices.at(29) = 1;
+    vertices.at(30) = 1;
+    vertices.at(31) = corners;
+    vertices.at(32) = info;
+    vertices.at(33) = radii;
+    vertices.at(34) = width;
+    vertices.at(35) = height;
 
-    vertices.at(44) = positionX + width;
-    vertices.at(45) = positionY;
-    vertices.at(46) = 1;
-    vertices.at(47) = 0;
-    vertices.at(48) = 1;
-    vertices.at(49) = 0;
-    vertices.at(50) = corners;
-    vertices.at(51) = info;
-    vertices.at(52) = radii;
-    vertices.at(53) = width;
-    vertices.at(54) = height;
-
-    vertices.at(55) = positionX + width;
-    vertices.at(56) = positionY + height;
-    vertices.at(57) = 1;
-    vertices.at(58) = 1;
-    vertices.at(59) = 1;
-    vertices.at(60) = 1;
-    vertices.at(61) = corners;
-    vertices.at(62) = info;
-    vertices.at(63) = radii;
-    vertices.at(64) = width;
-    vertices.at(65) = height;
-
-    vbo.subData(vertices.data(), 6 * DataManager::quadLayout.getStride(), 0, GL_STATIC_DRAW);
+    vbo.subData(vertices.data(), 4 * DataManager::quadLayout.getStride(), 0, GL_STATIC_DRAW);
 }
 
 void QuadMesh::load(float positionX, float positionY, float width, float height, float textureWidth, float textureHeight, float textureX, float textureY, float textureRegionWidth, float textureRegionHeight, float info) {
     vertices.at(0) = positionX;
-    vertices.at(1) = positionY + height;
+    vertices.at(1) = positionY;
     vertices.at(2) = textureX / textureWidth;
-    vertices.at(3) = (textureY + textureRegionHeight) / textureHeight;
-    vertices.at(4) = 0;
-    vertices.at(5) = 1;
-    vertices.at(6) = corners;
-    vertices.at(7) = info;
-    vertices.at(8) = radii;
-    vertices.at(9) = width;
-    vertices.at(10) = height;
+    vertices.at(3) = textureY / textureHeight;
+    vertices.at(4) = corners;
+    vertices.at(5) = info;
+    vertices.at(6) = radii;
+    vertices.at(7) = width;
+    vertices.at(8) = height;
 
-    vertices.at(11) = positionX;
-    vertices.at(12) = positionY;
-    vertices.at(13) = textureX / textureWidth;
-    vertices.at(14) = textureY / textureHeight;
-    vertices.at(15) = 0;
-    vertices.at(16) = 0;
-    vertices.at(17) = corners;
-    vertices.at(18) = info;
-    vertices.at(19) = radii;
-    vertices.at(20) = width;
-    vertices.at(21) = height;
+    vertices.at(9) = positionX + width;
+    vertices.at(10) = positionY;
+    vertices.at(11) = (textureX + textureRegionWidth) / textureWidth;
+    vertices.at(12) = textureY / textureHeight;
+    vertices.at(13) = corners;
+    vertices.at(14) = info;
+    vertices.at(15) = radii;
+    vertices.at(16) = width;
+    vertices.at(17) = height;
 
-    vertices.at(22) = positionX + width;
-    vertices.at(23) = positionY;
-    vertices.at(24) = (textureX + textureRegionWidth) / textureWidth;
-    vertices.at(25) = textureY / textureHeight;
-    vertices.at(26) = 1;
-    vertices.at(27) = 0;
-    vertices.at(28) = corners;
-    vertices.at(29) = info;
-    vertices.at(30) = radii;
-    vertices.at(31) = width;
-    vertices.at(32) = height;
+    vertices.at(18) = positionX;
+    vertices.at(19) = positionY + height;
+    vertices.at(20) = textureX / textureWidth;
+    vertices.at(21) = (textureY + textureRegionHeight) / textureHeight;
+    vertices.at(22) = corners;
+    vertices.at(23) = info;
+    vertices.at(24) = radii;
+    vertices.at(25) = width;
+    vertices.at(26) = height;
 
-    vertices.at(33) = positionX;
-    vertices.at(34) = positionY + height;
-    vertices.at(35) = textureX / textureWidth;
-    vertices.at(36) = (textureY + textureRegionHeight) / textureHeight;
-    vertices.at(37) = 0;
-    vertices.at(38) = 1;
-    vertices.at(39) = corners;
-    vertices.at(40) = info;
-    vertices.at(41) = radii;
-    vertices.at(42) = width;
-    vertices.at(43) = height;
+    vertices.at(27) = positionX + width;
+    vertices.at(28) = positionY + height;
+    vertices.at(29) = (textureX + textureRegionWidth) / textureWidth;
+    vertices.at(30) = (textureY + textureRegionHeight) / textureHeight;
+    vertices.at(31) = corners;
+    vertices.at(32) = info;
+    vertices.at(33) = radii;
+    vertices.at(34) = width;
+    vertices.at(35) = height;
 
-    vertices.at(44) = positionX + width;
-    vertices.at(45) = positionY;
-    vertices.at(46) = (textureX + textureRegionWidth) / textureWidth;
-    vertices.at(47) = textureY / textureHeight;
-    vertices.at(48) = 1;
-    vertices.at(49) = 0;
-    vertices.at(50) = corners;
-    vertices.at(51) = info;
-    vertices.at(52) = radii;
-    vertices.at(53) = width;
-    vertices.at(54) = height;
-
-    vertices.at(55) = positionX + width;
-    vertices.at(56) = positionY + height;
-    vertices.at(57) = (textureX + textureRegionWidth) / textureWidth;
-    vertices.at(58) = (textureY + textureRegionHeight) / textureHeight;
-    vertices.at(59) = 1;
-    vertices.at(60) = 1;
-    vertices.at(61) = corners;
-    vertices.at(62) = info;
-    vertices.at(63) = radii;
-    vertices.at(64) = width;
-    vertices.at(65) = height;
-
-    vbo.subData(vertices.data(), 6 * DataManager::quadLayout.getStride(), 0, GL_STATIC_DRAW);
+    vbo.subData(vertices.data(), 4 * DataManager::quadLayout.getStride(), 0, GL_STATIC_DRAW);
 }
 
 void QuadMesh::render() {
     vao.bind();
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
 void QuadMesh::setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight) {
     this->radii = radii;
     this->corners = float((int)upperLeft << 3 | (int)lowerLeft << 2 | (int)upperRight << 1 | (int)lowerRight);
-    vertices.at(6) = corners;
-    vertices.at(8) = radii;
-    vertices.at(17) = corners;
-    vertices.at(19) = radii;
-    vertices.at(28) = corners;
-    vertices.at(30) = radii;;
-    vertices.at(39) = corners;
-    vertices.at(41) = radii;
-    vertices.at(50) = corners;
-    vertices.at(52) = radii;
-    vertices.at(61) = corners;
-    vertices.at(63) = radii;
+    vertices.at(4) = corners;
+    vertices.at(6) = radii;
+    vertices.at(13) = corners;
+    vertices.at(15) = radii;
+    vertices.at(22) = corners;
+    vertices.at(24) = radii;;
+    vertices.at(31) = corners;
+    vertices.at(33) = radii;
 
-    vbo.subData(vertices.data(), 6 * DataManager::quadLayout.getStride(), 0, GL_STATIC_DRAW);
+    vbo.subData(vertices.data(), 4 * DataManager::quadLayout.getStride(), 0, GL_STATIC_DRAW);
 }
 
 QuadMesh::~QuadMesh() {
@@ -357,7 +243,7 @@ void QuadMeshTriplet::load(float x, float y, float w, float h,
 
 void QuadMeshTriplet::render(int index) {
     meshes[index].vao.bind();
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
 void QuadMeshTriplet::setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight) {
