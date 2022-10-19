@@ -9,9 +9,6 @@
 #endif
 
 //SHADER
-#ifndef SHADER_COLOR_NAME
-#define SHADER_COLOR_NAME "color"
-#endif
 #ifndef CORNER_SMOOTHNESS
 #define CORNER_SMOOTHNESS 0.9
 #endif

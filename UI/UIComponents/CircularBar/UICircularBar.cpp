@@ -3,25 +3,28 @@
 UICircularBar::UICircularBar(float width, float height)
         : UICircularBar(0, 0, width, height) {}
 
-UICircularBar::UICircularBar(float positionX, float positionY, float width, float height)
-        : text("", 0, positionX, positionY, width, height, UITextMode::CENTERED) {
+UICircularBar::UICircularBar(float positionX, float positionY, float width, float height){
     type = UIComponentType::UICIRCULARBAR;
     texture = nullptr;
     this->positionX = positionX;
     this->positionY = positionY;
     this->width = width;
     this->height = height;
-    this->bgColor.standard = COLOR_RED;
-    this->bgColor.hover = COLOR_RED.darker();
-    this->bgColor.pressed = COLOR_RED.darker().darker();
-    this->fgColor = COLOR_WHITE;
+    this->color = COLOR_RED;
     mesh.load(positionX, positionY, width, height, 0);
+    arcs = {45.0 / 360.0, 90.0 / 360.0, 135.0 / 360.0, 270.0 / 360.0};
+    diameters = {0.9, 0.8, 0.78, 0.6};
+    needleDot = {0.04, 0.05};
+    lineColor = {0.8, 0.2, 0.2, 0.9};
+    dotColor = {0.0, 0.0, 0.0, 0.0};
+    colorAngle1 = {1.0, 0.0, 0.0, 1.0};
+    colorAngle2 = {1.0, 1.0, 0.0, 1.0};
+    colorAngle3 = {0.0, 1.0, 0.0, 1.0};
+    progress = 0.5;
 }
 
-void UICircularBar::setBackgroundColor(const UIColor& standardColor, const UIColor& hoverColor, const UIColor& pressedColor) {
-    this->bgColor.standard = standardColor;
-    this->bgColor.hover = hoverColor;
-    this->bgColor.pressed = pressedColor;
+void UICircularBar::setColor(const UIColor& color) {
+    this->color = color;
     if (mode == 0)
         mode = 1;
     else if (mode == 2)
@@ -29,7 +32,7 @@ void UICircularBar::setBackgroundColor(const UIColor& standardColor, const UICol
     mesh.loadPosition(positionX, positionY, width, height, mode);
 }
 
-void UICircularBar::setBackgroundTexture(Texture *texture) {
+void UICircularBar::setTexture(Texture *texture, float textureX, float textureY, float textureWidth, float textureHeight) {
     this->texture = texture;
     if(texture == nullptr) {
         if (mode == 3)
@@ -42,10 +45,10 @@ void UICircularBar::setBackgroundTexture(Texture *texture) {
         else if (mode == 1)
             mode = 3;
     }
-    mesh.loadPosition(positionX, positionY, width, height, mode);
+    mesh.load(positionX, positionY, width, height, texture->getWidth(), texture->getHeight(), textureX, textureY, textureWidth, textureHeight, mode);
 }
 
-void UICircularBar::setBackgroundTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight) {
+void UICircularBar::setTexture(Texture *texture) {
     this->texture = texture;
     if(texture == nullptr) {
         if (mode == 3)
@@ -58,36 +61,22 @@ void UICircularBar::setBackgroundTexture(Texture *texture, float buttonX, float 
         else if (mode == 1)
             mode = 3;
     }
-    mesh.load(positionX, positionY, width, height, mode, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight);
+    mesh.load(positionX, positionY, width, height, mode);
 }
 
-void UICircularBar::setBackgroundTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight) {
-    this->texture = texture;
-    if(texture == nullptr) {
-        if (mode == 3)
-            mode = 1;
-        else if (mode == 2)
-            mode = 0;
-    }else {
-        if (mode == 0)
-            mode = 2;
-        else if (mode == 1)
-            mode = 3;
-    }
-    mesh.load(positionX, positionY, width, height, mode, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, hoverX, hoverY, hoverWidth, hoverHeight, pressedX, pressedY, pressedWidth, pressedHeight);
+void UICircularBar::setTextureCoords(float textureX, float textureY, float textureWidth, float textureHeight) {
+    mesh.load(positionX, positionY, width, height, texture->getWidth(), texture->getHeight(), textureX, textureY, textureWidth, textureHeight, mode);
 }
 
 void UICircularBar::setPosition(float positionX, float positionY) {
     this->positionX = positionX;
     this->positionY = positionY;
-    text.setPosition(positionX, positionY);
     mesh.loadPosition(positionX, positionY, width, height);
 }
 
 void UICircularBar::setSize(float width, float height) {
     this->width = width;
     this->height = height;
-    text.setSize(width, height);
     mesh.loadPosition(positionX, positionY, width, height);
 }
 
@@ -96,54 +85,50 @@ void UICircularBar::setBounds(float x, float y, float w, float h) {
     this->positionY = y;
     this->width = w;
     this->height = h;
-    text.setBounds(x, y, w, h);
     mesh.loadPosition(positionX, positionY, width, height);
-}
-
-void UICircularBar::setText(char *string, Font *font, int fontSize) {
-    text.text = string;
-    text.font = font;
-    text.positionX = positionX;
-    text.positionY = positionY;
-    text.setFontSize(fontSize);
-}
-
-void UICircularBar::setText(char *string) {
-    text.setText(string);
-}
-
-void UICircularBar::setFont(Font *font) {
-    text.setFont(font);
-}
-
-void UICircularBar::setFontSize(int fontSize) {
-    text.setFontSize(fontSize);
-}
-
-void UICircularBar::setTextColor(const UIColor& color) {
-    this->fgColor = color;
 }
 
 void UICircularBar::setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight) {
     mesh.setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
 }
 
-void UICircularBar::mousePositionInput(double x, double y) {
-    bool previous = hovered;
-    hovered = COMPONENT_HOVERED(x, y);
-    if (previous && !hovered || !previous && hovered)
-        if (callback != nullptr)
-            (*callback)(pressed, hovered);
+void UICircularBar::setArcs(float start, float first, float second, float end) {
+    arcs = {start / 360.0f, first / 360.0f, second / 360.0f, end / 360.0f};
 }
 
-void UICircularBar::mouseButtonInput(int action) {
-    bool previous = pressed;
-    if (action == INPUT_PRESSED) {
-        if (hovered)
-            pressed = true;
-    } else if (action == INPUT_RELEASED)
-        pressed = false;
-    if (callback != nullptr)
-        if (previous && !pressed || !previous && pressed)
-            (*callback)(pressed, hovered);
+void UICircularBar::setDiameters(float outerOD, float outerID, float innerOD, float innerID) {
+    diameters = {outerOD, outerID, innerOD, innerID};
+}
+
+void UICircularBar::setProgress(float progress) {
+    progress = progress * (arcs.w - arcs.x) / 1.0f + arcs.x;
+    this->progress = progress;
+}
+
+void UICircularBar::setLineThickness(float lineThickness) {
+    this->lineThickness = lineThickness;
+}
+
+void UICircularBar::setNeedleDot(float ID, float OD) {
+    needleDot = {ID, OD};
+}
+
+void UICircularBar::setLineColor(const UIColor &color) {
+    lineColor = color;
+}
+
+void UICircularBar::setDotColor(const UIColor &color) {
+    dotColor = color;
+}
+
+void UICircularBar::setAngle1Color(const UIColor& Color) {
+    colorAngle1 = color;
+}
+
+void UICircularBar::setAngle2Color(const UIColor& Color) {
+    colorAngle2 = color;
+}
+
+void UICircularBar::setAngle3Color(const UIColor& Color) {
+    colorAngle3 = color;
 }
