@@ -121,14 +121,14 @@ void UICircularBar::setDotColor(const UIColor &color) {
     dotColor = color;
 }
 
-void UICircularBar::setAngle1Color(const UIColor& Color) {
+void UICircularBar::setAngle1Color(const UIColor& color) {
     colorAngle1 = color;
 }
 
-void UICircularBar::setAngle2Color(const UIColor& Color) {
+void UICircularBar::setAngle2Color(const UIColor& color) {
     colorAngle2 = color;
 }
 
-void UICircularBar::setAngle3Color(const UIColor& Color) {
+void UICircularBar::setAngle3Color(const UIColor& color) {
     colorAngle3 = color;
 }
