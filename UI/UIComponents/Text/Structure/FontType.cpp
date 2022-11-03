@@ -66,6 +66,10 @@ float FontType::getCharacterWidth(unsigned int ascii) {
         return 0.0f;
 }
 
+float FontType::getHeight() {
+    return height;
+}
+
 float FontType::getOffset() {
     return height - bearing;
 }

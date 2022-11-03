@@ -24,6 +24,7 @@ UIText::UIText(char *text, Font *font, int fontSize, float positionX, float posi
     this->lineAdvance = 0.0f;
     this->fontType = DataManager::getFontType(this);
     setRGBA(1.0, 1.0, 1.0, 1.0, COLOR_NORMALIZED);
+    this->update = true;
 }
 
 void UIText::setPosition(float positionX, float positionY) {

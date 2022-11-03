@@ -149,6 +149,8 @@ void QuadMesh::updateMesh() {
 }
 
 void QuadMesh::render() {
+    if(vertices.at(7) == 0 || vertices.at(8) == 0)
+        return;
     vao.bind();
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
@@ -238,8 +240,7 @@ void QuadMeshTriplet::load(float x, float y, float w, float h,
 }
 
 void QuadMeshTriplet::render(int index) {
-    meshes[index].vao.bind();
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    meshes[index].render();
 }
 
 void QuadMeshTriplet::setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight) {

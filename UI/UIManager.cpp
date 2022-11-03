@@ -278,6 +278,8 @@ void UIManager::renderComponent(UIComponent *component) {
         sw->switchMesh.render();
     } else if (component->type == UIComponentType::UISPLITPANE) {
         auto ui = (UISplitPane *) component;
+        if(ui->getLeft() == nullptr || ui->getRight() == nullptr)
+            return;
         if (ui->texture != nullptr)
             ui->texture->bind();
         auto bgc = ui->dividerColor.standard;

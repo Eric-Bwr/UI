@@ -23,6 +23,7 @@ UITextArea::UITextArea(Font *font, int fontSize, float positionX, float position
     mesh.load(positionX, positionY, width, height, 0);
     cursorMesh.load(positionX + offset + text.fontType->getTextWidth(cursorContent.data()), positionY + cursorPadding, cursorWidth, height - cursorPadding * 2, 0);
     updateCursor();
+    this->update = true;
 }
 
 void UITextArea::setBackgroundColor(const UIColor &standardColor, const UIColor &hoverColor, const UIColor &pressedColor) {
@@ -34,6 +35,7 @@ void UITextArea::setBackgroundColor(const UIColor &standardColor, const UIColor 
     else if (mode == 2)
         mode = 3;
     mesh.loadPosition(positionX, positionY, width, height, mode);
+    this->update = true;
 }
 
 void UITextArea::setBackgroundTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight) {
@@ -43,6 +45,7 @@ void UITextArea::setBackgroundTexture(Texture *texture, float buttonX, float but
     else if (mode == 1)
         mode = 3;
     mesh.load(positionX, positionY, width, height, mode, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight);
+    this->update = true;
 }
 
 void UITextArea::setBackgroundTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight) {
@@ -52,6 +55,7 @@ void UITextArea::setBackgroundTexture(Texture *texture, float buttonX, float but
     else if (mode == 1)
         mode = 3;
     mesh.load(positionX, positionY, width, height, mode, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, hoverX, hoverY, hoverWidth, hoverHeight, pressedX, pressedY, pressedWidth, pressedHeight);
+    this->update = true;
 }
 
 void UITextArea::setPosition(float positionX, float positionY) {
@@ -123,6 +127,7 @@ void UITextArea::setOffset(float offset) {
 
 void UITextArea::setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight) {
     mesh.setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
+    this->update = true;
 }
 
 static bool shouldStop(char input) {
@@ -467,7 +472,8 @@ void UITextArea::mouseButtonInput(int action) {
 }
 
 void UITextArea::updateCursor() {
-    cursorMesh.loadPosition(positionX + offset + text.fontType->getTextWidth(cursorContent.data()) - cursorWidth / 2, positionY + cursorPadding + text.fontSize * currentLine, cursorWidth, text.fontSize - cursorPadding * 2);
+    cursorMesh.loadPosition(positionX + offset + text.fontType->getTextWidth(cursorContent.data()) - cursorWidth / 2, positionY - cursorPadding + text.fontSize * currentLine + ((text.fontSize / 2) - cursorPadding * 2), cursorWidth, text.fontSize - cursorPadding * 2);
+    this->update = true;
 }
 
 void UITextArea::setLineAdvance(float lineAdvance) {
@@ -476,5 +482,7 @@ void UITextArea::setLineAdvance(float lineAdvance) {
 }
 
 void UITextArea::updateMesh() {
+    mesh.updateMesh();
+    cursorMesh.updateMesh();
     text.updateMesh();
 }

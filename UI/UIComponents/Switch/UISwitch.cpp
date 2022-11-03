@@ -18,6 +18,7 @@ UISwitch::UISwitch(float positionX, float positionY, float width, float height) 
 	float ass = switchSize * height;
 	float mm = (ass - height) / 2;
 	switchMesh.load(positionX + switchX, positionY - mm, ass, ass, 0);
+    this->update = true;
 }
 
 void UISwitch::setPosition(float positionX, float positionY) {
@@ -27,6 +28,7 @@ void UISwitch::setPosition(float positionX, float positionY) {
 	float ass = switchSize * height;
 	float mm = (ass - height) / 2;
 	switchMesh.load(positionX + switchX, positionY - mm, ass, ass, 0);
+    this->update = true;
 }
 
 void UISwitch::setSize(float width, float height) {
@@ -36,6 +38,7 @@ void UISwitch::setSize(float width, float height) {
 	float ass = switchSize * height;
 	float mm = (ass - height) / 2;
 	switchMesh.load(positionX + switchX, positionY - mm, ass, ass, 0);
+    this->update = true;
 }
 
 void UISwitch::setBounds(float x, float y, float w, float h) {
@@ -47,6 +50,7 @@ void UISwitch::setBounds(float x, float y, float w, float h) {
 	float ass = switchSize * height;
 	float mm = (ass - height) / 2;
 	switchMesh.load(positionX + switchX, positionY - mm, ass, ass, 0);
+    this->update = true;
 }
 
 void UISwitch::setCircular(bool c) {
@@ -70,6 +74,7 @@ void UISwitch::setEnabled(bool e) {
 		switchX = 0;
 	this->enabled = e;
 	switchMesh.load(positionX + switchX, positionY, ass, ass, 0);
+    this->update = true;
 }
 
 void UISwitch::mousePositionInput(double x, double y) {
@@ -101,6 +106,7 @@ void UISwitch::setSwitchX(float x) {
 	float ass = switchSize * height;
 	float mm = (ass - height) / 2;
 	switchMesh.load(positionX + switchX, positionY - mm, ass, ass, 0);
+    this->update = true;
 }
 
 float UISwitch::getSwitchX() {
@@ -116,4 +122,10 @@ void UISwitch::updateRadius() {
 		switchMesh.setRadii(0, false, false, false, false);
 		bgMesh.setRadii(0, false, false, false, false);
 	}
+	this->update = true;
+}
+
+void UISwitch::updateMesh() {
+    bgMesh.updateMesh();
+    switchMesh.updateMesh();
 }

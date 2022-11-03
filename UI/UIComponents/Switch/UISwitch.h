@@ -17,6 +17,8 @@ public:
 	void mousePositionInput(double x, double y) override;
 	void mouseButtonInput(int action) override;
 
+	void updateMesh() override;
+
 	bool isEnabled();
 	void setEnabled(bool);
 

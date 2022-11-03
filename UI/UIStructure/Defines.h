@@ -26,7 +26,7 @@
 #define CURSOR_WIDTH 2.75
 #endif
 #ifndef CURSOR_PADDING
-#define CURSOR_PADDING 5
+#define CURSOR_PADDING 0
 #endif
 #ifndef CURSOR_INTERVAL
 #define CURSOR_INTERVAL 500000000

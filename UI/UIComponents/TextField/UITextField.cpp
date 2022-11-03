@@ -8,7 +8,7 @@ UITextField::UITextField(char *defaultText, float positionX, float positionY, fl
         : UITextField(defaultText, DataManager::defaultFont, height, positionX, positionY, width, height, offset) {}
 
 UITextField::UITextField(char *defaultText, Font *font, int fontSize, float positionX, float positionY, float width, float height, float offset)
-        : text(defaultText, font, height - DataManager::getFontType(font, fontSize)->getOffset(), positionX + offset, positionY, width, height, UITextMode::CENTERED_VERTICAL_LEFT) {
+        : text(defaultText, font, height - DataManager::getFontType(font, fontSize)->getHeight(), positionX + offset, positionY - DataManager::getFontType(font, fontSize)->getOffset() * 2, width, height, UITextMode::CENTERED_VERTICAL_LEFT) {
     type = UIComponentType::UITEXTFIELD;
     texture = nullptr;
     this->defaultText = defaultText;
@@ -37,6 +37,7 @@ void UITextField::setBackgroundColor(const UIColor &standardColor, const UIColor
     else if (mode == 2)
         mode = 3;
     mesh.loadPosition(positionX, positionY, width, height, mode);
+    this->update = true;
 }
 
 void UITextField::setBackgroundTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight) {
@@ -53,6 +54,7 @@ void UITextField::setBackgroundTexture(Texture *texture, float buttonX, float bu
             mode = 3;
     }
     mesh.load(positionX, positionY, width, height, mode, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight);
+    this->update = true;
 }
 
 void UITextField::setBackgroundTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight) {
@@ -69,6 +71,7 @@ void UITextField::setBackgroundTexture(Texture *texture, float buttonX, float bu
             mode = 3;
     }
     mesh.load(positionX, positionY, width, height, mode, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, hoverX, hoverY, hoverWidth, hoverHeight, pressedX, pressedY, pressedWidth, pressedHeight);
+    this->update = true;
 }
 
 void UITextField::setPosition(float positionX, float positionY) {
@@ -152,6 +155,7 @@ void UITextField::setOffset(float offset) {
 
 void UITextField::setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight) {
     mesh.setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
+    this->update = true;
 }
 
 void UITextField::setPasswordVisible(bool visible) {
@@ -167,6 +171,7 @@ void UITextField::setPasswordVisible(bool visible) {
         }
         setText(content.data());
     }
+    this->update = true;
 }
 
 static bool shouldStop(char input) {
@@ -339,6 +344,7 @@ void UITextField::mouseButtonInput(int action) {
                 content.clear();
                 passwordContent.clear();
                 text.setText(content.data());
+                this->update = true;
             } else {
                 if(!content.empty()) {
                     float textAdvance = 0;
@@ -368,6 +374,7 @@ void UITextField::mouseButtonInput(int action) {
                 cursorContent.clear();
                 passwordContent.clear();
                 text.setText(content.data());
+                this->update = true;
             }
         }
     }
@@ -378,4 +385,11 @@ void UITextField::mouseButtonInput(int action) {
 
 void UITextField::updateCursor() {
     cursorMesh.loadPosition(positionX + offset + text.fontType->getTextWidth(cursorContent.data()) - cursorWidth / 2, positionY + cursorPadding, cursorWidth, height - cursorPadding * 2);
+    this->update = true;
+}
+
+void UITextField::updateMesh() {
+    text.updateMesh();
+    cursorMesh.updateMesh();
+    mesh.updateMesh();
 }

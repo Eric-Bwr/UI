@@ -216,11 +216,11 @@ void UISplitPane::setSize(float width, float height) {
 
 void UISplitPane::updateMesh() {
     mesh.updateMesh();
-    if(left->update) {
+    if(left != nullptr && left->update) {
         left->updateMesh();
         left->update = false;
     }
-    if(right->update) {
+    if(right != nullptr && right->update) {
         right->updateMesh();
         right->update = false;
     }
