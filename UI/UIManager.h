@@ -16,11 +16,11 @@
 #include "UIComponents/Scrollbar/UIScrollbar.h"
 #include "UIComponents/Switch/UISwitch.h"
 #include "UIComponents/CircularBar/UICircularBar.h"
-#include "UILayout/Layout.h"
-#include "UILayout/FlowLayout.h"
-#include "UILayout/BoxLayout.h"
-#include "UILayout/GridLayout.h"
-#include "UILayout/BorderLayout.h"
+#include "UIComponents/Layout/Layout.h"
+#include "UIComponents/Layout/FlowLayout.h"
+#include "UIComponents/Layout/BoxLayout.h"
+#include "UIComponents/Layout/GridLayout.h"
+#include "UIComponents/Layout/BorderLayout.h"
 
 class UIManager {
 public:

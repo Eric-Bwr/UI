@@ -21,6 +21,7 @@ UICircularBar::UICircularBar(float positionX, float positionY, float width, floa
     colorAngle2 = {1.0, 1.0, 0.0, 1.0};
     colorAngle3 = {0.0, 1.0, 0.0, 1.0};
     progress = 0.5;
+    this->update = true;
 }
 
 void UICircularBar::setColor(const UIColor& color) {
@@ -30,6 +31,7 @@ void UICircularBar::setColor(const UIColor& color) {
     else if (mode == 2)
         mode = 3;
     mesh.loadPosition(positionX, positionY, width, height, mode);
+    this->update = true;
 }
 
 void UICircularBar::setTexture(Texture *texture, float textureX, float textureY, float textureWidth, float textureHeight) {
@@ -46,6 +48,7 @@ void UICircularBar::setTexture(Texture *texture, float textureX, float textureY,
             mode = 3;
     }
     mesh.load(positionX, positionY, width, height, texture->getWidth(), texture->getHeight(), textureX, textureY, textureWidth, textureHeight, mode);
+    this->update = true;
 }
 
 void UICircularBar::setTexture(Texture *texture) {
@@ -62,22 +65,26 @@ void UICircularBar::setTexture(Texture *texture) {
             mode = 3;
     }
     mesh.load(positionX, positionY, width, height, mode);
+    this->update = true;
 }
 
 void UICircularBar::setTextureCoords(float textureX, float textureY, float textureWidth, float textureHeight) {
     mesh.load(positionX, positionY, width, height, texture->getWidth(), texture->getHeight(), textureX, textureY, textureWidth, textureHeight, mode);
+    this->update = true;
 }
 
 void UICircularBar::setPosition(float positionX, float positionY) {
     this->positionX = positionX;
     this->positionY = positionY;
     mesh.loadPosition(positionX, positionY, width, height);
+    this->update = true;
 }
 
 void UICircularBar::setSize(float width, float height) {
     this->width = width;
     this->height = height;
     mesh.loadPosition(positionX, positionY, width, height);
+    this->update = true;
 }
 
 void UICircularBar::setBounds(float x, float y, float w, float h) {
@@ -86,10 +93,12 @@ void UICircularBar::setBounds(float x, float y, float w, float h) {
     this->width = w;
     this->height = h;
     mesh.loadPosition(positionX, positionY, width, height);
+    this->update = true;
 }
 
 void UICircularBar::setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight) {
     mesh.setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
+    this->update = true;
 }
 
 void UICircularBar::setArcs(float start, float first, float second, float end) {
@@ -131,4 +140,8 @@ void UICircularBar::setAngle2Color(const UIColor& color) {
 
 void UICircularBar::setAngle3Color(const UIColor& color) {
     colorAngle3 = color;
+}
+
+void UICircularBar::updateMesh() {
+    mesh.updateMesh();
 }

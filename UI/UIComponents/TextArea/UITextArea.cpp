@@ -88,8 +88,7 @@ void UITextArea::setBounds(float positionX, float positionY, float width, float 
 
 void UITextArea::setText(char *string) {
     text.text = string;
-    text.textMesh.loadTextStructure();
-    text.textMesh.loadText();
+    this->update = true;
     currentLine = text.textMesh.lines.size() - 1;
     updateUntilLine();
     updateLine();
@@ -165,7 +164,7 @@ void UITextArea::keyInput(int key, int action, int mods) {
                     cursorContent = cursorContent.substr(0, dstToLastSpace);
                     text.textMesh.loadTextStructure();
                     updateLine();
-                    text.textMesh.loadText();
+                    this->update = true;
                 } else {
                     cursorContent.pop_back();
                     if (text.text.size() > 1)
@@ -180,7 +179,7 @@ void UITextArea::keyInput(int key, int action, int mods) {
                         updateUntilLine();
                     } else
                         updateLine();
-                    text.textMesh.loadText();
+                    this->update = true;
                 }
                 if (contentCallback != nullptr)
                     (*contentCallback)(text.text);
@@ -214,7 +213,7 @@ void UITextArea::keyInput(int key, int action, int mods) {
                         updateUntilLine();
                     } else
                         updateLine();
-                    text.textMesh.loadText();
+                    this->update = true;
                 } else {
                     if (cursorContent.size() > 1 && cursorContent.at(cursorContent.size() - 1) == '\n') {
                         auto start = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size() - 1);
@@ -232,7 +231,7 @@ void UITextArea::keyInput(int key, int action, int mods) {
                         updateUntilLine();
                     } else
                         updateLine();
-                    text.textMesh.loadText();
+                    this->update = true;
                 }
                 updateUntilLine();
                 if (contentCallback != nullptr)
@@ -409,7 +408,7 @@ void UITextArea::charInput(unsigned int key) {
 
         updateLine();
         updateCursor();
-        text.textMesh.loadText();
+        this->update = true;
         if (contentCallback != nullptr)
             (*contentCallback)(text.text);
     }
@@ -469,4 +468,13 @@ void UITextArea::mouseButtonInput(int action) {
 
 void UITextArea::updateCursor() {
     cursorMesh.loadPosition(positionX + offset + text.fontType->getTextWidth(cursorContent.data()) - cursorWidth / 2, positionY + cursorPadding + text.fontSize * currentLine, cursorWidth, text.fontSize - cursorPadding * 2);
+}
+
+void UITextArea::setLineAdvance(float lineAdvance) {
+    text.lineAdvance = lineAdvance;
+    this->update = true;
+}
+
+void UITextArea::updateMesh() {
+    text.updateMesh();
 }

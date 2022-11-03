@@ -16,6 +16,7 @@ UIButton::UIButton(float positionX, float positionY, float width, float height)
     this->bgColor.pressed = COLOR_RED.darker().darker();
     this->fgColor = COLOR_WHITE;
     mesh.load(positionX, positionY, width, height, 0);
+    this->update = true;
 }
 
 void UIButton::setBackgroundColor(const UIColor& standardColor, const UIColor& hoverColor, const UIColor& pressedColor) {
@@ -27,6 +28,7 @@ void UIButton::setBackgroundColor(const UIColor& standardColor, const UIColor& h
     else if (mode == 2)
         mode = 3;
     mesh.loadPosition(positionX, positionY, width, height, mode);
+    this->update = true;
 }
 
 void UIButton::setBackgroundTexture(Texture *texture) {
@@ -43,6 +45,7 @@ void UIButton::setBackgroundTexture(Texture *texture) {
             mode = 3;
     }
     mesh.loadPosition(positionX, positionY, width, height, mode);
+    this->update = true;
 }
 
 void UIButton::setBackgroundTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight) {
@@ -59,6 +62,7 @@ void UIButton::setBackgroundTexture(Texture *texture, float buttonX, float butto
             mode = 3;
     }
     mesh.load(positionX, positionY, width, height, mode, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight);
+    this->update = true;
 }
 
 void UIButton::setBackgroundTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight) {
@@ -75,6 +79,7 @@ void UIButton::setBackgroundTexture(Texture *texture, float buttonX, float butto
             mode = 3;
     }
     mesh.load(positionX, positionY, width, height, mode, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, hoverX, hoverY, hoverWidth, hoverHeight, pressedX, pressedY, pressedWidth, pressedHeight);
+    this->update = true;
 }
 
 void UIButton::setPosition(float positionX, float positionY) {
@@ -82,6 +87,7 @@ void UIButton::setPosition(float positionX, float positionY) {
     this->positionY = positionY;
     text.setPosition(positionX, positionY);
     mesh.loadPosition(positionX, positionY, width, height);
+    this->update = true;
 }
 
 void UIButton::setSize(float width, float height) {
@@ -89,6 +95,7 @@ void UIButton::setSize(float width, float height) {
     this->height = height;
     text.setSize(width, height);
     mesh.loadPosition(positionX, positionY, width, height);
+    this->update = true;
 }
 
 void UIButton::setBounds(float x, float y, float w, float h) {
@@ -98,6 +105,7 @@ void UIButton::setBounds(float x, float y, float w, float h) {
     this->height = h;
     text.setBounds(x, y, w, h);
     mesh.loadPosition(positionX, positionY, width, height);
+    this->update = true;
 }
 
 void UIButton::setText(char *string, Font *font, int fontSize) {
@@ -106,18 +114,22 @@ void UIButton::setText(char *string, Font *font, int fontSize) {
     text.positionX = positionX;
     text.positionY = positionY;
     text.setFontSize(fontSize);
+    this->update = true;
 }
 
 void UIButton::setText(char *string) {
     text.setText(string);
+    this->update = true;
 }
 
 void UIButton::setFont(Font *font) {
     text.setFont(font);
+    this->update = true;
 }
 
 void UIButton::setFontSize(int fontSize) {
     text.setFontSize(fontSize);
+    this->update = true;
 }
 
 void UIButton::setTextColor(const UIColor& color) {
@@ -126,6 +138,7 @@ void UIButton::setTextColor(const UIColor& color) {
 
 void UIButton::setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight) {
     mesh.setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
+    this->update = true;
 }
 
 void UIButton::mousePositionInput(double x, double y) {
@@ -146,4 +159,9 @@ void UIButton::mouseButtonInput(int action) {
     if (callback != nullptr)
         if (previous && !pressed || !previous && pressed)
             (*callback)(pressed, hovered);
+}
+
+void UIButton::updateMesh() {
+    mesh.updateMesh();
+    text.updateMesh();
 }

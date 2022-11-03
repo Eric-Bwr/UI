@@ -44,6 +44,7 @@ void UISplitPane::setDividerColor(const UIColor &standardColor, const UIColor &h
         mesh.loadPosition(positionX + divider * width - divWidth, positionY, 2 * divWidth, height, mode);
     else
         mesh.loadPosition(positionX, positionY + divider * height - divWidth, width, 2 * divWidth, mode);
+    this->update = true;
 }
 
 void UISplitPane::setDividerTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight) {
@@ -63,6 +64,7 @@ void UISplitPane::setDividerTexture(Texture *texture, float buttonX, float butto
         mesh.load(positionX + divider * width - divWidth, positionY, 2 * divWidth, height, mode, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight);
     else
         mesh.load(positionX, positionY + divider * height - divWidth, width, 2 * divWidth, mode, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight);
+    this->update = true;
 }
 
 void UISplitPane::setDividerTexture(Texture *texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight, float hoverX, float hoverY, float hoverWidth, float hoverHeight, float pressedX, float pressedY, float pressedWidth, float pressedHeight) {
@@ -82,6 +84,7 @@ void UISplitPane::setDividerTexture(Texture *texture, float buttonX, float butto
         mesh.load(positionX + divider * width - divWidth, positionY, 2 * divWidth, height, mode, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight);
     else
         mesh.load(positionX, positionY + divider * height - divWidth, width, 2 * divWidth, mode, texture->getWidth(), texture->getHeight(), buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight, buttonX, buttonY, buttonWidth, buttonHeight);
+    this->update = true;
 }
 
 void UISplitPane::calc() {
@@ -102,6 +105,7 @@ void UISplitPane::calc() {
         right->setBounds(x, y + vertSplit + divWidth, width, height - vertSplit - divWidth);
         mesh.loadPosition(x, y + vertSplit - divWidth, width, 2 * divWidth);
     }
+    this->update = true;
 }
 
 void UISplitPane::mousePositionInput(double mx, double my) {
@@ -208,4 +212,16 @@ void UISplitPane::setSize(float width, float height) {
     this->width = width;
     this->height = height;
     calc();
+}
+
+void UISplitPane::updateMesh() {
+    mesh.updateMesh();
+    if(left->update) {
+        left->updateMesh();
+        left->update = false;
+    }
+    if(right->update) {
+        right->updateMesh();
+        right->update = false;
+    }
 }

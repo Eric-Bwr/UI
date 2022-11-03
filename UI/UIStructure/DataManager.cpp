@@ -56,11 +56,6 @@ FontType *DataManager::getFontType(Font *font, int fontSize) {
     return fontType;
 }
 
-void DataManager::loadText(UIText *uiText) {
-    uiText->textMesh.loadTextStructure();
-    uiText->textMesh.loadText();
-}
-
 DataManager::~DataManager() {
     FT_Done_FreeType(library);
     delete defaultFont;

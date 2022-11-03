@@ -58,6 +58,7 @@ void UIScrollbar::calc() {
 		barBgMesh.load(positionX, positionY + height - barWidth, width, barWidth, 0);
 		barFgMesh.load(positionX + barY, positionY + height - barWidth, barHeight, barWidth, 0);
 	}
+    this->update = true;
 }
 
 void UIScrollbar::drag(float mx, float my) {
@@ -116,4 +117,10 @@ void UIScrollbar::setBounds(float positionX, float positionY, float width, float
 	this->width = width;
 	this->height = height;
 	calc();
+}
+
+void UIScrollbar::updateMesh() {
+    target->updateMesh();
+    barBgMesh.updateMesh();
+    barFgMesh.updateMesh();
 }

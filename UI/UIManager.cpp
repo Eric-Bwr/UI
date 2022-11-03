@@ -135,6 +135,13 @@ void UIManager::render() {
 }
 
 void UIManager::renderComponent(UIComponent *component) {
+    if(component->type == UIComponentType::UILAYOUT){
+        ((Layout*)component)->updateMesh();
+    }
+    if(component->update) {
+        component->updateMesh();
+        component->update = false;
+    }
     quadShader->bind();
     if (component->type == UIComponentType::UITEXT) {
         auto ui = (UIText *) component;

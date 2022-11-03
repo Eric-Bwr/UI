@@ -30,6 +30,7 @@ public:
     void mouseButtonInput(int action) override;
     void keyInput(int key, int action, int mods) override;
     void charInput(unsigned int key) override;
+    void updateMesh() override;
 
     QuadMeshTriplet mesh;
 	UIColorTriplet dividerColor;

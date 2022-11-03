@@ -28,6 +28,7 @@ public:
     void setAngle1Color(const UIColor& color);
     void setAngle2Color(const UIColor& color);
     void setAngle3Color(const UIColor& color);
+    void updateMesh() override;
 
     QuadMesh mesh;
     Texture* texture;

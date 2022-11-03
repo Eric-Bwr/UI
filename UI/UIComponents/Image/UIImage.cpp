@@ -12,6 +12,7 @@ UIImage::UIImage(float positionX, float positionY, float width, float height){
     this->height = height;
     this->color = COLOR_RED;
     mesh.load(positionX, positionY, width, height, 0);
+    this->update = true;
 }
 
 void UIImage::setColor(const UIColor& color) {
@@ -21,6 +22,7 @@ void UIImage::setColor(const UIColor& color) {
     else if (mode == 2)
         mode = 3;
     mesh.loadPosition(positionX, positionY, width, height, mode);
+    this->update = true;
 }
 
 void UIImage::setTexture(Texture *texture, float textureX, float textureY, float textureWidth, float textureHeight) {
@@ -37,6 +39,7 @@ void UIImage::setTexture(Texture *texture, float textureX, float textureY, float
             mode = 3;
     }
     mesh.load(positionX, positionY, width, height, texture->getWidth(), texture->getHeight(), textureX, textureY, textureWidth, textureHeight, mode);
+    this->update = true;
 }
 
 void UIImage::setTexture(Texture *texture) {
@@ -53,22 +56,26 @@ void UIImage::setTexture(Texture *texture) {
             mode = 3;
     }
     mesh.load(positionX, positionY, width, height, mode);
+    this->update = true;
 }
 
 void UIImage::setTextureCoords(float textureX, float textureY, float textureWidth, float textureHeight) {
     mesh.load(positionX, positionY, width, height, texture->getWidth(), texture->getHeight(), textureX, textureY, textureWidth, textureHeight, mode);
+    this->update = true;
 }
 
 void UIImage::setPosition(float positionX, float positionY) {
     this->positionX = positionX;
     this->positionY = positionY;
     mesh.loadPosition(positionX, positionY, width, height);
+    this->update = true;
 }
 
 void UIImage::setSize(float width, float height) {
     this->width = width;
     this->height = height;
     mesh.loadPosition(positionX, positionY, width, height);
+    this->update = true;
 }
 
 void UIImage::setBounds(float x, float y, float w, float h) {
@@ -77,8 +84,14 @@ void UIImage::setBounds(float x, float y, float w, float h) {
     this->width = w;
     this->height = h;
     mesh.loadPosition(positionX, positionY, width, height);
+    this->update = true;
 }
 
 void UIImage::setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight) {
     mesh.setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
+    this->update = true;
+}
+
+void UIImage::updateMesh() {
+    mesh.updateMesh();
 }

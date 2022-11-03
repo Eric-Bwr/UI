@@ -32,8 +32,6 @@ void QuadMesh::loadPosition(float positionX, float positionY, float width, float
     vertices.at(28) = positionY + height;
     vertices.at(34) = width;
     vertices.at(35) = height;
-
-    vbo.subData(vertices.data(), 4 * DataManager::quadLayout.getStride(), 0, GL_STATIC_DRAW);
 }
 
 void QuadMesh::loadPosition(float positionX, float positionY, float width, float height, float info) {
@@ -60,8 +58,6 @@ void QuadMesh::loadPosition(float positionX, float positionY, float width, float
     vertices.at(32) = info;
     vertices.at(34) = width;
     vertices.at(35) = height;
-
-    vbo.subData(vertices.data(), 4 * DataManager::quadLayout.getStride(), 0, GL_STATIC_DRAW);
 }
 
 void QuadMesh::load(float positionX, float positionY, float width, float height, float info) {
@@ -104,8 +100,6 @@ void QuadMesh::load(float positionX, float positionY, float width, float height,
     vertices.at(33) = radii;
     vertices.at(34) = width;
     vertices.at(35) = height;
-
-    vbo.subData(vertices.data(), 4 * DataManager::quadLayout.getStride(), 0, GL_STATIC_DRAW);
 }
 
 void QuadMesh::load(float positionX, float positionY, float width, float height, float textureWidth, float textureHeight, float textureX, float textureY, float textureRegionWidth, float textureRegionHeight, float info) {
@@ -148,7 +142,9 @@ void QuadMesh::load(float positionX, float positionY, float width, float height,
     vertices.at(33) = radii;
     vertices.at(34) = width;
     vertices.at(35) = height;
+}
 
+void QuadMesh::updateMesh() {
     vbo.subData(vertices.data(), 4 * DataManager::quadLayout.getStride(), 0, GL_STATIC_DRAW);
 }
 
@@ -251,4 +247,10 @@ void QuadMeshTriplet::setRadii(float radii, bool upperLeft, bool lowerLeft, bool
     meshes[0].setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
     meshes[1].setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
     meshes[2].setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
+}
+
+void QuadMeshTriplet::updateMesh() {
+    meshes[0].updateMesh();
+    meshes[1].updateMesh();
+    meshes[2].updateMesh();
 }

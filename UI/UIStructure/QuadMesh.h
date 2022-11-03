@@ -15,12 +15,13 @@ public:
     void loadPosition(float positionX, float positionY, float width, float height, float info);
     void load(float positionX, float positionY, float width, float height, float info);
     void load(float positionX, float positionY, float width, float height, float textureWidth, float textureHeight, float textureX, float textureY, float textureRegionWidth, float textureRegionHeight, float info);
+    void updateMesh();
     void render();
     ~QuadMesh();
-    VertexArrayObject vao;
-    VertexBufferObject vbo;
     void setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight);
     float radii = 0, corners = float((int)0 << 3 | (int)0 << 2 | (int)0 << 1 | (int)0);
+    VertexArrayObject vao;
+    VertexBufferObject vbo;
 private:
     std::vector<float> vertices;
 };
@@ -52,6 +53,7 @@ public:
               float texX, float texY, float texW, float texH,
               float texXX, float texYY, float texWW, float texHH,
               float texXXX, float texYYY, float texWWW, float texHHH);
+    void updateMesh();
     void render(int index);
     void setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight);
     float radii = 0;

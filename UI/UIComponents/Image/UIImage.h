@@ -18,6 +18,7 @@ public:
     void setBounds(float positionX, float positionY, float width, float height) override;
     void setSize(float width, float height);
     void setRadii(float radii, bool upperLeft = true, bool lowerLeft = true, bool upperRight = true, bool lowerRight = true);
+    void updateMesh() override;
 
     QuadMesh mesh;
     Texture* texture;

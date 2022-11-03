@@ -23,21 +23,19 @@ UIText::UIText(char *text, Font *font, int fontSize, float positionX, float posi
     this->mode = mode;
     this->lineAdvance = 0.0f;
     this->fontType = DataManager::getFontType(this);
-    this->textMesh.loadTextStructure();
-    this->textMesh.loadText();
     setRGBA(1.0, 1.0, 1.0, 1.0, COLOR_NORMALIZED);
 }
 
 void UIText::setPosition(float positionX, float positionY) {
     this->positionX = positionX;
     this->positionY = positionY;
-    DataManager::loadText(this);
+    this->update = true;
 }
 
 void UIText::setSize(float width, float height) {
     this->width = width;
     this->height = height;
-    DataManager::loadText(this);
+    this->update = true;
 }
 
 void UIText::setBounds(float x, float y, float w, float h) {
@@ -45,33 +43,37 @@ void UIText::setBounds(float x, float y, float w, float h) {
     this->positionY = y;
     this->width = w;
     this->height = h;
-    DataManager::loadText(this);
+    this->update = true;
 }
 
 void UIText::setText(const char *text) {
     this->text = text;
-    DataManager::loadText(this);
+    this->update = true;
 }
 
 void UIText::setFont(Font *font) {
     this->font = font;
     this->fontType = DataManager::getFontType(this);
-    DataManager::loadText(this);
+    this->update = true;
 }
 
 void UIText::setFontSize(int fontSize) {
     this->fontSize = fontSize;
     this->fontType = DataManager::getFontType(this);
-    DataManager::loadText(this);
+    this->update = true;
 }
 
 void UIText::setMode(int mode) {
     this->mode = mode;
-    DataManager::loadText(this);
+    this->update = true;
 }
 
 void UIText::setLineAdvance(float lineAdvance) {
     this->lineAdvance = lineAdvance;
+    this->update = true;
+}
+
+void UIText::updateMesh() {
     this->textMesh.loadTextStructure();
     this->textMesh.loadText();
 }

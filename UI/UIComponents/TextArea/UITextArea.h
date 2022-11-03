@@ -34,6 +34,8 @@ public:
     void mousePositionInput(double x, double y) override;
     void mouseButtonInput(int action) override;
 
+    void updateMesh() override;
+
     bool hovered = false, pressed = false;
     float cursorWidth = CURSOR_WIDTH, cursorPadding = CURSOR_PADDING, offset = 0;
     std::string cursorContent, currentLineContent, currentContentUntilLine;

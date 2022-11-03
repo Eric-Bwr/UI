@@ -30,6 +30,7 @@ public:
     void setFontSize(int fontSize);
     void setMode(int mode);
     void setLineAdvance(float lineAdvance);
+    void updateMesh() override;
 
     inline int getFontSize() { return fontSize; }
     inline const char* getText() { return text.data(); }

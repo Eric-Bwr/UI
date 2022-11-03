@@ -37,6 +37,7 @@ public:
 	Vec2f getPosition() const { return Vec2f(positionX, positionY); }
 	Vec2f getSize() const { return Vec2f(width, height); }
 
+
 	virtual void setPosition(float positionX, float positionY) {}
 	virtual void setBounds(float positionX, float positionY, float width, float height) {}
 
@@ -45,6 +46,9 @@ public:
     virtual void mousePositionInput(double x, double y) {}
     virtual void mouseButtonInput(int action) {}
 
+    virtual void updateMesh() = 0;
+
 	float positionX, positionY;
 	float width, height;
+	bool update = false;
 };

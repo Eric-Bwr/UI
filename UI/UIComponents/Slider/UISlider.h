@@ -36,6 +36,7 @@ public:
 
     void mousePositionInput(double x, double y) override;
     void mouseButtonInput(int action) override;
+    void updateMesh() override;
 
     bool hovered = false, dragging = false;
 	Texture* texture;
@@ -47,7 +48,7 @@ public:
 	UIColorTriplet dragColor;
 private:
 	void drag(float x);
-	void update();
+	void updateSlider();
 	void updateBackgroundMesh();
     void updateSlideMesh();
     void updateDragMesh();
