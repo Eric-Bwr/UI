@@ -37,6 +37,15 @@ void Layout::mouseButtonInput(int action) {
         component->mouseButtonInput(action);
 }
 
+void Layout::updateMesh() {
+    for(auto component : components){
+        if(component->update){
+            component->updateMesh();
+            component->update = false;
+        }
+    }
+}
+
 Insets Layout::getInsets() {
 	return insets;
 }

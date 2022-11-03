@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "../UIComponents/UIComponent.h"
+#include "UI/UIComponents/UIComponent.h"
 
 enum class LayoutDirection {
 	ROW = 0,
@@ -44,6 +44,7 @@ public:
     void charInput(unsigned int key) override;
     void mousePositionInput(double x, double y) override;
     void mouseButtonInput(int action) override;
+    void updateMesh() override;
 
     std::vector<UIComponent *> components = {};
 protected:
