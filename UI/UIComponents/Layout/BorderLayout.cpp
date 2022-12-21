@@ -1,6 +1,7 @@
 #include "BorderLayout.h"
 
-BorderLayout::BorderLayout(float width, float height) : Layout(width, height) {
+void BorderLayout::init(float width, float height){
+    initLayout(width, height);
 	gapX = 10;
 	gapY = 10;
 }

@@ -7,8 +7,8 @@
 
 class UISplitPane: public UIComponent {
 public:
-	explicit UISplitPane(float positionX = 0, float positionY = 0, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, UIComponent *left = nullptr, UIComponent *right = nullptr, Orientation o = Orientation::HORIZONTAL);
-	explicit UISplitPane(UIComponent *left = nullptr, UIComponent *right = nullptr, Orientation o = Orientation::HORIZONTAL);
+	void init(float positionX = 0, float positionY = 0, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, UIComponent *left = nullptr, UIComponent *right = nullptr, Orientation o = Orientation::HORIZONTAL);
+	void init(UIComponent *left = nullptr, UIComponent *right = nullptr, Orientation o = Orientation::HORIZONTAL);
 
     void setDividerColor(const UIColor& standardColor, const UIColor& hoverColor, const UIColor& pressedColor);
     void setDividerTexture(Texture* texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight);

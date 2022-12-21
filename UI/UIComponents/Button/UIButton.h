@@ -7,8 +7,7 @@
 
 class UIButton : public UIComponent {
 public:
-    explicit UIButton(float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT);
-    UIButton(float positionX, float positionY, float width, float height);
+    void init(float positionX = 0.0f, float positionY = 0.0f, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT);
     void setBackgroundColor(const UIColor& standardColor, const UIColor& hoverColor, const UIColor& pressedColor);
     void setBackgroundTexture(Texture* texture);
     void setBackgroundTexture(Texture* texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight);

@@ -1,8 +1,9 @@
 #include "BoxLayout.h"
 
-BoxLayout::BoxLayout(float width, float height, LayoutDirection direction) : Layout(width, height) {
-	this->direction = direction;
-	gap = 10;
+void BoxLayout::init(float width, float height, LayoutDirection direction) {
+    initLayout(width, height);
+    this->direction = direction;
+    gap = 10;
 }
 
 void BoxLayout::adjust() {

@@ -35,6 +35,10 @@ void UIManager::init(int width, int height, bool scaleOnResize) {
     this->scaleOnResize = scaleOnResize;
 }
 
+void UIManager::add(UIComponent &component, int order) {
+    add(&component, order);
+}
+
 void UIManager::add(UIComponent *component, int order) {
     std::vector<UIComponent *> *componentBatch;
     if (!components.count(order)) {
@@ -47,6 +51,10 @@ void UIManager::add(UIComponent *component, int order) {
         if(compare == component)
             return;
     componentBatch->emplace_back(component);
+}
+
+void UIManager::remove(UIComponent &component) {
+    remove(&component);
 }
 
 void UIManager::remove(UIComponent *component) {

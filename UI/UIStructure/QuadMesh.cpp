@@ -5,7 +5,7 @@ UIColorTriplet &UIColorTriplet::operator=(const UIColor &color) {
     return *this;
 }
 
-QuadMesh::QuadMesh() {
+void QuadMesh::init() {
     vao.init();
     vbo.init(nullptr, 0, GL_STATIC_DRAW);
     vao.addBuffer(vbo, DataManager::quadLayout);
@@ -172,6 +172,12 @@ void QuadMesh::setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperR
 
 QuadMesh::~QuadMesh() {
     vertices.clear();
+}
+
+void QuadMeshTriplet::init() {
+    meshes[0].init();
+    meshes[1].init();
+    meshes[2].init();
 }
 
 void QuadMeshTriplet::loadPosition(float x, float y, float w, float h,

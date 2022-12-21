@@ -4,7 +4,7 @@
 
 class BorderLayout : public Layout {
 public:
-	BorderLayout(float width, float height);
+	void init(float width, float height);
 
 	void adjust() override;
 
@@ -14,8 +14,8 @@ public:
     void setGapX(float gapX);
     void setGapY(float gapY);
 
-    float getGapX() { return gapX ;}
-    float getGapY() { return gapY ;}
+    float getGapX() { return gapX; }
+    float getGapY() { return gapY; }
 
     float gapX;
     float gapY;

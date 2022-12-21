@@ -7,9 +7,8 @@
 
 class UISlider : public UIComponent {
 public:
-    explicit UISlider(float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT);
-    UISlider(float positionX, float positionY, float width, float height);
-	UISlider(float positionX, float positionY, float width, float height, float value, float min, float max);
+    void init(float positionX, float positionY, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT);
+	void init(float positionX, float positionY, float width, float height, float value, float min, float max);
 
 	void setTexture(Texture* texture);
     void setBackgroundColor(const UIColor& standardColor, const UIColor& hoverColor, const UIColor& pressedColor);

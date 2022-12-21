@@ -1,16 +1,19 @@
 #include "UIText.h"
 #include "Font.h"
 
-UIText::UIText(char *text, int fontSize, int mode)
-        : UIText(text, DataManager::defaultFont, fontSize, 0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT, mode) {}
+void UIText::init(char *text, int fontSize, int mode){
+    init(text, DataManager::defaultFont, fontSize, 0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT, mode);
+}
 
-UIText::UIText(char *text, int fontSize, float width, float height, int mode)
-        : UIText(text, DataManager::defaultFont, fontSize, 0, 0, width, height, mode) {}
+void UIText::init(char *text, int fontSize, float width, float height, int mode){
+    init(text, DataManager::defaultFont, fontSize, 0, 0, width, height, mode);
+}
 
-UIText::UIText(char *text, int fontSize, float positionX, float positionY, float width, float height, int mode)
-        : UIText(text, DataManager::defaultFont, fontSize, positionX, positionY, width, height, mode) {}
+void UIText::init(char *text, int fontSize, float positionX, float positionY, float width, float height, int mode){
+    init(text, DataManager::defaultFont, fontSize, positionX, positionY, width, height, mode);
+}
 
-UIText::UIText(char *text, Font *font, int fontSize, float positionX, float positionY, float width, float height, int mode) {
+void UIText::init(char *text, Font *font, int fontSize, float positionX, float positionY, float width, float height, int mode) {
     this->type = UIComponentType::UITEXT;
     this->textMesh.init(this);
     this->text = text;

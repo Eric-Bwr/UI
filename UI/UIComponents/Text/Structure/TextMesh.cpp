@@ -179,7 +179,7 @@ void TextMesh::loadText() {
 
 void TextMesh::render() {
     vao.bind();
-    texture->bind();
+    texture.bind();
     glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 }
 

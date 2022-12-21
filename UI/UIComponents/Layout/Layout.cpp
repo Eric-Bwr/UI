@@ -1,6 +1,6 @@
 #include "Layout.h"
 
-Layout::Layout(float width, float height) : UIComponent() {
+void Layout::initLayout(float width, float height) {
 	type = UIComponentType::UILAYOUT;
 	insets = Insets();
 	this->width = width;

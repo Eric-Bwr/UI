@@ -10,7 +10,7 @@ struct UIColorTriplet {
 
 class QuadMesh {
 public:
-    QuadMesh();
+    void init();
     void loadPosition(float positionX, float positionY, float width, float height);
     void loadPosition(float positionX, float positionY, float width, float height, float info);
     void load(float positionX, float positionY, float width, float height, float info);
@@ -28,6 +28,7 @@ private:
 
 class QuadMeshTriplet {
 public:
+    void init();
     void loadPosition(float x, float y, float w, float h,
                       float xx, float yy, float ww, float hh,
                       float xxx, float yyy, float www, float hhh);

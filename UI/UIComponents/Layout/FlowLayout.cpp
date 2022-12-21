@@ -2,9 +2,10 @@
 
 #define MAX(a, b) (a > b ? a : b)
 
-FlowLayout::FlowLayout(float width, float height) : Layout(width, height) {
-	gapX = 10;
-	gapY = 10;
+void FlowLayout::init(float width, float height) {
+    initLayout(width, height);
+    gapX = 10;
+    gapY = 10;
 }
 
 void FlowLayout::adjust() {

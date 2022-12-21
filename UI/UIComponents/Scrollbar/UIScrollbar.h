@@ -5,8 +5,8 @@
 
 class UIScrollbar: public UIComponent {
 public:
-	explicit UIScrollbar(UIComponent *, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, Orientation orientation = Orientation::VERTICAL);
-	UIScrollbar(UIComponent *, float positionX, float positionY, float width, float height, Orientation orientation = Orientation::VERTICAL);
+	void init(UIComponent * target, float positionX = 0.0f, float positionY = 0.0f,
+              float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, Orientation orientation = Orientation::VERTICAL);
 
 	void setPosition(float positionX, float positionY) override;
 	void setBounds(float positionX, float positionY, float width, float height) override;

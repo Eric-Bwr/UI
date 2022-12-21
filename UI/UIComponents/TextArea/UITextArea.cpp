@@ -1,20 +1,22 @@
 #include "UITextArea.h"
 #include "../Text/Structure/FontType.h"
 
-UITextArea::UITextArea(float positionX, float positionY, float width, float height, float offset)
-        : UITextArea(DataManager::defaultFont, 20, positionX, positionY, width, height, offset) {}
+void UITextArea::init(float positionX, float positionY, float width, float height, float offset){
+    init(DataManager::defaultFont, 20, positionX, positionY, width, height, offset);
+}
 
-UITextArea::UITextArea(Font *font, int fontSize, float positionX, float positionY, float width, float height, float offset)
-        : text("", font, fontSize, positionX + offset, positionY + offset, width - offset * 2 - cursorWidth, height - offset * 2, UITextMode::LEFT) {
+void UITextArea::init(Font *font, int fontSize, float positionX, float positionY, float width, float height, float offset){
+    this->text.init("", font, fontSize, positionX + offset, positionY + offset, width - offset * 2 - cursorWidth, height - offset * 2, UITextMode::LEFT);
     type = UIComponentType::UITEXTAREA;
+    mesh.init();
+    cursorMesh.init();
     texture = nullptr;
     this->positionX = positionX;
     this->positionY = positionY;
     this->width = width;
     this->height = height;
     this->bgColor.standard = COLOR_RED;
-    this->bgColor.hover = COLOR_RED.darker();
-    this->bgColor.pressed = COLOR_RED.darker().darker();
+    this->bgColor.hover = COLOR_RED.darker();   this->bgColor.pressed = COLOR_RED.darker().darker();
     this->fgColor = this->cursorColor = COLOR_WHITE;
     this->offset = offset;
     this->fieldWidth = width - offset * 2 - cursorWidth;

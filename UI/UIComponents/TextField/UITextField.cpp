@@ -1,15 +1,19 @@
 #include "UITextField.h"
 #include "../Text/Structure/FontType.h"
 
-UITextField::UITextField(char *defaultText, Font *font, float width, float height, float offset)
-        : UITextField(defaultText, font, height, 0, 0, width, height, offset) {}
+void UITextField::init(char *defaultText, Font *font, float width, float height, float offset){
+    init(defaultText, font, height, 0, 0, width, height, offset);
+}
 
-UITextField::UITextField(char *defaultText, float positionX, float positionY, float width, float height, float offset)
-        : UITextField(defaultText, DataManager::defaultFont, height, positionX, positionY, width, height, offset) {}
+void UITextField::init(char *defaultText, float positionX, float positionY, float width, float height, float offset){
+    init(defaultText, DataManager::defaultFont, height, positionX, positionY, width, height, offset);
+}
 
-UITextField::UITextField(char *defaultText, Font *font, int fontSize, float positionX, float positionY, float width, float height, float offset)
-        : text(defaultText, font, height - DataManager::getFontType(font, fontSize)->getHeight(), positionX + offset, positionY - DataManager::getFontType(font, fontSize)->getOffset() * 2, width, height, UITextMode::CENTERED_VERTICAL_LEFT) {
+void UITextField::init(char *defaultText, Font *font, int fontSize, float positionX, float positionY, float width, float height, float offset){
+    this->text.init(defaultText, font, height - DataManager::getFontType(font, fontSize)->getHeight(), positionX + offset, positionY - DataManager::getFontType(font, fontSize)->getOffset() * 2, width, height, UITextMode::CENTERED_VERTICAL_LEFT);
     type = UIComponentType::UITEXTFIELD;
+    mesh.init();
+    cursorMesh.init();
     texture = nullptr;
     this->defaultText = defaultText;
     this->content = defaultText;

@@ -1,17 +1,19 @@
 #include "GridLayout.h"
 
-GridLayout::GridLayout(float _width, float _height) : Layout(_width, _height) {
+void GridLayout::init(float width, float height){
+    initLayout(width, height);
 	gapX = 10;
 	gapY = 10;
 	rows = 0;
 	cols = 0;
 }
 
-GridLayout::GridLayout(int _rows, int _cols, float _width, float _height) : Layout(_width, _height) {
+void GridLayout::init(int rows, int cols, float width, float height){
+    initLayout(width, height);
 	gapX = 10;
 	gapY = 10;
-	rows = _rows;
-	cols = _cols;
+	this->rows = rows;
+	this->cols = cols;
 	if (rows != 0)
 		cols = 0;
 	else if (cols != 0)

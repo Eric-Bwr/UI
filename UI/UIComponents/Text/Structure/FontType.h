@@ -18,7 +18,7 @@ struct Character {
 class FontType {
 public:
     FontType(Font* font, int fontSize);
-    Texture* texture;
+    Texture texture;
     float getTextWidth(const char* text);
     float getCharacterWidth(unsigned int ascii);
     float getHeight();

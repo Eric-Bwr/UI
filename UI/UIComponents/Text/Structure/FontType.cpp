@@ -2,18 +2,18 @@
 
 FontType::FontType(Font *font, int fontSize) : fontSize(fontSize) {
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    texture = new Texture(GL_TEXTURE_2D_ARRAY);
-    texture->bind();
-    texture->setWidth(fontSize);
-    texture->setHeight(fontSize);
-    texture->clampEdge();
-    texture->minLinear();
-    texture->magLinear();
-    texture->setFormat(GL_RED);
-    texture->setInternalFormat(GL_R8);
-    texture->setData(nullptr);
-    texture->setDepth(FONT_CHAR_END - FONT_CHAR_START + 3);
-    texture->load();
+    texture.init(GL_TEXTURE_2D_ARRAY);
+    texture.bind();
+    texture.setWidth(fontSize);
+    texture.setHeight(fontSize);
+    texture.clampEdge();
+    texture.minLinear();
+    texture.magLinear();
+    texture.setFormat(GL_RED);
+    texture.setInternalFormat(GL_R8);
+    texture.setData(nullptr);
+    texture.setDepth(FONT_CHAR_END - FONT_CHAR_START + 3);
+    texture.load();
     this->font = font;
     FT_Set_Pixel_Sizes(font->face, 0, fontSize);
     pixelMapped = 1.0f / fontSize;
@@ -25,7 +25,7 @@ FontType::FontType(Font *font, int fontSize) : fontSize(fontSize) {
         loadGlyph('\t');
     if (!characters.count(PASSWORD_CHARACTER))
         loadGlyph(PASSWORD_CHARACTER);
-    texture->generateMipMap();
+    texture.generateMipMap();
 }
 
 void FontType::loadGlyph(int ascii) {
@@ -75,5 +75,5 @@ float FontType::getOffset() {
 }
 
 FontType::~FontType() {
-    delete texture;
+    characters.clear();
 }

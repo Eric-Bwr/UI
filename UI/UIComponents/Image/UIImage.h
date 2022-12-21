@@ -7,9 +7,7 @@
 
 class UIImage : public UIComponent {
 public:
-    explicit UIImage(float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT);
-    UIImage(float positionX, float positionY, float width, float height);
-
+    void init(float positionX = 0.0f, float positionY = 0.0f, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT);
     void setColor(const UIColor& color);
     void setTexture(Texture* texture, float textureX, float textureY, float textureWidth, float textureHeight);
     void setTexture(Texture* texture);

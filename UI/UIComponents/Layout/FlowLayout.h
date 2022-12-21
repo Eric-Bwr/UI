@@ -4,7 +4,7 @@
 
 class FlowLayout : public Layout {
 public:
-	FlowLayout(float width, float height);
+	void init(float width, float height);
 
 	void adjust() override;
 

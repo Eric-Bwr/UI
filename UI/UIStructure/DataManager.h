@@ -5,7 +5,7 @@
 #include <vector>
 #include <ft2build.h>
 #include FT_FREETYPE_H
-#include "Defines.h"
+#include "UIDefines.h"
 
 class Font;
 class UIText;

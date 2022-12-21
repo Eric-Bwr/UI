@@ -1,7 +1,7 @@
 #include "UISplitPane.h"
 
-UISplitPane::UISplitPane(float positionX, float positionY, float width, float height, UIComponent *left, UIComponent *right, Orientation orientation)
-        : UISplitPane(left, right, orientation) {
+void UISplitPane::init(float positionX, float positionY, float width, float height, UIComponent *left, UIComponent *right, Orientation orientation) {
+    init(left, right, orientation);
     this->positionX = positionX;
     this->positionY = positionY;
     this->width = width;
@@ -13,8 +13,9 @@ UISplitPane::UISplitPane(float positionX, float positionY, float width, float he
     calc();
 }
 
-UISplitPane::UISplitPane(UIComponent *left, UIComponent *right, Orientation orientation) {
+void UISplitPane::init(UIComponent *left, UIComponent *right, Orientation orientation) {
     type = UIComponentType::UISPLITPANE;
+    mesh.init();
     this->left = left;
     this->right = right;
     this->orientation = orientation;

@@ -1,11 +1,10 @@
 #include "UIImage.h"
 
-UIImage::UIImage(float width, float height)
-        : UIImage(0, 0, width, height) {}
-
-UIImage::UIImage(float positionX, float positionY, float width, float height){
+void UIImage::init(float positionX, float positionY, float width, float height){
     type = UIComponentType::UIIMAGE;
+    this->mesh.init();
     texture = nullptr;
+    this->mesh.init();
     this->positionX = positionX;
     this->positionY = positionY;
     this->width = width;

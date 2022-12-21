@@ -4,8 +4,8 @@
 
 class GridLayout : public Layout {
 public:
-	GridLayout(float width, float height);
-	GridLayout(int rows, int cols, float width, float height);
+	void init(float width, float height);
+	void init(int rows, int cols, float width, float height);
 
 	void adjust() override;
 

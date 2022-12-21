@@ -4,12 +4,10 @@
 
 #define MAX(a, b) (a > b ? a : b)
 
-UIScrollbar::UIScrollbar(UIComponent *target, float width, float height, Orientation orientation)
-		: UIScrollbar(target, 0, 0, width, height, orientation) {
-}
-
-UIScrollbar::UIScrollbar(UIComponent *target, float positionX, float positionY, float width, float height, Orientation orientation) {
+void UIScrollbar::init(UIComponent *target, float positionX, float positionY, float width, float height, Orientation orientation) {
 	type = UIComponentType::UISCROLLBAR;
+    this->barBgMesh.init();
+    this->barFgMesh.init();
 	this->target = target;
 	this->positionX = positionX;
 	this->positionY = positionY;

@@ -1,13 +1,14 @@
 #include "UISlider.h"
 
-UISlider::UISlider(float width, float height)
-        : UISlider(0, 0, width, height, 0, 0, 10) {}
+void UISlider::init(float positionX, float positionY, float width, float height){
+    init(positionX, positionY, width, height, 5, 0, 10);
+}
 
-UISlider::UISlider(float positionX, float positionY, float width, float height)
-        : UISlider(positionX, positionY, width, height, 0, 0, 10) {}
-
-UISlider::UISlider(float positionX, float positionY, float width, float height, float value, float min, float max) {
+void UISlider::init(float positionX, float positionY, float width, float height, float value, float min, float max) {
     type = UIComponentType::UISLIDER;
+    this->bgMesh.init();
+    this->dragMesh.init();
+    this->slideMesh.init();
     this->value = value;
     this->min = min;
     this->max = max;

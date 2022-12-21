@@ -1,10 +1,8 @@
 #include "UICircularBar.h"
 
-UICircularBar::UICircularBar(float width, float height)
-        : UICircularBar(0, 0, width, height) {}
-
-UICircularBar::UICircularBar(float positionX, float positionY, float width, float height){
+void UICircularBar::init(float positionX, float positionY, float width, float height){
     type = UIComponentType::UICIRCULARBAR;
+    this->mesh.init();
     texture = nullptr;
     this->positionX = positionX;
     this->positionY = positionY;

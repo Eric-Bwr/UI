@@ -17,10 +17,10 @@ enum UITextMode {
 
 class UIText : public UIComponent, public UIColor {
 public:
-    UIText(char* text, int fontSize, int mode);
-    UIText(char* text, int fontSize, float width, float height, int mode);
-    UIText(char* text, int fontSize, float positionX, float positionY, float width, float height, int mode);
-    UIText(char* text, Font* font, int fontSize, float positionX, float positionY, float width, float height, int mode);
+    void init(char* text, int fontSize, int mode);
+    void init(char* text, int fontSize, float width, float height, int mode);
+    void init(char* text, int fontSize, float positionX, float positionY, float width, float height, int mode);
+    void init(char* text, Font* font, int fontSize, float positionX, float positionY, float width, float height, int mode);
 
     void setPosition(float positionX, float positionY) override;
     void setSize(float width, float height);

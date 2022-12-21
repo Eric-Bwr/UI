@@ -7,8 +7,7 @@
 
 class UISwitch : public UIComponent {
 public:
-	explicit UISwitch(float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT);
-	UISwitch(float positionX, float positionY, float width, float height);
+	void init(float positionX, float positionY, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT);
 
 	void setPosition(float positionX, float positionY) override;
 	void setSize(float width, float height);

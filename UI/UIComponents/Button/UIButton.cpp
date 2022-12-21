@@ -1,10 +1,8 @@
 #include "UIButton.h"
 
-UIButton::UIButton(float width, float height)
-        : UIButton(0, 0, width, height) {}
-
-UIButton::UIButton(float positionX, float positionY, float width, float height)
-        : text("", 0, positionX, positionY, width, height, UITextMode::CENTERED) {
+void UIButton::init(float positionX, float positionY, float width, float height){
+    this->mesh.init();
+    this->text.init("", 0, positionX, positionY, width, height, UITextMode::CENTERED);
     type = UIComponentType::UIBUTTON;
     texture = nullptr;
     this->positionX = positionX;

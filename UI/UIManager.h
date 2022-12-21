@@ -25,8 +25,10 @@
 class UIManager {
 public:
 	void init(int width, int height, bool scaleOnResize = false);
-	void add(UIComponent *component, int order = 0);
-	void remove(UIComponent *component);
+    void add(UIComponent &component, int order = 0);
+    void add(UIComponent *component, int order = 0);
+    void remove(UIComponent &component);
+    void remove(UIComponent *component);
 	void setSize(int width, int height);
 	void keyInput(int key, int action, int mods);
 	void charInput(unsigned int key);

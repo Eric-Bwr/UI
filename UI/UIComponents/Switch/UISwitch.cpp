@@ -1,10 +1,9 @@
 #include "UISwitch.h"
 
-UISwitch::UISwitch(float width, float height)
-		: UISwitch(0, 0, width, height) {}
-
-UISwitch::UISwitch(float positionX, float positionY, float width, float height) {
+void UISwitch::init(float positionX, float positionY, float width, float height) {
 	type = UIComponentType::UISWITCH;
+    bgMesh.init();
+    switchMesh.init();
 	this->positionX = positionX;
 	this->positionY = positionY;
 	this->width = width;

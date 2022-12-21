@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Math/Vector.h>
+#include "../UIStructure/UIDefines.h"
 
 #define COMPONENT_HOVERED(mx, my) (mx >= positionX && my >= positionY && \
                                    mx <= positionX + width && \
@@ -48,7 +49,7 @@ public:
 
     virtual void updateMesh() = 0;
 
-	float positionX, positionY;
-	float width, height;
+	float positionX = 0.0f, positionY = 0.0f;
+	float width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT;
 	bool update = false;
 };

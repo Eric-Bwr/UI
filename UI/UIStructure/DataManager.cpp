@@ -15,7 +15,8 @@ int DataManager::init() {
     if (shouldInit) {
         shouldInit = false;
         int errorCode = FT_Init_FreeType(&library);
-        defaultFont = new Font(DEFAULT_FONT_PATH);
+        defaultFont = new Font();
+        defaultFont->init(DEFAULT_FONT_PATH);
         textLayout.pushFloat(2);
         textLayout.pushFloat(2);
         textLayout.pushFloat(1);

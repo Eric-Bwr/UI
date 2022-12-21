@@ -30,7 +30,7 @@ public:
 
 class Layout : public UIComponent {
 public:
-	Layout(float width, float height);
+	void initLayout(float width, float height);
 
 	virtual void adjust() {}
 

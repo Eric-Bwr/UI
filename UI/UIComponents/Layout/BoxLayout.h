@@ -4,8 +4,7 @@
 
 class BoxLayout : public Layout {
 public:
-
-    BoxLayout(float, float, LayoutDirection dir = LayoutDirection::ROW);
+    void init(float width, float height, LayoutDirection dir = LayoutDirection::ROW);
 
     void adjust() override;
 
