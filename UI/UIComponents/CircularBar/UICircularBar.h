@@ -40,6 +40,5 @@ public:
     UIColor colorAngle1;
     UIColor colorAngle2;
     UIColor colorAngle3;
-private:
     int mode = 0;
 };

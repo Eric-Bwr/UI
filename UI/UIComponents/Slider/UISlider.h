@@ -31,7 +31,7 @@ public:
 	void setValue(float value);
 	inline void setIncrement(float increment){ this->increment = increment; }
 	inline void setFloating(bool floating){ this->floating = floating; }
-    inline void setCallback(void(*callback)(bool dragging, bool hovered, float value)){ this->callback = callback; }
+    inline void setCallback(SliderCallback callback){ this->callback = std::move(callback); }
 
     void mousePositionInput(double x, double y) override;
     void mouseButtonInput(int action) override;
@@ -45,15 +45,14 @@ public:
 	UIColorTriplet bgColor;
 	UIColorTriplet slideColor;
 	UIColorTriplet dragColor;
-private:
 	void drag(float x);
 	void updateSlider();
 	void updateBackgroundMesh();
     void updateSlideMesh();
     void updateDragMesh();
 	float getInc(float value) const;
-    void (*callback)(bool dragging, bool hovered, float value) = nullptr;
-	float min, max, value;
+    SliderCallback callback;
+    float min, max, value;
 	float increment = 1;
     float renderX = 0, renderWidth;
 	bool floating = false;

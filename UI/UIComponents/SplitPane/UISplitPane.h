@@ -36,7 +36,6 @@ public:
 	UIColorTriplet dividerColor;
 	Texture* texture;
     bool dragging, hovered;
-private:
 	void calc();
 	Orientation orientation;
 	UIComponent *left;

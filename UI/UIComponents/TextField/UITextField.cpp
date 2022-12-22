@@ -9,8 +9,8 @@ void UITextField::init(char *defaultText, float positionX, float positionY, floa
     init(defaultText, DataManager::defaultFont, height, positionX, positionY, width, height, offset);
 }
 
-void UITextField::init(char *defaultText, Font *font, int fontSize, float positionX, float positionY, float width, float height, float offset){
-    this->text.init(defaultText, font, height - DataManager::getFontType(font, fontSize)->getHeight(), positionX + offset, positionY - DataManager::getFontType(font, fontSize)->getOffset() * 2, width, height, UITextMode::CENTERED_VERTICAL_LEFT);
+void UITextField::init(char *defaultText, Font *font, int fontSizeOffset, float positionX, float positionY, float width, float height, float offset){
+    this->text.init(defaultText, font, height - DataManager::getFontType(font, fontSizeOffset)->getHeight(), positionX + offset, positionY - DataManager::getFontType(font, fontSizeOffset)->getOffset() * 2, width, height, UITextMode::CENTERED_VERTICAL_LEFT);
     type = UIComponentType::UITEXTFIELD;
     mesh.init();
     cursorMesh.init();
@@ -190,7 +190,7 @@ void UITextField::keyInput(int key, int action, int mods) {
             if (key == KEY_TAB) {
                 charInput(char('\t'));
                 if (contentCallback != nullptr)
-                    (*contentCallback)(content, passwordContent);
+                    contentCallback(content, passwordContent);
             } else if (key == KEY_BACKSPACE) {
                 if (mods == KEY_MOD_CONTROL) {
                     if (isPasswordField) {
@@ -225,7 +225,7 @@ void UITextField::keyInput(int key, int action, int mods) {
                     }
                 }
                 if (contentCallback != nullptr)
-                    (*contentCallback)(content, passwordContent);
+                    contentCallback(content, passwordContent);
             } else if (key == KEY_DELETE) {
                 if (mods == KEY_MOD_CONTROL) {
                     if (isPasswordField) {
@@ -261,7 +261,7 @@ void UITextField::keyInput(int key, int action, int mods) {
                     }
                 }
                 if (contentCallback != nullptr)
-                    (*contentCallback)(content, passwordContent);
+                    contentCallback(content, passwordContent);
             } else if (key == KEY_LEFT) {
                 if (!cursorContent.empty()) {
                     if (mods == KEY_MOD_CONTROL) {
@@ -279,7 +279,7 @@ void UITextField::keyInput(int key, int action, int mods) {
                     updateCursor();
                 }
                 if (contentCallback != nullptr)
-                    (*contentCallback)(content, passwordContent);
+                    contentCallback(content, passwordContent);
             } else if (key == KEY_RIGHT) {
                 if (cursorContent.size() < content.size()) {
                     if (mods == KEY_MOD_CONTROL) {
@@ -299,7 +299,7 @@ void UITextField::keyInput(int key, int action, int mods) {
                     updateCursor();
                 }
                 if (contentCallback != nullptr)
-                    (*contentCallback)(content, passwordContent);
+                    contentCallback(content, passwordContent);
             }
         }
     }
@@ -307,6 +307,8 @@ void UITextField::keyInput(int key, int action, int mods) {
 
 void UITextField::charInput(unsigned int key) {
     if (pressed) {
+        if(onlyNumbers && !std::isdigit(char(key)))
+            return;
         if (content.size() < maxCharacter) {
             if (text.fontType->getTextWidth((content + char(key)).data()) < width - offset * 2 - cursorWidth && text.fontType->getTextWidth((passwordContent + char(key)).data()) < width - offset * 2 - cursorWidth) {
                 auto end = content.substr(cursorContent.size(), content.size());
@@ -323,7 +325,7 @@ void UITextField::charInput(unsigned int key) {
                 text.setText(content.c_str());
                 updateCursor();
                 if (contentCallback != nullptr)
-                    (*contentCallback)(content, passwordContent);
+                    contentCallback(content, passwordContent);
             }
         }
     }
@@ -336,7 +338,7 @@ void UITextField::mousePositionInput(double x, double y) {
         this->mouseAdvance = x - positionX - offset;
     if (callback != nullptr)
         if (previous && !hovered || !previous && hovered)
-            (*callback)(pressed, hovered);
+            callback(pressed, hovered);
 }
 
 void UITextField::mouseButtonInput(int action) {
@@ -384,7 +386,7 @@ void UITextField::mouseButtonInput(int action) {
     }
     if (callback != nullptr)
         if (previous && !pressed || !previous && pressed)
-            (*callback)(pressed, hovered);
+            callback(pressed, hovered);
 }
 
 void UITextField::updateCursor() {

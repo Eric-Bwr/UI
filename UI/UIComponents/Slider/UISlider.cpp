@@ -178,7 +178,7 @@ void UISlider::mousePositionInput(double x, double y) {
         drag(x - positionX - sizes[0] / 2);
     if (callback != nullptr)
         if (previous && !hovered || !previous && hovered)
-            (*callback)(dragging, hovered, value);
+            callback(dragging, hovered, value);
 }
 
 void UISlider::mouseButtonInput(int action) {
@@ -190,7 +190,7 @@ void UISlider::mouseButtonInput(int action) {
         dragging = false;
     if (callback != nullptr)
         if (previous && !dragging || !previous && dragging)
-            (*callback)(dragging, hovered, value);
+            callback(dragging, hovered, value);
 }
 
 void UISlider::drag(float rx) {
@@ -203,7 +203,7 @@ void UISlider::drag(float rx) {
     updateSlideMesh();
     updateDragMesh();
     if (callback != nullptr)
-        (*callback)(dragging, hovered, value);
+        callback(dragging, hovered, value);
 }
 
 float UISlider::getInc(float val) const {

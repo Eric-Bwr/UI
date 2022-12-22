@@ -24,7 +24,6 @@ public:
 	UIColor barBgColor;
 	Orientation orientation;
     float barWidth;
-private:
 	void calc();
 	void drag(float mx, float my);
 	float barY, barHeight;

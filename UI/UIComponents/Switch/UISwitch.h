@@ -12,21 +12,15 @@ public:
 	void setPosition(float positionX, float positionY) override;
 	void setSize(float width, float height);
     void setBounds(float positionX, float positionY, float width, float height) override;
-
 	void mousePositionInput(double x, double y) override;
 	void mouseButtonInput(int action) override;
-
 	void updateMesh() override;
-
 	bool isEnabled();
 	void setEnabled(bool);
-
 	float getSwitchSize() const;
 	void setSwitchSize(float);
-
 	void setSwitchX(float);
 	float getSwitchX();
-
 	void setCircular(bool);
 	bool isCircular();
 
@@ -37,7 +31,7 @@ public:
 
 	UIColor bgColor;
 	UIColor switchColor;
-private:
+
 	void updateRadius();
 
 	float switchSize;

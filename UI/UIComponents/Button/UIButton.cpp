@@ -144,7 +144,7 @@ void UIButton::mousePositionInput(double x, double y) {
     hovered = COMPONENT_HOVERED(x, y);
     if (previous && !hovered || !previous && hovered)
         if (callback != nullptr)
-            (*callback)(pressed, hovered);
+            callback(pressed, hovered);
 }
 
 void UIButton::mouseButtonInput(int action) {
@@ -156,7 +156,7 @@ void UIButton::mouseButtonInput(int action) {
         pressed = false;
     if (callback != nullptr)
         if (previous && !pressed || !previous && pressed)
-            (*callback)(pressed, hovered);
+            callback(pressed, hovered);
 }
 
 void UIButton::updateMesh() {

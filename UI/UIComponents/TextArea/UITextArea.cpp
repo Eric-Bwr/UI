@@ -189,7 +189,7 @@ void UITextArea::keyInput(int key, int action, int mods) {
                     this->update = true;
                 }
                 if (contentCallback != nullptr)
-                    (*contentCallback)(text.text);
+                    contentCallback(text.text);
             } else if (key == KEY_DELETE) {
                 if (mods == KEY_MOD_CONTROL) {
                     if (cursorContent.size() > 1 && cursorContent.at(cursorContent.size() - 1) == '\n') {
@@ -242,7 +242,7 @@ void UITextArea::keyInput(int key, int action, int mods) {
                 }
                 updateUntilLine();
                 if (contentCallback != nullptr)
-                    (*contentCallback)(text.text);
+                    contentCallback(text.text);
             } else if (key == KEY_LEFT) {
                 if (!cursorContent.empty()) {
                     if (mods == KEY_MOD_CONTROL) {
@@ -417,7 +417,7 @@ void UITextArea::charInput(unsigned int key) {
         updateCursor();
         this->update = true;
         if (contentCallback != nullptr)
-            (*contentCallback)(text.text);
+            contentCallback(text.text);
     }
 }
 
@@ -428,9 +428,9 @@ void UITextArea::mousePositionInput(double x, double y) {
         this->mouseAdvanceX = x - positionX - offset;
         this->mouseAdvanceY = y - positionY - offset;
     }
-    if (callback != nullptr)
+    if (buttonCallback != nullptr)
         if (previous && !hovered || !previous && hovered)
-            (*callback)(pressed, hovered);
+            buttonCallback(pressed, hovered);
 }
 
 void UITextArea::mouseButtonInput(int action) {
@@ -468,9 +468,9 @@ void UITextArea::mouseButtonInput(int action) {
         } else
             pressed = false;
     }
-    if (callback != nullptr)
+    if (buttonCallback != nullptr)
         if (previous && !pressed || !previous && pressed)
-            (*callback)(pressed, hovered);
+            buttonCallback(pressed, hovered);
 }
 
 void UITextArea::updateCursor() {

@@ -1,5 +1,15 @@
 #pragma once
 
+#include <functional>
+
+#define CALLBACK(funPtr) \
+([this](auto && PH1, auto && PH2) { funPtr(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2)); })
+
+typedef std::function<void(bool pressed, bool hovered)> ButtonCallback;
+typedef std::function<void(std::string content)> ContentCallback;
+typedef std::function<void(std::string content, std::string passwordContent)> DContentCallback;
+typedef std::function<void(bool dragging, bool hovered, float value)> SliderCallback;
+
 #ifndef DEFAULT_FONT_PATH
 #ifdef WIN32
     #define DEFAULT_FONT_PATH "C:/Windows/Fonts/Arial.ttf"
@@ -26,7 +36,7 @@
 #define CURSOR_WIDTH 2.75
 #endif
 #ifndef CURSOR_PADDING
-#define CURSOR_PADDING 0
+#define CURSOR_PADDING 2
 #endif
 #ifndef CURSOR_INTERVAL
 #define CURSOR_INTERVAL 500000000

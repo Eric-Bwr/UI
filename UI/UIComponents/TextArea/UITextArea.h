@@ -24,8 +24,8 @@ public:
     void setCursorPadding(float cursorPadding);
     void setOffset(float offset);
     void setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight);
-    inline void setCallback(void(*callback)(bool pressed, bool hovered)){ this->callback = callback; }
-    inline void setContentCallback(void(*contentCallback)(std::string content)){ this->contentCallback = contentCallback; }
+    inline void setButtonCallback(ButtonCallback buttonCallback){ this->buttonCallback = std::move(buttonCallback); }
+    inline void setContentCallback(ContentCallback contentCallback){ this->contentCallback = std::move(contentCallback); }
 
     inline std::string getContent() const { return text.text; }
 
@@ -46,13 +46,13 @@ public:
     UIColor fgColor;
     UIColor cursorColor;
     UIText text;
-private:
+
     int mode = 0, currentLine = 0, maxLines = 0;
     float fieldWidth = 0, fieldHeight = 0;
     double mouseAdvanceX = 0, mouseAdvanceY = 0;
     void updateUntilLine();
     void updateLine();
     void updateCursor();
-    void (*callback)(bool pressed, bool hovered) = nullptr;
-    void (*contentCallback)(std::string content) = nullptr;
+    ButtonCallback buttonCallback;
+    ContentCallback contentCallback;
 };

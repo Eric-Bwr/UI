@@ -21,6 +21,5 @@ public:
     QuadMesh mesh;
     Texture* texture;
     UIColor color;
-private:
     int mode = 0;
 };

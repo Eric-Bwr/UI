@@ -1,6 +1,8 @@
 #pragma once
 
 #include <OpenGL/Texture.h>
+#include <functional>
+#include <utility>
 #include "../UIComponent.h"
 #include "../../UIStructure/QuadMesh.h"
 #include "../../UIColor.h"
@@ -10,7 +12,7 @@ class UITextField : public UIComponent {
 public:
     void init(char* defaultText, Font* font = DataManager::defaultFont, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, float offset = 0);
     void init(char* defaultText, float positionX, float positionY, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, float offset = 0);
-    void init(char* defaultText, Font* font, int fontSize, float positionX, float positionY, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, float offset = 0);
+    void init(char* defaultText, Font* font, int fontSizeOffset, float positionX, float positionY, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT, float offset = 0);
 
     void setBackgroundColor(const UIColor& standardColor, const UIColor& hoverColor, const UIColor& pressedColor);
     void setBackgroundTexture(Texture* texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight);
@@ -27,8 +29,9 @@ public:
     void setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight);
 	void setPasswordVisible(bool visible);
 	inline void setPasswordField(bool isPasswordField){ this->isPasswordField = isPasswordField; }
-    inline void setCallback(void(*callback)(bool pressed, bool hovered)){ this->callback = callback; }
-    inline void setContentCallback(void(*contentCallback)(std::string content, std::string passwordContent)){ this->contentCallback = contentCallback; }
+	inline void setOnlyNumbers(bool onlyNumbers){ this->onlyNumbers = onlyNumbers; }
+    inline void setButtonCallback(ButtonCallback buttonCallback){ this->callback = std::move(buttonCallback); }
+    inline void setContentCallback(DContentCallback contentCallback){ this->contentCallback = std::move(contentCallback); }
 
     inline std::string getContent() const { return content; }
 	inline std::string getPasswordContent() const { return passwordContent; }
@@ -50,11 +53,10 @@ public:
     UIColor fgColor;
     UIColor cursorColor;
     UIText text;
-private:
     int maxCharacter, mode = 0;
-    bool isPasswordField = false;
+    bool isPasswordField = false, onlyNumbers = false;
     double mouseAdvance = 0;
     void updateCursor();
-    void (*callback)(bool pressed, bool hovered) = nullptr;
-    void (*contentCallback)(std::string content, std::string passwordContent) = nullptr;
+    DContentCallback contentCallback;
+    ButtonCallback callback;
 };
