@@ -131,42 +131,43 @@ void TextMesh::loadText() {
                     Character c = uiText->fontType->characters[character];
                     auto x = cursorX + c.bearingX;
                     auto y = cursorY - c.bearingY;
+                    if(character != '\t') {
+                        vertices.emplace_back(x);
+                        vertices.emplace_back(y + c.height);
+                        vertices.emplace_back(0);
+                        vertices.emplace_back(c.textureY);
+                        vertices.emplace_back(c.ascii);
 
-                    vertices.emplace_back(x);
-                    vertices.emplace_back(y + c.height);
-                    vertices.emplace_back(0);
-                    vertices.emplace_back(c.textureY);
-                    vertices.emplace_back(c.ascii);
+                        vertices.emplace_back(x);
+                        vertices.emplace_back(y);
+                        vertices.emplace_back(0);
+                        vertices.emplace_back(0);
+                        vertices.emplace_back(c.ascii);
 
-                    vertices.emplace_back(x);
-                    vertices.emplace_back(y);
-                    vertices.emplace_back(0);
-                    vertices.emplace_back(0);
-                    vertices.emplace_back(c.ascii);
+                        vertices.emplace_back(x + c.width);
+                        vertices.emplace_back(y);
+                        vertices.emplace_back(c.textureX);
+                        vertices.emplace_back(0);
+                        vertices.emplace_back(c.ascii);
 
-                    vertices.emplace_back(x + c.width);
-                    vertices.emplace_back(y);
-                    vertices.emplace_back(c.textureX);
-                    vertices.emplace_back(0);
-                    vertices.emplace_back(c.ascii);
+                        vertices.emplace_back(x);
+                        vertices.emplace_back(y + c.height);
+                        vertices.emplace_back(0);
+                        vertices.emplace_back(c.textureY);
+                        vertices.emplace_back(c.ascii);
 
-                    vertices.emplace_back(x);
-                    vertices.emplace_back(y + c.height);
-                    vertices.emplace_back(0);
-                    vertices.emplace_back(c.textureY);
-                    vertices.emplace_back(c.ascii);
+                        vertices.emplace_back(x + c.width);
+                        vertices.emplace_back(y);
+                        vertices.emplace_back(c.textureX);
+                        vertices.emplace_back(0);
+                        vertices.emplace_back(c.ascii);
 
-                    vertices.emplace_back(x + c.width);
-                    vertices.emplace_back(y);
-                    vertices.emplace_back(c.textureX);
-                    vertices.emplace_back(0);
-                    vertices.emplace_back(c.ascii);
-
-                    vertices.emplace_back(x + c.width);
-                    vertices.emplace_back(y + c.height);
-                    vertices.emplace_back(c.textureX);
-                    vertices.emplace_back(c.textureY);
-                    vertices.emplace_back(c.ascii);
+                        vertices.emplace_back(x + c.width);
+                        vertices.emplace_back(y + c.height);
+                        vertices.emplace_back(c.textureX);
+                        vertices.emplace_back(c.textureY);
+                        vertices.emplace_back(c.ascii);
+                    }
                     cursorX += c.advance;
                 }
             }
