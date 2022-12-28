@@ -20,14 +20,13 @@ struct Line {
 
 class TextMesh {
 public:
-    void init(UIText* uiText);
-    void loadTextStructure();
-    void loadText();
+    void init();
+    void loadTextStructure(UIText* uiText);
+    void loadText(UIText* uiText);
     void render();
     ~TextMesh();
     std::vector<Line> lines;
 private:
-    UIText* uiText;
     std::vector<float> vertices;
     unsigned int vertexCount;
     VertexArrayObject vao;

@@ -15,7 +15,7 @@ void UIText::init(char *text, int fontSize, float positionX, float positionY, fl
 
 void UIText::init(char *text, Font *font, int fontSize, float positionX, float positionY, float width, float height, int mode) {
     this->type = UIComponentType::UITEXT;
-    this->textMesh.init(this);
+    this->textMesh.init();
     this->text = text;
     this->font = font;
     this->fontSize = fontSize;
@@ -78,6 +78,6 @@ void UIText::setLineAdvance(float lineAdvance) {
 }
 
 void UIText::updateMesh() {
-    this->textMesh.loadTextStructure();
-    this->textMesh.loadText();
+    this->textMesh.loadTextStructure(this);
+    this->textMesh.loadText(this);
 }

@@ -2,7 +2,6 @@
 
 void UIImage::init(float positionX, float positionY, float width, float height){
     type = UIComponentType::UIIMAGE;
-    this->mesh.init();
     texture = nullptr;
     this->mesh.init();
     this->positionX = positionX;
@@ -10,7 +9,7 @@ void UIImage::init(float positionX, float positionY, float width, float height){
     this->width = width;
     this->height = height;
     this->color = COLOR_RED;
-    mesh.load(positionX, positionY, width, height, 0);
+    this->mesh.load(positionX, positionY, width, height, 0);
     this->update = true;
 }
 

@@ -2,14 +2,13 @@
 #include "FontType.h"
 #include "../UIText.h"
 
-void TextMesh::init(UIText* uiText) {
-    this->uiText = uiText;
+void TextMesh::init() {
     vao.init();
     vbo.init(nullptr, 0, GL_DYNAMIC_DRAW);
     vao.addBuffer(vbo, DataManager::textLayout);
 }
 
-void TextMesh::loadTextStructure(){
+void TextMesh::loadTextStructure(UIText* uiText){
     auto length = uiText->text.size();
     Word word;
     auto spaceWidth = uiText->fontType->characters[' '].advance;
@@ -92,7 +91,7 @@ void TextMesh::loadTextStructure(){
     lines.emplace_back(line);
 }
 
-void TextMesh::loadText() {
+void TextMesh::loadText(UIText* uiText) {
     texture = uiText->fontType->texture;
     vertices.clear();
     auto spaceWidth = uiText->fontType->characters[' '].advance;

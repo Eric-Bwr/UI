@@ -339,6 +339,11 @@ void UIManager::renderComponent(UIComponent *component) {
             ui->texture->bind();
         ui->mesh.render();
         quadShader->bind();
+    }else if(component->type == UIComponentType::UILIST){
+        auto ui = (UIList*) component;
+        renderComponent(&ui->background);
+        for(auto entry : ui->entries)
+            renderComponent(entry);
     }
 }
 

@@ -2,7 +2,7 @@
 
 void UIButton::init(float positionX, float positionY, float width, float height){
     this->mesh.init();
-    this->text.init("", 0, positionX, positionY, width, height, UITextMode::CENTERED);
+    this->text.init("", 10, positionX, positionY, width, height, UITextMode::CENTERED);
     type = UIComponentType::UIBUTTON;
     texture = nullptr;
     this->positionX = positionX;
@@ -15,6 +15,14 @@ void UIButton::init(float positionX, float positionY, float width, float height)
     this->fgColor = COLOR_WHITE;
     mesh.load(positionX, positionY, width, height, 0);
     this->update = true;
+}
+
+void UIButton::init(char *text, Font *font, int fontSize, int mode, float positionX, float positionY, float width, float height) {
+    init(positionX, positionY, width, height);
+    this->text.mode = mode;
+    this->text.setText(text);
+    this->text.setFont(font);
+    this->text.setFontSize(fontSize);
 }
 
 void UIButton::setBackgroundColor(const UIColor& standardColor, const UIColor& hoverColor, const UIColor& pressedColor) {

@@ -13,8 +13,8 @@ public:
     void setTexture(Texture* texture);
     void setTextureCoords(float textureX, float textureY, float textureWidth, float textureHeight);
     void setPosition(float positionX, float positionY) override;
-    void setBounds(float positionX, float positionY, float width, float height) override;
     void setSize(float width, float height);
+    void setBounds(float positionX, float positionY, float width, float height) override;
     void setRadii(float radii, bool upperLeft = true, bool lowerLeft = true, bool upperRight = true, bool lowerRight = true);
     void updateMesh() override;
 

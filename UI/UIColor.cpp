@@ -57,7 +57,7 @@ std::string UIColor::getHexString(bool alpha, const std::string& heading) {
 	return ss.str();
 }
 
-int UIColor::getHex(bool alpha) {
+int UIColor::getHex(bool alpha) const {
 	int rr = (int)(r * 255);
 	int gg = (int)(g * 255);
 	int bb = (int)(b * 255);
@@ -67,6 +67,10 @@ int UIColor::getHex(bool alpha) {
 		return aa << 24 | rr << 16 | gg << 8 | bb;
 
 	return rr << 16 | gg << 8 | bb;
+}
+
+void UIColor::set(const UIColor& color) {
+    setHex(color.getHex());
 }
 
 void UIColor::setHex(int hex, float alpha) {

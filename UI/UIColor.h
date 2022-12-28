@@ -15,7 +15,8 @@ public:
     Vec4f getNormalizedDecimal() const;
     Vec4f getDecimal() const;
     std::string getHexString(bool alpha = false, const std::string& heading = "");
-    int getHex(bool alpha = false);
+    int getHex(bool alpha = false) const;
+    void set(const UIColor& color);
     void setHex(int hex, float alpha = 1.0f);
     void setRGBA(float red, float green, float blue, float alpha, int colorMode = COLOR_NORMALIZED);
     void setRed(float red, int colorMode = COLOR_NORMALIZED);

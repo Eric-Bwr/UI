@@ -169,7 +169,7 @@ void UITextArea::keyInput(int key, int action, int mods) {
                     else
                         text.text = text.text.substr(0, currentContentUntilLine.size() + dstToLastSpace);
                     cursorContent = cursorContent.substr(0, dstToLastSpace);
-                    text.textMesh.loadTextStructure();
+                    text.textMesh.loadTextStructure(&text);
                     updateLine();
                     this->update = true;
                 } else {
@@ -178,7 +178,7 @@ void UITextArea::keyInput(int key, int action, int mods) {
                         text.text = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size()) + text.text.substr(currentContentUntilLine.size() + cursorContent.size() + 1, text.text.size());
                     else
                         text.text = "";
-                    text.textMesh.loadTextStructure();
+                    text.textMesh.loadTextStructure(&text);
                     if (text.textMesh.lines.size() < currentLine + 1) {
                         currentLine--;
                         updateLine();
@@ -212,7 +212,7 @@ void UITextArea::keyInput(int key, int action, int mods) {
                             text.text = start + text.text.substr(currentContentUntilLine.size() + dstToNextSpace, text.text.size());
                         }
                     }
-                    text.textMesh.loadTextStructure();
+                    text.textMesh.loadTextStructure(&text);
                     if (text.textMesh.lines.size() < currentLine + 1) {
                         currentLine--;
                         updateLine();
@@ -230,7 +230,7 @@ void UITextArea::keyInput(int key, int action, int mods) {
                         auto start = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size());
                         text.text = start + text.text.substr(currentContentUntilLine.size() + cursorContent.size() + 1, text.text.size());
                     }
-                    text.textMesh.loadTextStructure();
+                    text.textMesh.loadTextStructure(&text);
                     if (text.textMesh.lines.size() < currentLine + 1) {
                         currentLine--;
                         updateLine();
@@ -380,10 +380,10 @@ void UITextArea::charInput(unsigned int key) {
             cursorContent.pop_back();
         auto end = text.text.substr(currentContentUntilLine.size() + cursorContent.size(), text.text.size());
         text.text = text.text.substr(0, currentContentUntilLine.size() + cursorContent.size()) + char(key) + end;
-        text.textMesh.loadTextStructure();
+        text.textMesh.loadTextStructure(&text);
         if (text.textMesh.lines.size() > maxLines) {
             text.text = backup;
-            text.textMesh.loadTextStructure();
+            text.textMesh.loadTextStructure(&text);
             currentLine--;
             return;
         }
@@ -397,7 +397,7 @@ void UITextArea::charInput(unsigned int key) {
         if (text.fontType->getTextWidth((cursorContent + char(key) + part).data()) > fieldWidth) {
             if (text.textMesh.lines.at(currentLine).words.size() == 1){
                 text.text = backup;
-                text.textMesh.loadTextStructure();
+                text.textMesh.loadTextStructure(&text);
                 return;
             }
             int dstToLastSpace;

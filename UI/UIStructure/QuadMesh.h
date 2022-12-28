@@ -22,7 +22,6 @@ public:
     float radii = 0, corners = float((int)0 << 3 | (int)0 << 2 | (int)0 << 1 | (int)0);
     VertexArrayObject vao;
     VertexBufferObject vbo;
-private:
     std::vector<float> vertices;
 };
 
@@ -58,6 +57,5 @@ public:
     void render(int index);
     void setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight);
     float radii = 0;
-private:
     QuadMesh meshes[3];
 };

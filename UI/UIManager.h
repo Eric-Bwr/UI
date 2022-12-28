@@ -16,6 +16,7 @@
 #include "UIComponents/Scrollbar/UIScrollbar.h"
 #include "UIComponents/Switch/UISwitch.h"
 #include "UIComponents/CircularBar/UICircularBar.h"
+#include "UIComponents/List/UIList.h"
 #include "UIComponents/Layout/Layout.h"
 #include "UIComponents/Layout/FlowLayout.h"
 #include "UIComponents/Layout/BoxLayout.h"

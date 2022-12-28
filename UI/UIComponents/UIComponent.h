@@ -23,7 +23,8 @@ enum UIComponentType {
 	UISCROLLBAR,
 	UILAYOUT,
 	UISWITCH,
-	UICIRCULARBAR
+	UICIRCULARBAR,
+	UILIST
 };
 
 class UIComponent {

@@ -1,4 +1,4 @@
-#pragma onceUIButton
+#pragma once
 
 #include <OpenGL/Texture.h>
 #include "../UIComponent.h"
@@ -8,6 +8,7 @@
 class UIButton : public UIComponent {
 public:
     void init(float positionX = 0.0f, float positionY = 0.0f, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT);
+    void init(char* text, Font* font, int fontSize, int mode, float positionX = 0.0f, float positionY = 0.0f, float width = DEFAULT_WIDTH, float height = DEFAULT_HEIGHT);
     void setBackgroundColor(const UIColor& standardColor, const UIColor& hoverColor, const UIColor& pressedColor);
     void setBackgroundTexture(Texture* texture);
     void setBackgroundTexture(Texture* texture, float buttonX, float buttonY, float buttonWidth, float buttonHeight);
