@@ -25,6 +25,8 @@ FontType::FontType(Font *font, int fontSize) : fontSize(fontSize) {
     if (!characters.count(PASSWORD_CHARACTER))
         loadGlyph(PASSWORD_CHARACTER);
     texture.generateMipMap();
+    height = float(characters['j'].height);
+    bearing = float(characters['j'].bearingY);
 }
 
 void FontType::loadGlyph(int ascii) {
@@ -43,24 +45,20 @@ void FontType::loadGlyph(int ascii) {
     ch.textureX = pixelMapped * ch.width;
     ch.textureY = pixelMapped * ch.height;
     characters.insert(std::make_pair(ascii, ch));
-    if(ch.bearingY > bearing)
-        bearing = ch.bearingY;
-    if(ch.height > height)
-        height = ch.height;
 }
 
 float FontType::getTextWidth(const char *text) {
     float result = 0.0f;
     for (int i = 0; i < strlen(text); i++) {
         if(characters.count(text[i]))
-            result += characters.at(text[i]).advance;
+            result += float(characters.at(text[i]).advance);
     }
     return result;
 }
 
-float FontType::getCharacterWidth(unsigned int ascii) {
+float FontType::getCharacterWidth(int ascii) {
     if(characters.count(ascii))
-        return characters.at(ascii).advance;
+        return float(characters.at(ascii).advance);
     else
         return 0.0f;
 }
@@ -70,7 +68,7 @@ float FontType::getHeight() {
 }
 
 float FontType::getOffset() {
-    return height - bearing;
+    return bearing;
 }
 
 FontType::~FontType() {

@@ -20,7 +20,7 @@ public:
     FontType(Font* font, int fontSize);
     Texture texture;
     float getTextWidth(const char* text);
-    float getCharacterWidth(unsigned int ascii);
+    float getCharacterWidth(int ascii);
     float getHeight();
     float getOffset();
     ~FontType();

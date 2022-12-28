@@ -95,9 +95,9 @@ void TextMesh::loadText(UIText* uiText) {
     texture = uiText->fontType->texture;
     vertices.clear();
     auto spaceWidth = uiText->fontType->characters[' '].advance;
-    auto bearing = uiText->fontType->bearing + 2;
+    auto bearing = uiText->fontType->bearing;
     auto height = uiText->fontType->height;
-    auto cutoff = height - (bearing - 2);
+    auto cutoff = height - bearing;
     float cursorX, cursorY;
     if (uiText->mode == UITextMode::CENTERED_VERTICAL_RIGHT || uiText->mode == UITextMode::CENTERED_VERTICAL_LEFT || uiText->mode == UITextMode::CENTERED)
         if (lines.size() * uiText->fontSize >= uiText->height)
