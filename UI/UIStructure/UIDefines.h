@@ -1,8 +1,9 @@
 #pragma once
 
 #include <functional>
+#include <string>
 
-#define CALLBACK(funPtr) \
+#define UICALLBACK(funPtr) \
 ([this](auto && PH1, auto && PH2) { funPtr(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2)); })
 
 typedef std::function<void(bool pressed, bool hovered)> ButtonCallback;
@@ -14,7 +15,7 @@ typedef std::function<void(bool dragging, bool hovered, float value)> SliderCall
 #ifdef WIN32
     #define DEFAULT_FONT_PATH "C:/Windows/Fonts/Arial.ttf"
 #else
-    #define DEFAULT_FONT_PATH "/usr/share/fonts/truetype/Nakula/nakula.ttf"
+    #define DEFAULT_FONT_PATH "/snap/pycharm-community/310/jbr/lib/fonts/JetBrainsMono-Regular.ttf"
 #endif
 #endif
 

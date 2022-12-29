@@ -9,10 +9,10 @@ const int FONT_CHAR_END = 126;
 
 struct Character {
     float ascii;
-    int width, height;
-    int bearingX, bearingY;
+    float width, height;
+    float bearingX, bearingY;
     float textureX, textureY;
-    int advance;
+    float advance;
 };
 
 class FontType {

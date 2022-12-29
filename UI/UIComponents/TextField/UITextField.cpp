@@ -9,8 +9,8 @@ void UITextField::init(char *defaultText, float positionX, float positionY, floa
     init(defaultText, DataManager::defaultFont, height, positionX, positionY, width, height, offset);
 }
 
-void UITextField::init(char *defaultText, Font *font, int fontSizeOffset, float positionX, float positionY, float width, float height, float offset){
-    this->text.init(defaultText, font, height - DataManager::getFontType(font, fontSizeOffset)->getHeight(), positionX + offset, positionY - DataManager::getFontType(font, fontSizeOffset)->getOffset() * 2, width, height, UITextMode::CENTERED_VERTICAL_LEFT);
+void UITextField::init(char *defaultText, Font *font, int fontSize, float positionX, float positionY, float width, float height, float offset){
+    this->text.init(defaultText, font, fontSize, positionX + offset, positionY, width, height, UITextMode::CENTERED_VERTICAL_LEFT);
     type = UIComponentType::UITEXTFIELD;
     mesh.init();
     cursorMesh.init();
