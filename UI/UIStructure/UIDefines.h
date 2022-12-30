@@ -3,10 +3,17 @@
 #include <functional>
 #include <string>
 
-#define UICALLBACK(funPtr) \
+#define CB_1(funPtr) \
+([this](auto && PH1) { funPtr(std::forward<decltype(PH1)>(PH1)); })
+
+#define CB_2(funPtr) \
 ([this](auto && PH1, auto && PH2) { funPtr(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2)); })
 
+#define CB_3(funPtr) \
+([this](auto && PH1, auto && PH2, auto && PH3) { funPtr(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2), std::forward<decltype(PH3)>(PH3)); })
+
 typedef std::function<void(bool pressed, bool hovered)> ButtonCallback;
+typedef std::function<void(bool pressed, bool hovered, int entryIndex)> ListCallback;
 typedef std::function<void(std::string content)> ContentCallback;
 typedef std::function<void(std::string content, std::string passwordContent)> DContentCallback;
 typedef std::function<void(bool dragging, bool hovered, float value)> SliderCallback;
@@ -30,6 +37,9 @@ typedef std::function<void(bool dragging, bool hovered, float value)> SliderCall
 #endif
 #ifndef DEFAULT_HEIGHT
 #define DEFAULT_HEIGHT 30
+#endif
+#ifndef AUTO_HEIGHT
+#define AUTO_HEIGHT -1.0f
 #endif
 
 //TEXT FIELD

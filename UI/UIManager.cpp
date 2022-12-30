@@ -62,11 +62,31 @@ void UIManager::remove(UIComponent *component) {
         auto compList = compPair.second;
         for (int i = 0; i < compList->size(); i++) {
             if (compList->at(i) == component) {
+                if(component->type == UIComponentType::UIBUTTON || component->type == UIComponentType::UILIST){
+                    component->mousePositionInput(-1, -1);
+                    component->mouseButtonInput(INPUT_RELEASED);
+                }
                 compList->erase(compList->begin() + i);
                 return;
             }
         }
     }
+}
+
+bool UIManager::contains(UIComponent &component) {
+    return contains(&component);
+}
+
+bool UIManager::contains(UIComponent *component) {
+    for (auto &compPair : components) {
+        auto compList = compPair.second;
+        for (int i = 0; i < compList->size(); i++) {
+            if (compList->at(i) == component) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 void UIManager::setSize(int width, int height) {
@@ -343,7 +363,7 @@ void UIManager::renderComponent(UIComponent *component) {
         auto ui = (UIList*) component;
         renderComponent(&ui->background);
         for(auto entry : ui->entries)
-            renderComponent(entry);
+            renderComponent(entry.button);
     }
 }
 

@@ -30,6 +30,8 @@ public:
     void add(UIComponent *component, int order = 0);
     void remove(UIComponent &component);
     void remove(UIComponent *component);
+    bool contains(UIComponent &component);
+    bool contains(UIComponent *component);
 	void setSize(int width, int height);
 	void keyInput(int key, int action, int mods);
 	void charInput(unsigned int key);

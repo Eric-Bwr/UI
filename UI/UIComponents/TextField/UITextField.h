@@ -26,7 +26,7 @@ public:
 	void setMaxCharacter(int maxCharacter);
 	void setCursorPadding(float cursorPadding);
 	void setOffset(float offset);
-    void setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRight, bool lowerRight);
+    void setRadii(float radii, bool upperLeft = true, bool lowerLeft = true, bool upperRight = true, bool lowerRight = true);
 	void setPasswordVisible(bool visible);
 	inline void setPasswordField(bool isPasswordField){ this->isPasswordField = isPasswordField; }
 	inline void setOnlyNumbers(bool onlyNumbers){ this->onlyNumbers = onlyNumbers; }

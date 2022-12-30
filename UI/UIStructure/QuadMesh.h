@@ -4,6 +4,17 @@
 #include "UI/UIColor.h"
 
 struct UIColorTriplet {
+    UIColorTriplet() = default;
+    UIColorTriplet(const UIColor& color){
+        standard = color;
+        hover = color;
+        pressed = color;
+    }
+    UIColorTriplet(const UIColor& standard, const UIColor& hover, const UIColor& pressed){
+        this->standard = standard;
+        this->hover = hover;
+        this->pressed = pressed;
+    }
     UIColorTriplet& operator=(const UIColor& color);
     UIColor standard, hover, pressed;
 };

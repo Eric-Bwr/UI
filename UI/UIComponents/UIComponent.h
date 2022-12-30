@@ -3,9 +3,10 @@
 #include <Math/Vector.h>
 #include "../UIStructure/UIDefines.h"
 
-#define COMPONENT_HOVERED(mx, my) (mx >= positionX && my >= positionY && \
-                                   mx <= positionX + width && \
-                                   my <= positionY + height)
+#define COMPONENT_HOVERED(mx, my) (mx > positionX && \
+                                   my > positionY && \
+                                   mx < positionX + width && \
+                                   my < positionY + height)
 
 enum class Orientation {
 	VERTICAL = 0,
