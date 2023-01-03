@@ -1,19 +1,18 @@
-#include <iostream>
 #include "UIList.h"
 
 void UIList::init(float positionX, float positionY, float width, float height, int fontSize, Font* font){
     type = UIComponentType::UILIST;
+    this->autoHeight = height == -1;
     this->positionX = positionX;
     this->positionY = positionY;
     this->width = width;
-    this->height = height;
+    this->height = autoHeight ? 0 : height;
     this->fontSize = fontSize;
     this->font = font;
     background.init(positionX, positionY, width, height);
     background.updateMesh();
     background.color = {0.5, 0.5, 0.5, 0.5};
     this->update = true;
-    autoHeight = height == -1;
 }
 
 void UIList::addEntry(const char *name, float spacing, const UIColorTriplet& bgColor) {
@@ -28,10 +27,11 @@ void UIList::addEntry(const char *name, float spacing, const UIColorTriplet& bgC
     entries.back().button->setBackgroundColor(bgColor.standard, bgColor.hover, bgColor.pressed);
     entryValues.emplace_back(-1, -1);
     if(autoHeight){
-        height = positionY - entries.back().button->positionY;
+        height = entries.empty() ? 0 : entries.back().button->positionY + entryHeight - positionY;
         background.height = height;
         this->update = true;
     }
+    setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
 }
 
 void UIList::removeEntry(const char *name) {
@@ -48,6 +48,14 @@ void UIList::removeEntry(const char *name) {
 
     for (int i = 0; i < entries.size(); i++)
         entries.at(i).button->setPosition(positionX, positionY + (i == 0 ? 0.0f : entries.at(i).spacing) + i * entryHeight);
+
+    if(autoHeight){
+        height = entries.empty() ? 0 : entries.back().button->positionY + entryHeight - positionY;
+        background.height = height;
+        this->update = true;
+    }
+
+    setRadii(radii, upperLeft, lowerLeft, upperRight, lowerRight);
 }
 
 void UIList::setBackgroundColor(const UIColor &color) {
@@ -79,6 +87,10 @@ void UIList::setSize(float width, float height) {
         }
         entries.at(i).button->setSize(width, entryHeight);
     }
+    if(autoHeight){
+        height = entries.empty() ? 0 : entries.back().button->positionY + entryHeight - positionY;
+        background.height = height;
+    }
     this->update = true;
 }
 
@@ -102,6 +114,10 @@ void UIList::setBounds(float x, float y, float w, float h) {
         }
         entries.at(i).button->setBounds(entries.at(i).button->positionX + offsetX, posY, width, entryHeight);
     }
+    if(autoHeight){
+        height = entries.empty() ? 0 : entries.back().button->positionY + entryHeight - positionY;
+        background.height = height;
+    }
     this->update = true;
 }
 
@@ -112,11 +128,14 @@ void UIList::setRadii(float radii, bool upperLeft, bool lowerLeft, bool upperRig
     this->lowerLeft = lowerLeft;
     this->upperRight = upperRight;
     this->lowerRight = lowerRight;
-    //FIXME: recompute radii when removing entry
-    if(!entries.empty())
-        entries.at(0).button->setRadii(radii, upperLeft, false, upperRight, false);
-    if(entries.size() > 1 && positionY + height == entries.back().button->positionY + entryHeight)
-        entries.back().button->setRadii(radii, false, lowerLeft, false, lowerRight);
+    for(int i = 0; i < entries.size(); i++){
+        if(i == 0)
+            entries.at(i).button->setRadii(radii, upperLeft, false, upperRight, false);
+        else if(i == entries.size() - 1)
+            entries.at(i).button->setRadii(radii, false, lowerLeft, false, lowerRight);
+        else
+            entries.at(i).button->setRadii(0.0f, false, false, false, false);
+    }
     this->update = true;
 }
 

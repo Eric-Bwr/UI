@@ -1,4 +1,3 @@
-#include <iostream>
 #include "UIButton.h"
 
 void UIButton::init(float positionX, float positionY, float width, float height){
