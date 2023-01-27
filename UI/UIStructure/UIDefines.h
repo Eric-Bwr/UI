@@ -22,7 +22,7 @@ typedef std::function<void(bool dragging, bool hovered, float value)> SliderCall
 #ifdef WIN32
     #define DEFAULT_FONT_PATH "C:/Windows/Fonts/Arial.ttf"
 #else
-    #define DEFAULT_FONT_PATH "/snap/pycharm-community/310/jbr/lib/fonts/JetBrainsMono-Regular.ttf"
+    #define DEFAULT_FONT_PATH "/usr/share/fonts/truetype/Sarai/Sarai.ttf"
 #endif
 #endif
 
